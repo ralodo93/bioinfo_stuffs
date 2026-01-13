@@ -1,9 +1,11 @@
-# Condicionales
-## Ejemplo básico
+## Condicionales
+# Se usan para tomar decisiones en el código, ejecutando diferentes bloques de código según se cumplan o no ciertas condiciones.
+
+### Ejemplo básico
 edad <- 30
-if (edad > 18){ # usar las llaves para indicar cuando se abre if (ALT + símbolo de llave hacia la derecha)
-  print("Adulto")
-} # Usar las llaves para indicar que se cierra un if (ALT + símbolo hacia la izquierda)
+if (edad > 18){ # usar las llaves para indicar cuando se abre if (ALT Gr + símbolo de llave hacia la derecha)
+  print("Adulto") # imprime un mensaje
+} # Usar las llaves para indicar que se cierra un if (ALT Gr + símbolo hacia la izquierda)
 
 if(edad > 18){ #  Evalúa el if
   print("Adulto")
@@ -20,99 +22,96 @@ if (concentracion > 20){
   estado <- "Rechazado"
   print("Concentración demasiado baja")
 }
-print(estado)
+estado
 
 ## Uso de else if
 temp <- 25
-if (temp > 30) {
+if (temp > 30) { # si temp es mayor de 30 ejecuta este bloque
   print("Hace calor")
-} else if (temp >= 20) {
+} else if (temp >= 20) { # sino, evalúa si es mayor o igual a 20, si es así ejecuta este bloque
   print("Clima agradable")
-} else {
+} else { # sino, ejecuta este bloque
   print("Hace frío")
 }
 
 nota <- 8.5
-if (nota >= 9) {
+if (nota >= 9) { # Si la nota es mayor o igual a 9, ejecuta este bloque
   print("Sobresaliente")
-} else if (nota >= 7) {
+} else if (nota >= 7) { # Si no, evalúa si es mayor o igual a 7, si es así ejecuta este bloque
   print("Notable")
-} else if (nota >= 5) {
+} else if (nota >= 5) { # Si no, evalúa si es mayor o igual a 5, si es así ejecuta este bloque
   print("Aprobado")
-} else {
+} else { # Si no, ejecuta este bloque
   print("Suspenso")
 }
 
-# Condicionales múltiples
+## Condicionales múltiples
 edad <- 25
 tiene_carnet <- TRUE
 
-# AND: Ambas deben ser TRUE
-if (edad >= 18 & tiene_carnet == TRUE) { # & se escribe con SHIFT + 6
+# AND: Ambas deben ser TRUE -> & se escribe con SHIFT + 6
+if (edad >= 18 & tiene_carnet == TRUE) { # Si edad es mayor o igual a 18 Y tiene carnet, ejecuta el bloque
   print("Puedes conducir")
 }
 
-# OR: Al menos una debe ser TRUE
+# OR: Al menos una debe ser TRUE -> | se escribe con ALT + 1
 dia <- "Sábado"
-if (dia == "Sábado" | dia == "Domingo") { # | se escribe con ALT + 1
+if (dia == "Sábado" | dia == "Domingo") { # Si es sábado O domingo, ejecuta el bloque
   print("Es fin de semana")
 }
 
-## Ejemplo Complejo: Clasificación de Especie (Ecología)
-peso <- 25          # en kg
-altura <- 1.2       # en metros
-es_carnivoro <- TRUE # También se usa T o F
+## Ejemplo Complejo: ¿es laborable hoy?
+dia_semana <- "Lunes"
+festivo <- FALSE
 
-if (peso > 20 & altura > 1.0 & es_carnivoro == TRUE) {
-  print("Clasificación: Depredador Grande")
-  rango_territorio <- peso * 5  # necesita 5km2 por cada kg
-  print(paste("Territorio estimado (km2):", rango_territorio))
-} else if (peso > 10 & (altura > 0.5 | es_carnivoro == FALSE)) {
-  print("Clasificación: Mesofauna / Herbívoro Mediano")
-  rango_territorio <- peso * 1.5
-  print(paste("Territorio estimado (km2):", rango_territorio))
+# Utilizamos %in% para comprobar si un valor está en un conjunto de valores
+if (dia_semana %in% c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes") & festivo == FALSE) {
+  print("Día laborable")
+} else if (dia_semana %in% c("Sábado", "Domingo") | festivo == TRUE) {
+  print("Día no laborable")
 } else {
-  print("Clasificación: Fauna Menor")
-  # IF anidado para dar detalles del motivo
-  if (peso < 5) {
-    print("Motivo: El ejemplar es demasiado pequeño para esta categoría.")
-  } else {
-    print("Motivo: No cumple los requisitos d
-          e altura o dieta.")
-  }
+  print("Día desconocido")
 }
 
-# Bucles
-## Bucle for básico - contador
+## Bucles
+# Permiten repetir un bloque de código varias veces, iterando sobre elementos o hasta que se cumpla una condición.
+
+### Bucle for básico - contador
+# Usamos in para definir el rango de valores
 for (i in 1:5){
   print(paste("Estamos en la vuelta número", i))
 }
 
-## Recorrer un vector de texto
+### Recorrer un vector de texto
 especies <- c("Roble", "Pino", "Encina", "Haya")
 for (arbol in especies) {
   print(paste("Analizando muestra de:", arbol))
 }
 
-## Ejemplo Complejo: Análisis de expresión génica
+### Ejemplo Complejo: Análisis de expresión génica
 # Tenemos un vector con resultados de 5 muestras
 expresion_genes <- c(120, 45, 8, 150, 80)
+evaluacion <- c() # Vector vacío para guardar resultados
 for (valor in expresion_genes) {
   if (valor > 100) {
-    print(paste("Nivel:", valor, "-> EXPRESIÓN ALTA (Sobreexpresado)"))
+    print(paste("Nivel:", valor, "-> EXPRESIÓN ALTA"))
+    evaluacion <- c(evaluacion, "ALTA") # Añadimos al vector evaluacion
   } else if (valor >= 50) {
     print(paste("Nivel:", valor, "-> EXPRESIÓN NORMAL"))
+    evaluacion <- c(evaluacion, "NORMAL") # Añadimos al vector evaluacion
   } else {
-    print(paste("Nivel:", valor, "-> EXPRESIÓN BAJA (Posible Knockout)"))
+    print(paste("Nivel:", valor, "-> EXPRESIÓN BAJA"))
+    evaluacion <- c(evaluacion, "BAJA") # Añadimos al vector evaluacion
     # Podemos añadir lógica extra dentro
     if (valor < 10) {
       print("¡Alerta! Valor extremadamente bajo, revisar calidad.")
     }
   }
 }
+evaluacion # Imprimimos el vector con las evaluaciones
 
 ## Ejemplo definitivo
-## 1. Creamos el DataFrame (Datos de entrada)
+# Creamos el DataFrame (Datos de entrada)
 pacientes <- data.frame(
   ID = c("P01", "P02", "P03", "P04", "P05"),
   Gen1 = c(10, 45, 12, 80, 5),
@@ -121,11 +120,9 @@ pacientes <- data.frame(
   Gen4 = c(12, 48, 11, 85, 6),
   Gen5 = c(10, 42, 13, 82, 7)
 )
+pacientes
 
-print("--- Tabla de Expresión de Pacientes ---")
-print(pacientes)
-
-## 2. Bucle complejo: Analizando fila por fila (paciente por paciente)
+# Bucle complejo: Analizando fila por fila (paciente por paciente)
 # nrow(pacientes) nos dice cuántas filas hay (en este caso 5)
 # ncol(pacientes) nos dice las columnas que  hay (6 en este caso)
 # colnames(pacientes) nos dice los nombres de las columnas de la tabla pacientes
