@@ -67,6 +67,17 @@ paste("Gen", 1:3, sep = "_")
 paste(c("A", "B", "C"), collapse = " -> ") 
 # Resultado: "A -> B -> C" (Un solo texto unido)
 
+# 6. na.omit()
+# Se utiliza para eliminar valores faltantes (NA) de un vector.
+# En caso de usarse en una matriz o dataframe, eliminará todas las filas NA
+
+datos_sensor <- c(23.5, 24.1, NA, 22.8, 25.0)
+na.omit(datos_sensor) # sigue siendo un vector, pero tiene un atributo, si queremos dejarlo como vector limpio:
+as.numeric(na.omit(datos_sensor)) # no es necesario, el vector anterior es completamente funcional
+
+matriz1 <- matrix(1:9, ncol = 3, nrow = 3)
+matriz1[1,1] <- NA
+na.omit(matriz1) # elimina la primera fila completa
 
 ### Ampliando R
 
@@ -165,7 +176,103 @@ sapply(c(1, 2, 3), function(x){
 
 ## Ejemplos Reales
 
-# 1. Estandarizar texto. Imagina que recibes este vector y debes limpiarlo para que se vea:
+# 1. Análisis estadístico rápido
+# escribir una función que devuelva una lista con la media, la mediana, el mínimo, el máximo y la sd de un vector numérico
+datos <- c(15, 18, NA, 45, 25, 10)
+resumen_variable <- function(v){
+  v <- na.omit(v) # eliminar na.omit
+  resultado <- list(
+    media = mean(v),
+    mdiana = median(v),
+    min = min(v),
+    max = max(v),
+    sd = sd(v)
+  )
+  return(resultado)
+}
+
+resumen_variable(datos)
+
+# 3. Automatización de flujo de condicionales
+# Útil para clasificar pacientes o clientes basándose en múltiples reglas.
+# función con dos parámetros (edad y colesterol)
+# ALTO RIESGO -> edad > 60 OR colesterol > 240
+# MODERADO -> edad > 40 AND colesterol > 200
+# BAJO -> Todo lo demás
+
+clasificar_riesgo <- function(edad, colesterol) {
+  if (edad > 60 | colesterol > 240) {
+    status <- "ALTO RIESGO"
+  } else if (edad > 40 & colesterol > 200) {
+    status <- "MODERADO"
+  } else {
+    status <- "BAJO"
+  }
+  return(status)
+}
+
+# Probamos la lógica
+clasificar_riesgo(65, 180) # Alto riesgo por edad
+clasificar_riesgo(30, 190) # Bajo riesgo
+
+
+# 3. Conversor de Moneda
+# Crea una función que tome un valor y un tipo de moneda. Debe generar un data.frame con los valores de varias monedas
+# Usa estas similitudes:
+
+# 1 € = 1.16 $
+# 1 € = 183.53 yenes
+# 1 € = 0.93 francos suizos
+# 1 € = 1670.22 pesos argentinos
+
+# convertir_moneda <- function(valor, moneda = "euro"){ rellenar }
+
+# creamos lista de conversiones con respecito a euros
+lista_conversiones <- list(dolar = 1.16, yen = 183.53, franco = 0.93, peso = 1670.22)
+
+# funcionalidad con moneda = "euro"
+moneda = "euro"
+valor = 500
+data.frame(euros = valor,
+           dolares = valor * lista_conversiones$dolar,
+           yenes = valor * lista_conversiones$yen,
+           francos = valor * lista_conversiones$franco,
+           pesos = valor * lista_conversiones$peso)
+
+# funcionalidad con moneda != "euro"
+moneda = "dolar"
+valor_euros <- valor / lista_conversiones[[moneda]]
+valor <- valor_euros
+data.frame(euros = valor,
+           dolares = valor * lista_conversiones$dolar,
+           yenes = valor * lista_conversiones$yen,
+           francos = valor * lista_conversiones$franco,
+           pesos = valor * lista_conversiones$peso)
+
+# crear la función
+convertir_moneda <- function(valor, moneda = "euro"){
+  if (moneda != "euro"){
+    valor_euros <- valor / lista_conversiones[[moneda]]
+    valor <- valor_euros
+  }
+  
+  df <- data.frame(euros = valor,
+                   dolares = valor * lista_conversiones$dolar,
+                   yenes = valor * lista_conversiones$yen,
+                   francos = valor * lista_conversiones$franco,
+                   pesos = valor * lista_conversiones$peso)
+  return(df)
+}
+
+convertir_moneda(100, "yen")
+convertir_moneda(100, "euro")
+convertir_moneda(100, "franco")
+
+# ejecutar en un lapply
+lapply(50:60, convertir_moneda, moneda = "dolar")
+
+
+# 4. Estandarizar texto. Imagina que recibes este vector y debes limpiarlo para que se vea:
 # Juan, Maria, Pedro y Maria Jesus
 nombres_sucios <- c("  juAn ", "MarIa", " Pedro  ", " maRia jeSus ")
 
@@ -270,33 +377,7 @@ limpiar_nombres <- function(texto){
 
 limpiar_nombres(nombres_sucios)
 
-# 2. Conversor de Moneda
-# Crea una función que tome un valor y un tipo de moneda. Debe generar un data.frame con los valores de varias monedas
-# Usa estas similitudes:
 
-# 1 € = 1.16 $
-# 1 € = 183.53 yenes
-# 1 € = 0.93 francos suizos
-# 1 € = 1670.22 pesos argentinos
 
-# convertir_moneda <- function(valor, moneda = "euro"){ rellenar }
-
-# creamos lista de conversiones con respecito a euros
-lista_conversiones <- list(dolar = 1.16, yen = 183.53, franco = 0.93, peso = 1670.22)
-
-# funcionalidad con moneda = "euro"
-moneda = "dolar"
-valor = 500
-
-if (moneda == "euro"){
-  data.frame(euros = valor,
-             dolares = valor * lista_conversiones$dolar,
-             yenes = valor * lista_conversiones$yen,
-             francos = valor * lista_conversiones$franco,
-             pesos = valor * lista_conversiones$peso)
-} else{
-  valor_euros <- lista_conversiones[[moneda]] * valor
-  
-}
 
 
