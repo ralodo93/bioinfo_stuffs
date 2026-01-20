@@ -193,6 +193,13 @@ if (dia_semana %in% c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes") & fe
   print("Día desconocido")
 }
 
+## Uso de !(condición)
+# Cuando queremos determinar que se ejecute un código cuando sea FALSE en lugar de TRUE, usamos esta estructura
+edad <- 30
+if (!edad < 60){
+  print("Edad mayor de 60")
+}
+
 ## Uso de ifelse
 # ifelse es una función vectorizada que permite evaluar condiciones en vectores de forma más eficiente.
 # uso: ifelse(condición, valor_si_TRUE, valor_si_FALSE)

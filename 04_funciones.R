@@ -71,7 +71,7 @@ paste(c("A", "B", "C"), collapse = " -> ")
 # Se utiliza para eliminar valores faltantes (NA) de un vector.
 # En caso de usarse en una matriz o dataframe, eliminará todas las filas NA
 
-# runif()
+# 7. runif()
 # Se usa para generar tantos números aleatorios como se indique entre 0 y 1
 runif(1) # un número aleatorio
 runif(5) # 5 números aleatorios
@@ -84,13 +84,13 @@ matriz1 <- matrix(1:9, ncol = 3, nrow = 3)
 matriz1[1,1] <- NA
 na.omit(matriz1) # elimina la primera fila completa
 
-# 7. is.na()
+# 8. is.na()
 # Se usa para determinar los elementos que son NA (devuelve TRUE o FALSE)
 is.na(NA) # Devuelve TRUE
 is.na(c(NA, 1, 8, 5)) # Devuelve TRUE, FALSE, FALSE, FALSE
 is.na(matriz1) # Devuelve una matriz de TRUE y FALSE
 
-# set.seed()
+# 9. set.seed()
 # Se usa para establecer una semilla de aleatoriedad, muy útil cuando queremos replicar un caso
 sample(1:6, size = 1)
 sample(1:6, size = 1)
@@ -100,6 +100,10 @@ sample(1:15, size = 1) # no solo va a salir siempre el mismo resultado, sino que
 
 set.seed(12345) # al fijar una semilla de aleatoriedad (un número cualquiera) siempre obtendremos el mismo resultado
 sample(1:15, size = 1)
+
+# 10. unique()
+# Se usa para seleccionar los valores únicos de un vector
+unique(c(1,1,1,1,1,2,5,6,7,7,7,7))
 
 ### Ampliando R
 

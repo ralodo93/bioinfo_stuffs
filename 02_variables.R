@@ -7,46 +7,79 @@
 # En R se utiliza preferentemente el operador <- (ALT + Guión (-)).
 # Aunque el signo = también funciona, <- es la norma de estilo en R.
 # Estructura => nombre_variable <- valor_variable
-# IMPORTANTE: Intentad siempre usar nombres de variables que sean explicativos, sobretodo para entender bien el código
-# Si quiero asignar un valor de un precio de un producto, es preferible llamar a esa variable
-# 'precio_producto' o 'precio' a llamarlo 'a', 'veteasaber'
-# IMPORTANTE: Los nombres de las variables no llevan espacios, ni guiones
-# INCORRECTO - nombre producto nombre-producto
-# CORRECTO - nombre_producto o nombre.producto
-# IMPORTANTE: Un nombre de variable no empieza nunca con un número
-# INCORRECTO: 4gatos
-# CORRECTO: gatos4, gatos_4, gatos.4 etc
-mi_numero=25 # Podemos usar el símbolo igual
-mi_numero = 25 # Podemos añadir espacios delante y detrás (más estético)
-mi_numero <- 25 # En R profesional se usa <- (ALT + Guión (-))
-print(mi_numero) # también funciona si solo escribimos mi_numero
-
-nombre_usuario <- "Alex" # Otro ejemplo, en este caso con un texto. Importante, para escribir texto siempre usar comillas dobles o simples
-nombre_usuario
-
-# Truco Tabulador
-print(mi)
-
+mi_numero=25
+mi_numero = 25
+mi_numero <- 25 # ALT + Guión (-)
 
 ## ¿Cómo se que se ha creado una variable? -> Comprobar el Environment
 # Una vez ejecutas la línea de asignación, la variable aparecerá en la pestaña 
 # "Environment" (Entorno) de RStudio (panel superior derecho). 
-# También puedes usar la función ls() para listar todas las variables creadas.
-ls()
+# Si modifique la variable es como si la eliminase y la crease de nuevo
+mi_numero <- 24
 
 ## Imprimir una variable
-# Para ver el contenido de una variable, simplemente escribe su nombre o usa print().
+# Simplemente ejecutando una línea de código con el nombre de la variable
 mi_numero
-print(nombre_usuario)
-# También podemos usarla con otras de las funciones que hemos aprendido:
-paste("Mi número es el", mi_numero)
 
-## CUIDADO! CASE SENSITIVE
-# R distingue entre mayúsculas y minúsculas. No es lo mismo 'Variable' que 'variable'.
-Dato <- 10
-# dato # Si ejecutas esto, R dará error porque 'dato' (en minúsculas) no existe.
+# Usando cualquiera de las alternativas de mostrar mensajes que vimos en la sección anterior
+print(mi_numero) # solo la variable
+paste("Mi número es el", mi_numero) # sacar un mensaje usando el valor de la variable
 
-### Tipos de Variables (I). Una variable = Un valor
+# Otro ejemplo, en este caso con un texto.
+nombre_usuario <- "Alex" # Importante, para escribir texto siempre usar comillas dobles o simples
+nombre_usuario
+
+# Otro ejemplo, en este caso con un booleano
+bool <- TRUE
+
+## Seleccionar el nombre de una variable
+# Intentad siempre usar nombres de variables que sean explicativos, sobretodo para entender bien el código
+# Si quiero asignar un valor de un precio de un producto, es preferible llamar a esa variable
+# 'precio_producto' o 'precio' a llamarlo 'a', 'veteasaber'
+
+precio_producto <- 25 # si uso esta variable en el futuro se que indica
+a <- 25 # si uso esta variable en el futuro, debo volver a mirar que significa
+
+## IMPORTANTE
+# Hay algunos aspectos a considerar a la hora de establecer nombres de variables:
+# 1. CASE SENTITIVE. Cuidado con las mayúsculas y las minúsculas
+# Precio_Producto es distinto de precio_producto
+Precio_Producto # esto da error
+precio_producto # TRUCO: Usar tabulador (también sirve para errores de tipografía)
+
+# 2. Elementos prohibidos en el nombre de una variable: Ni espacios, ni guiones ni comas. Mejor usar _ o .
+precio_producto <- 25
+precio.producto <- 25
+
+# no usar nunca precio,producto o precio-producto
+
+# 3. Un nombre de variable no empieza nunca con un número
+# INCORRECTO: 4gatos
+# CORRECTO: gatos4
+gatos4 <- 10
+
+## Operaciones con variables
+
+# Todas las operaciones que vimos la sección de tipos de datos se pueden aplicar a variables de dichos tipos
+
+# Variable numéricas 
+# Podemos hacer operaciones básicas
+precio_producto * 5
+
+# Podemos hacer operaciones complejas
+(precio_producto + 10) / 10
+
+# Podemos aplicar funciones específicar para hacer cálculos
+sqrt(precio_producto)
+
+# Variables de texto
+# Podemos concatenar texto
+paste("Me llamo", nombre_usuario)
+
+# O cualquier otra de las operaciones que vimos
+substring(nombre_usuario, 1, 3)
+
+
 
 ## Variables Numéricas
 # Almacenan números decimales (doubles) o enteros (integers).
@@ -58,24 +91,24 @@ cantidad <- 5
 total <- precio * cantidad
 total
 
-# También para aplicar a algunas de las funciones que vimos de la calculadora
+# También para aplicar a algunas de las funciones que vimos para datos de tipo numérico
 log_precio <- log(precio)
 exp_precio <- exp(precio)
 sqrt_precio <- sqrt(precio)
 
 
 ## Variables de Texto
-## Variables de Texto
 # También llamadas "Character" o "Strings". Siempre van entre comillas dobles o simples
 saludo <- "Hola, bienvenido"
 ciudad <- 'Madrid'
 
 # Operaciones con variables de texto
-# No se pueden "sumar" (+) como números, se usan funciones como paste().
+# Podemos aplicar las funciones que hemos visto con el tipo de datos de texto
 mensaje_completo <- paste(saludo, "a la ciudad de", ciudad)
 print(mensaje_completo)
 
-# Calcular el número de caracteres de un texto
+substring(saludo, 1, 5) 
+grepl("Hola", saludo)
 nchar(saludo)
 
 ## Variables Booleanas
@@ -84,7 +117,7 @@ nchar(saludo)
 es_mayor_de_edad <- TRUE
 esta_abierto <- FALSE
 
-# Operadores Lógicos
+# Para trabajar con ellas, usamos los operadores lógicos de los datos de tipo booleano
 mayor_que <- 10 > 5  # Se usa símbolo > (mayor que)
 menor_que <- 10 < 5  # Se usa símbolo < (menor que)
 mayor_o_igual_que <- 10 >= 5 # Se usa símbolo >= (mayor o igual que)
@@ -94,7 +127,9 @@ diferente_que <- 10 != 5 # Se usa el símbolo != (diferente que)
 
 
 
-### EJERCICIOS: VARIABLES Y TIPOS DE DATOS (3 MINUTOS)
+#########################################################################
+###        EJERCICIOS: VARIABLES Y TIPOS DE DATOS (3 MINUTOS)         ###
+#########################################################################
 # Resuelve cada reto debajo de su comentario.
 
 ## -- RETO 1: VARIABLES NUMÉRICAS --
@@ -104,44 +139,35 @@ diferente_que <- 10 != 5 # Se usa el símbolo != (diferente que)
 # 2. Crea una variable llamada 'area_triangulo' que calcule (base * altura) / 2.
 
 
-# 3. Imprime el resultado de 'area_triangulo'.
-
-
-# 4. Calcula el log en base 10 de la variable 'area_triangulo'
+# 3. Calcula el log en base 10 de la variable 'area_triangulo'
 
 
 
 ## -- RETO 2: VARIABLES DE TEXTO --
-# 5. Crea una variable llamada 'nombre' con tu nombre entre comillas.
+# 4. Crea una variable llamada 'nombre' con tu nombre entre comillas.
 
 
-# 6. Crea una variable llamada 'apellido' con tu apellido.
+# 5. Crea una variable llamada 'apellido' con tu apellido.
 
-# 7. Usa la función paste() para crear una variable llamada 'nombre_completo' que contenga nombre y apellido
 
-# 8. Usa la función paste() para crear un mensaje que diga: 
+# 6. Usa la función paste() para crear una variable llamada 'nombre_completo' 
+# que contenga nombre y apellido.
+
+
+# 7. Usa la función paste() para crear un mensaje que diga: 
 # "Hola, mi nombre es [nombre_completo]" usando la variable 'nombre_completo'.
 
-# EXTRA: ¿Puedes hacerlo todo en una sola línea de código?
-
-## -- RETO 3: CASE SENSITIVE Y SOBREESCRITURA --
-# 9. Crea la variable 'Dato' con valor 100.
-
-
-# 10. Intenta sumar 'dato' + 5 (en minúsculas). ¿Qué ocurre? 
-# (Coméntalo con #)
-
-
-# 9. Sobreescribe la variable 'base' asignándole ahora el valor 20. 
-# ¿Qué valor ves ahora en el Environment para 'base'?
+# 8. Crea una variable 'limpieza' que tome el texto "  R es Genial  ", 
+# le quite los espacios laterales y lo pase todo a minúsculas. 
+# Pista: combina tolower() y trimws()
 
 
 ## -- RETO 4: COMPARACIONES (BOOLEANAS) --
-# 10. Crea una variable llamada 'comparacion' que guarde el resultado de 
+# 9. Crea una variable llamada 'comparacion' que guarde el resultado de 
 # verificar si 15 es mayor que 10. (Usa el símbolo >)
 
 
-# 11. Crea una variable llamada 'comparacion' que guarde el resultado de 
+# 10. Crea una variable llamada 'comparacion' que guarde el resultado de 
 # verificar si 35 es menor o igual que 10.
 
 
@@ -195,6 +221,7 @@ unique(edades) # función unique()
 # Operaciones vectorizadas (elemento a elemento)
 edades * 2 # multiplica cada elemento por 2
 edades + 5 # le suma 5 a cada elemento
+sqrt(edades) # calcula la raiz cuadrada de cada elemento 
 
 # Operaciones resumen
 mean(edades) # calcula la media
@@ -210,6 +237,7 @@ tolower(nombres) # lo transforma todo a minúscula
 nchar(nombres) # devuelve el número de caracteres de cada elemento
 apellidos <- c("García","Ortega","Rodríguez")
 paste(nombres, apellidos) # Concatenar los vectores de nombres y apellidos
+substring(nombres, 1, 1) # deevuel
 
 ## Secuencias rápidas
 # Las secuencias son funciones que generan vectores de forma 
