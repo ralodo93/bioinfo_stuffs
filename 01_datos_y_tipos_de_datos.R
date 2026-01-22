@@ -92,9 +92,17 @@ c(1,"Azul",TRUE) # Vector mixto -> ! Lo convierte todo a TEXTO
 c(10, 20, 30, 40)[1] # del vector dado, accedo a la posición número 1
 c(10, 20, 30, 40)[c(1, 3)] # del vector dado, accedo a las posiciones 1 y 3
 
-
 # MiniReto: Crea un vector con los nombres de los días de la semana laboral (Lunes a Viernes). 
 # Una vez creado, escribe el código para extraer únicamente el miércoles y el viernes usando sus posiciones.
+
+# Operaciones con vectores
+# Al aplicar operaciones atómicas a vectores, se realizarán a cada elementos de forma individual
+c(10, 20, 30, 40) * 2 # cada elemento se multiplica por 2
+c(10, 20, 30, 40) < 30 # evalúa si cada elemento es menor de 30
+
+# Usamos el operador %in% para determinar si un elemento está dentro de un vector:
+"uva" %in% c("uva", "manzana", "pera") # devuelve TRUE si uva está en el vector
+
 
 # Secuencias Rápidas - Se utilizan para crear vectores automáticamente
 # Hay 3 formas de crearlas
@@ -126,6 +134,12 @@ matrix(1:9, nrow = 3, ncol = 3)[c(1, 2), 3] # accedo a la fila 1 y 2, columna 3
 
 # MiniReto: Crea una matriz de 2 filas y 5 columnas que contenga los números del 1 al 10. 
 # Después, extrae todos los números que están en la segunda fila.
+
+# Operaciones con matrices
+# Al aplicar operaciones atómicas a matrices, se realizarán a cada elementos de forma individual
+matrix(1:9, nrow = 3, ncol = 3) * 2 # cada elemento se multiplica por 2
+matrix(1:9, nrow = 3, ncol = 3) < 6 # evalúa si cada elemento es menor de 30
+
 
 ## DataFrames (2 dimensiones: filas y columnas) -> data.frame()
 # Es la estructura más usada. Cada columna puede ser un tipo de dato distinto.
