@@ -55,6 +55,94 @@ sample(1:100, size = 7) %>%  # Elegimos 7 números al azar entre 1 y 100, Y LUEG
 
 ### Funciones Esenciales
 
+## filter() -> Para elegir o descartar FILAS (según condiciones)
+# anatomía pipe: datos %>% filter(condición1, condición2, ...)
+starwars %>%     # cargo la tabla de starwars, Y DESPUÉS
+  filter(eye_color == "blue") %>%     # filtro los personajes con ojos azules, Y DESPUÉS
+  head()    # aplico la función head()
+
+# R Base vs Tidy
+# head(starwars[starwars$eye_color == "blue", ])
+
+# USOS
+# 1. Filtros con operadores lógicos básicos
+# 1.1. Igualdad (==) y Diferencia (!=)
+starwars %>%
+  filter(species == "Droid") %>% # Solo los que son Droids
+  head()
+
+starwars %>%
+  filter(species != "Human") %>% # Todos los que NO son humanos
+  head()
+
+# 1.2. Comparaciones numéricas (>, >=, <, <=)
+starwars %>%
+  filter(height >= 200) %>% # Personajes con altura mayor o igual a 200
+  head()
+
+# 2. Combinar múltiples condiciones (AND / OR)
+# 2.1. AND: Se cumplen todas las condiciones (usando coma o &)
+starwars %>%
+  filter(species == "Human", height > 190) %>%  # Humanos y más altos de 190
+  head()
+
+starwars %>%
+  filter(species == "Human" & height > 190) %>% 
+  head()
+
+# 2.2. OR: Se cumple al menos una condición (usando |)
+starwars %>%
+  filter(eye_color == "blue" | eye_color == "red") %>% # Ojos azules O rojos
+  head()
+
+# 3. Filtrar en base a un vector externo (%in%)
+mis_especies <- c("Droid", "Wookiee", "Ewok")
+
+# 3.1. Incluir los que están en el vector
+starwars %>%
+  filter(species %in% mis_especies) %>% 
+  head()
+
+# 3.2. Excluir los que están en el vector (usando ! antes de la condición)
+starwars %>%
+  filter(!species %in% mis_especies) %>% 
+  head()
+
+# 4. Filtros específicos para valores vacíos (NA)
+# 4.1. Eliminar filas con NA en una columna
+starwars %>%
+  filter(!is.na(hair_color)) %>% # Dame los que tienen un color de pelo definido
+  head()
+
+# 5. Funciones auxiliares útiles
+# 5.1. Rango de valores (between())
+starwars %>%
+  filter(between(height, 150, 200)) %>% # Alturas entre 150 y 200 inclusive
+  head()
+
+# 5.2. Coincidencias de texto (grepl())
+starwars %>%
+  filter(grepl("Skywalker", name)) %>% # Personajes cuyo nombre contiene "Skywalker"
+  head()
+
+# Ejemplo:
+# 1) Filtrar personajes de especie Humana o Droid
+# 2) Que tengan una masa superior a 70
+# 3) Que NO tengan color de ojos "unknown"
+mis_especies <- c("Human", "Droid")
+starwars %>%
+  filter(species %in% mis_especies &
+         mass > 70 &
+         eye_color != "unknown")
+
+# MINIRETO: filter() -> "El Detective"
+# OBJETIVO: Encuentra personajes con estas condiciones:
+# 1. Que sean de la especie "Droid"
+# 2. Que tengan una masa superior a 30 kg.
+
+
+
+
 ## select() -> Para elegir o descartar COLUMNAS
 # anatomía pipe: datos %>% select(columna1, columna2, ...)
 starwars %>%     # cargo la tabla de starwars, Y DESPUÉS
@@ -134,91 +222,53 @@ starwars %>%
 # B) Seleccionando TODAS menos 'birth_year' y 'sex'
 
 
-
-## filter() -> Para elegir o descartar FILAS (según condiciones)
-# anatomía pipe: datos %>% filter(condición1, condición2, ...)
+## arrange() -> Para ORDENAR filas (según valores de columnas)
+# anatomía pipe: datos %>% arrange(columna1, columna2, ...)
 starwars %>%     # cargo la tabla de starwars, Y DESPUÉS
-  filter(eye_color == "blue") %>%     # filtro los personajes con ojos azules, Y DESPUÉS
+  arrange(height) %>%     # ordeno por altura (por defecto: menor a mayor), Y DESPUÉS
   head()    # aplico la función head()
 
 # R Base vs Tidy
-# head(starwars[starwars$eye_color == "blue", ])
+# head(starwars[order(starwars$height), ])
 
 # USOS
-# 1. Filtros con operadores lógicos básicos
-# 1.1. Igualdad (==) y Diferencia (!=)
+# 1. Orden ascendente (por defecto: de menor a mayor / A-Z)
 starwars %>%
-  filter(species == "Droid") %>% # Solo los que son Droids
+  select(name, height) %>%
+  arrange(height) %>% # Personajes ordenados del más bajito al más alto
   head()
 
+# 2. Orden descendente (usando desc())
 starwars %>%
-  filter(species != "Human") %>% # Todos los que NO son humanos
+  select(name, mass) %>%
+  arrange(desc(mass)) %>% # Del más pesado al más ligero
   head()
 
-# 1.2. Comparaciones numéricas (>, >=, <, <=)
+# 3. Ordenar por múltiples columnas
+# Si hay un empate en la primera columna, usa la segunda para desempatar
 starwars %>%
-  filter(height >= 200) %>% # Personajes con altura mayor o igual a 200
+  select(name, eye_color, birth_year) %>%
+  arrange(eye_color, desc(birth_year)) %>% # Ordena por color de ojos y luego por edad (más viejo a más joven)
   head()
 
-# 2. Combinar múltiples condiciones (AND / OR)
-# 2.1. AND: Se cumplen todas las condiciones (usando coma o &)
+# 4. Comportamiento de los valores vacíos (NA)
+# Los NA siempre se colocan al final, independientemente de si el orden es asc o desc
 starwars %>%
-  filter(species == "Human", height > 190) %>%  # Humanos y más altos de 190
+  select(name, height) %>%
+  arrange(desc(height)) %>% 
+  tail() # Usamos tail() para ver los últimos registros (donde suelen estar los NA)
+
+# 5. Ordenar dentro de grupos (arrange + group_by)
+# Nota: Para que respete los grupos, se debe usar el argumento .by_group = TRUE
+starwars %>%
+  group_by(species) %>%
+  arrange(mass, .by_group = TRUE) %>% # Ordena por masa de menor a mayor DENTRO de cada especie
+  select(name, species, mass) %>% 
   head()
 
-starwars %>%
-  filter(species == "Human" & height > 190) %>% 
-  head()
-
-# 2.2. OR: Se cumple al menos una condición (usando |)
-starwars %>%
-  filter(eye_color == "blue" | eye_color == "red") %>% # Ojos azules O rojos
-  head()
-
-# 3. Filtrar en base a un vector externo (%in%)
-mis_especies <- c("Droid", "Wookiee", "Ewok")
-
-# 3.1. Incluir los que están en el vector
-starwars %>%
-  filter(species %in% mis_especies) %>% 
-  head()
-
-# 3.2. Excluir los que están en el vector (usando ! antes de la condición)
-starwars %>%
-  filter(!species %in% mis_especies) %>% 
-  head()
-
-# 4. Filtros específicos para valores vacíos (NA)
-# 4.1. Eliminar filas con NA en una columna
-starwars %>%
-  filter(!is.na(hair_color)) %>% # Dame los que tienen un color de pelo definido
-  head()
-
-# 5. Funciones auxiliares útiles
-# 5.1. Rango de valores (between())
-starwars %>%
-  filter(between(height, 150, 200)) %>% # Alturas entre 150 y 200 inclusive
-  head()
-
-# 5.2. Coincidencias de texto (grepl())
-starwars %>%
-  filter(grepl("Skywalker", name)) %>% # Personajes cuyo nombre contiene "Skywalker"
-  head()
-
-# Ejemplo:
-# 1) Filtrar personajes de especie Humana o Droid
-# 2) Que tengan una masa superior a 70
-# 3) Que NO tengan color de ojos "unknown"
-mis_especies <- c("Human", "Droid")
-starwars %>%
-  filter(species %in% mis_especies,
-         mass > 70,
-         eye_color != "unknown")
-
-# MINIRETO: filter() -> "El Detective"
-# OBJETIVO: Encuentra personajes con estas condiciones:
-# 1. Que sean de la especie "Droid"
-# 2. Que tengan una masa superior a 30 kg.
+# MINIRETO: arrange() -> "El Clasificador"
+# OBJETIVO: Muestra los 5 personajes más jóvenes (menor birth_year) 
+# de la especie "Human".
 
 
 
@@ -333,53 +383,7 @@ starwars %>%
 # OBJETIVO: Queremos saber cuántos personajes hay por cada tipo 
 # de género (gender) y cuál es su altura promedio.
 
-## arrange() -> Para ORDENAR filas (según valores de columnas)
-# anatomía pipe: datos %>% arrange(columna1, columna2, ...)
-starwars %>%     # cargo la tabla de starwars, Y DESPUÉS
-  arrange(height) %>%     # ordeno por altura (por defecto: menor a mayor), Y DESPUÉS
-  head()    # aplico la función head()
 
-# R Base vs Tidy
-# head(starwars[order(starwars$height), ])
-
-# USOS
-# 1. Orden ascendente (por defecto: de menor a mayor / A-Z)
-starwars %>%
-  select(name, height) %>%
-  arrange(height) %>% # Personajes ordenados del más bajito al más alto
-  head()
-
-# 2. Orden descendente (usando desc())
-starwars %>%
-  select(name, mass) %>%
-  arrange(desc(mass)) %>% # Del más pesado al más ligero
-  head()
-
-# 3. Ordenar por múltiples columnas
-# Si hay un empate en la primera columna, usa la segunda para desempatar
-starwars %>%
-  select(name, eye_color, birth_year) %>%
-  arrange(eye_color, desc(birth_year)) %>% # Ordena por color de ojos y luego por edad (más viejo a más joven)
-  head()
-
-# 4. Comportamiento de los valores vacíos (NA)
-# Los NA siempre se colocan al final, independientemente de si el orden es asc o desc
-starwars %>%
-  select(name, height) %>%
-  arrange(desc(height)) %>% 
-  tail() # Usamos tail() para ver los últimos registros (donde suelen estar los NA)
-
-# 5. Ordenar dentro de grupos (arrange + group_by)
-# Nota: Para que respete los grupos, se debe usar el argumento .by_group = TRUE
-starwars %>%
-  group_by(species) %>%
-  arrange(mass, .by_group = TRUE) %>% # Ordena por masa de menor a mayor DENTRO de cada especie
-  select(name, species, mass) %>% 
-  head()
-
-# MINIRETO: arrange() -> "El Clasificador"
-# OBJETIVO: Muestra los 5 personajes más jóvenes (menor birth_year) 
-# de la especie "Human".
 
 
 ### ========================================================
