@@ -104,6 +104,9 @@ calcular_iva(100) # iva al 21%
 calcular_iva(100, 1.04) # iva al 4%
 calcular_iva(c(100, 25, 45)) # se aplica también a vectores
 
+# también podemos aplicar un iva distinto a cada precio
+calcular_iva(c(100, 25, 45), iva = c(1.21, 1.21, 1.04)) # se aplica también a vectores
+
 # Describir persona: Función que coge argumento nombre, apellidos y edad y genera un texto
 describir_persona <- function(nombre, apellido, edad){
   texto <- paste("Soy",nombre,apellido,"y tengo",edad,"años.")

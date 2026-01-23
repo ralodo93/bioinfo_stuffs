@@ -11,6 +11,8 @@ mi_numero=25 # sin espacios
 mi_numero = 25 # con espacios (más decorativo)
 mi_numero <- 25 # ALT + Guión (-); con espacios y usando <- (más decorativo y más profesional)
 
+# Prueba tú a generar una variable!
+
 ## ¿Cómo se que se ha creado una variable? -> Comprobar el Environment
 # Una vez ejecutas la línea de asignación, la variable aparecerá en la pestaña 
 # "Environment" (Entorno) de RStudio (panel superior derecho). 
@@ -93,7 +95,7 @@ res_cuadrado <- c(8, 7, 4, 5, 10) ^ 2
 # Si ahora quiero cambiar el valor 5 por un 50, debo ir línea a línea cambiando el valor
 # Si uso una variable, solo tengo que modificarlo una vez
 
-vector_uso <- c(8, 7, 4, 5, 10)
+vector_uso <- c(8, 7, 4, 50, 10)
 res_multiplicacion <- vector_uso * 10
 res_division <- vector_uso / 10
 res_suma <- vector_uso + 10

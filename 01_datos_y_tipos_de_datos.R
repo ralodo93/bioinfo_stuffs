@@ -9,15 +9,16 @@
 10 # el número 10
 20 # el número 20
 4.78 # el número 4.78-50 # el número -50
+1e2 # también es un número (100)
 
 # Operaciones sencillas
-8 + 7 # Sumar 8 y 7
+8+7 # Sumar 8 y 7
 8 + 7 # los espacios no importan, se trata de algo decorativo (gusto personal)
 8 - 10 # Restar 8 menos 10
 8 * 10 # Multiplicar 8 por 10
 20 / 5 # Dividir 20 entre 5
-8^2 # Elevar 8 al cuadrado. También sirve 8 ** 2
-8 %% 3 # Resto de una división - 8 / 3 = 2. Resto = 2
+8 ^ 2 # Elevar 8 al cuadrado. También sirve 8 ** 2
+8 %% 3 # Resto de una división de enteros: 8 / 3 = 2. Resto = 2
 
 # MiniReto: ¿Cuandos segundos hay en un día?
 
@@ -30,9 +31,9 @@
 
 (10 - 5) / (5 + 10) # 10-5 y 5+10 se hacen por separado, después se aplica la división a los resultados
 
-# MiniReto: Tienes 3 cajas con 12 manzanas cada una. Si decides regalar 5 manzanas de una de las cajas y 
-# luego repartir todas las manzanas restantes equitativamente entre 2 amigos, ¿cuántas manzanas recibe cada uno? 
+# MiniReto: Tienes 36 manzanas. Si decides regalar 8 manzanas y luego repartir todas las manzanas restantes equitativamente entre 2 amigos, ¿cuántas manzanas recibe cada uno? 
 # (Escribe la operación en una sola línea usando paréntesis).
+
 
 ## Texto (Siempre entre comillas)
 # Se llaman "character". Las comillas indican a R que no debe buscar una función con ese nombre.
@@ -56,13 +57,16 @@ FALSE
 
 # uso de !
 # al poner ! antes de una operación lógica, invierte el resultado
-10 > 5 # TRUE!10 > 5 # FALSE!10 < 5 # TRUE
+10 > 5 # TRUE
+!10 > 5 # FALSE
+!10 < 5 # TRUE
 
 # Operadores lógicos también con texto
 "usuario" != "usuario" # usuario es diferente de usuario?
 "USUARIO" == "Usuario" # USUARIO es igual a Usuario?
 
 # MiniReto: Comprueba si una persona de 15 años puede entrar en una discoteca (mayores de 18)
+
 
 # Combinar operadores lógicos (Lógica de Boolenos)
 # AND (&): Solo es verdad si TODO es verdad.
@@ -73,6 +77,7 @@ FALSE
 
 # MiniReto: Para que un examen esté aprobado, la nota debe ser mayor o igual a 5 Y la asistencia debe ser superior a 75.
 # Comprueba si una persona aprueba con nota de 8 y asistencia de 75
+
 
 ## Factores (Categorías) -> se usa la función factor()
 # Son datos que parecen texto pero representan niveles o grupos definidos.
@@ -88,12 +93,17 @@ c("Azul", "Rojo", "Verde") # Vector de texto
 c(TRUE, FALSE, FALSE) # Vector booleano
 c(1,"Azul",TRUE) # Vector mixto -> ! Lo convierte todo a TEXTO
 
-# Acceder a los elementos de un vector - Se usa corchetes indicando la posición o posiciones que se desean obtener
+# Acceder a los elementos de un vector - Se usa corchetes indicando la posición o posiciones que se desean obtener  []
 c(10, 20, 30, 40)[1] # del vector dado, accedo a la posición número 1
 c(10, 20, 30, 40)[c(1, 3)] # del vector dado, accedo a las posiciones 1 y 3
 
 # MiniReto: Crea un vector con los nombres de los días de la semana laboral (Lunes a Viernes). 
-# Una vez creado, escribe el código para extraer únicamente el miércoles y el viernes usando sus posiciones.
+# Extrae únicamente el miércoles y el viernes usando sus posiciones.
+
+# Acceder a los elementos de un vector - Se usa corchetes indicando la posición o posiciones en los que un vector booleano sea TRUE
+c(10, 20, 30, 40) > 20
+c(10, 20, 30, 40)[c(10, 20, 30, 40) > 20]
+
 
 # Operaciones con vectores
 # Al aplicar operaciones atómicas a vectores, se realizarán a cada elementos de forma individual
@@ -120,6 +130,7 @@ c(rep("Hola", 5), rep("Bonjour", 3))
 
 # MiniReto: Crea una secuencia que vaya del 100 al 200, pero que solo incluya los números de 5 en 5 (100, 105, 110...).
 
+
 ## Matrices (2 dimensiones: filas y columnas) -> matrix() o as.matrix()
 # Son tablas donde TODO (absolutamente todo) debe ser del mismo tipo de dato.
 matrix(1:9, nrow = 3, ncol = 3) # Una tabla de 3x3 con números del 1 al 9
@@ -134,6 +145,7 @@ matrix(1:9, nrow = 3, ncol = 3)[c(1, 2), 3] # accedo a la fila 1 y 2, columna 3
 
 # MiniReto: Crea una matriz de 2 filas y 5 columnas que contenga los números del 1 al 10. 
 # Después, extrae todos los números que están en la segunda fila.
+
 
 # Operaciones con matrices
 # Al aplicar operaciones atómicas a matrices, se realizarán a cada elementos de forma individual
@@ -156,8 +168,11 @@ data.frame(Nombre = c("Pedro", "Maria"), Edad = c(30, 25))[,2] # columna 2
 data.frame(Nombre = c("Pedro", "Maria"), Edad = c(30, 25))[,"Nombre"] # columna nombre (usando [])
 data.frame(Nombre = c("Pedro", "Maria"), Edad = c(30, 25))$Nombre # columna nombre (usando $)
 
-# MiniReto: Crea un pequeño DataFrame llamado tienda que tenga dos columnas: Producto: "Pan", "Leche", "Huevos".
-# Precio: 1.20, 0.95, 2.50. Luego, utiliza el símbolo $ para extraer solo la columna de los precios.
+# MiniReto: Crea un pequeño DataFrame llamado tienda que tenga tres columnas: Producto: "Pan", "Leche", "Huevos".
+# Precio: 1.20, 0.95, 2.50. Saludable: TRUE, TRUE, TRUE. 
+# Acceder a todas las filas de las columnas Producto y Precio
+# Utiliza el símbolo $ para extraer solo la columna de los precios.
+
 
 ## Listas (Contenedores flexibles) -> se usa la función list()
 # Es como una caja donde puedes meter de todo: un número, un vector y una matriz juntos.
@@ -167,7 +182,7 @@ list(num=42, text="Cualquier cosa", vect=c(1, 2, 3))
 list(num=42, text="Cualquier cosa", vect=c(1, 2, 3))[[1]] # accedo al primer elemento de la lista
 
 # Alternativa por nombre
-list(num=42, text="Cualquier cosa", vect=c(1, 2, 3))[["num"]]
+list(num=42, text="Cualquier cosa", vect=c(1, 2, 3))[["vect"]]
 
 # MiniReto: Crea una lista llamada mi_perfil que contenga: Un elemento llamado usuario con tu nombre.
 # Un elemento llamado puntuaciones que sea un vector con los números 10, 8 y 9. 

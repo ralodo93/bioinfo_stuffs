@@ -1,60 +1,33 @@
 ### ======================================================================== ###
-###           INVENTARIO DE UNA VETERINARIO                                  ###
+###                         CONTROL ESPACIAL                                 ###
 ### ======================================================================== ###
 
-# Parámetros de entrada:
+#### Utilizando la base de datos de Starwars ####
+library(tidyverse)
+data("starwars")
 
-# Vectores de datos para el ejercicio de la Veterinaria (Longitud 20)
+# 1. Obtener información acerca de:
 
-nombres <- c("Thor", "Luna", "Simba", "Pelusa", "Coco", 
-             "Bella", "Max", "Kira", "Milo", "Nala", 
-             "Toby", "Bimba", "Leo", "Lola", "Bruno", 
-             "Mia", "Rocco", "Zoe", "Pipo", "Dante")
+# 1.1. ¿Número de filas? ¿Número de columnas?. Usar una función
 
-especies <- c("Perro", "Gato", "Perro", "Gato", "Perro", 
-             "Gato", "Perro", "Perro", "Gato", "Perro", 
-             "Hámster", "Perro", "Gato", "Perro", "Perro", 
-             "Hámster", "Perro", "Gato", "Hámster", "Perro")
+# 1.2. ¿Cuales son los nombres de las columnas?. Usar una función
 
-# Pesos realistas en kg (Perros: 5-30, Gatos: 3-6, Hámsters: 0.1-0.2)
-peso_kg <- c(25.4, 4.2, 12.8, 3.5, 28.1, 
-             5.0, 18.2, 7.5, 4.8, 22.3, 
-             0.15, 9.2, 3.9, 14.5, 32.0, 
-             0.12, 11.4, 4.5, 0.18, 19.7)
+# 1.3. ¿Podrías mostrar las primeras 10 filas?. Usar una función
 
-estado <- c("Grave", "Leve", "Estable", "Leve", "Grave", 
-            "Estable", "Leve", "Leve", "Estable", "Grave", 
-            "Leve", "Estable", "Leve", "Grave", "Estable", 
-            "Leve", "Leve", "Grave", "Estable", "Leve")
-
-# 1. Crear dataframe pacientes
-
-# 2. Añadir una columna prioridad que indique el orden en que serán atendidos
-unique(estado) # grave es más prioritario que leve y leve es prioritario a estable
-# Pista: recuerda como crear un FACTOR y como ORDENAR un vector (o más bien, coger las posiciones)
+# 2. Filtra la tabla para quedarnos con las filas que: 
+# Tengan en la columna "species" el valor "Human" Y no tengan un NA en la columna "mass"
 
 
-# 3. Crea una función llamada calcular dosis que reciba peso_kg:
+# 3. Selecciona tan solo algunas columnas de la tabla anterior. Modifica la variable "starwars_human" para que contenga tan solo
+# las columnas: "name", "mass", "species", "sex", "homeworld"
 
-# Si el peso es menor de 5kg; la dosis es peso_kg * 2. 
-# Si el peso es entre 5 y 15kg; la dosis es peso_kg * 1.5. 
-# Si el peso es mayor de 15kg; la dosis es peso_kg * 1. 
+# 4. Crea una nueva variable en la tabla "starwars_human" llamada "capital" que transfrome a mayúscula todas las letras de la variable "name"
 
-# La función devuelve el valor de la dosis
+# 5. ¿Podrías calcular la media, mediana, máxima y mínima global de la columna la masa "mass"?
 
+# 6. ¿Podrías calcular la media, mediana, máxima y mínima por cada "homework" de la columna la masa "mass"?
 
-# Aplicar a estos ejemplos:
-calcular_dosis(14)
-calcular_dosis(0.3)
-calcular_dosis(7)
-
-# 4. Añade una nueva columna llamada "tasa_nocturna", que, si la especie es perro sea de 20 y sino sea de 10
-
-# 5. Usa un bucle for en el cual, en orden de prioridad, se genere un mensaje tal que:
-# "Revisando a [nombre]... Peso: [peso_kg]kg. Tasa aplicada: [tasa_nocturna]€."
-orden <- 1:nrow(pacientes) # Posibles valores de prioridad
-
-
+# 7. ¿Podrías calcular la media, mediana, máxima y mínima por cada "homework" y cada "sex" de la columna la masa "mass"?
 
 
 

@@ -42,23 +42,22 @@ mean(x = c(10, 20)) # asignamos el argumento x
 mean(c(10, 20)) # si no se indica, se cogen por orden
 
 ?log # función para calcular logaritmos
-log(10) # el argumento base por defecto es exp(1) - número natural
-log(10, base = 5) # si queremos cambiar la base, modificamos el argumento
+log(x = 10) # el argumento base por defecto es exp(1) - número natural
+log(x = 10, base = 5) # si queremos cambiar la base, modificamos el argumento
 log(10, 5) # si conocemos muy bien la función podemos aplicar los argumentos en su orden
 
 # El aspecto fundamental de utilizar funciones es poder asignar los valores resultantes a variables
-log_10 <- log10(86)
+log_natural <- log(86)
 
 # Funciones anidadas. Podemos utilizar una función dentro de otra:
-# Calcula el log10 de la raíz cuadrada de 144
-log10(sqrt(144)) # primero ejecuta sqrt(144) y el resultado lo utiliza para aplicar log10
+# Calcula el log de la raíz cuadrada de 144
+log(sqrt(144)) # primero ejecuta sqrt(144) y el resultado lo utiliza para aplicar log
 
-#### Funciones base
+#### Funciones interés
 
 # Divididas en: aplicadas a vectores, aplicadas a matrices / dataframes, aplicadas a números, aplicadas a texto y conversión de datos
 
 ### Aplicadas a vectores
-
 vector_numeros <- c(50, 10, 20, 30, 30)
 vector_texto <- c("Hola","Mundo",NA)
 
@@ -80,15 +79,22 @@ sort(vector_numeros, decreasing = TRUE) # mayor a menor
 
 ## rank() -> rank(vector, ties.method = "average") -> genera un vector con la posición de los valores de otro vector de menor a mayor
 # En caso de empate aplica el ties.method = average (media)
+vector_numeros
 rank(vector_numeros)
 rank(vector_numeros, ties.method = "first") # en caso de empate coge el primero
 
 ## rev() -> rev(vector) -> invierte el orden de un vector
+vector_texto
 rev(vector_texto)
 
+### Generar Vectores
 ## rep() -> rep(atómico o vector, times) -> crea elementos repetidos tantas veces como se indique (times)
 rep(5, times = 10)
 rep(vector_numeros, 2)
+
+## seq() -> seq(from, to, by = 1) -> genera un vector numérico desde "from" hasta "to" de "by" en "by
+seq(1, 10) # vector de 1 a 10 de 1 en 1
+seq(-10, 20, 5) # vector de -10 a 20 de 5 en 5
 
 ## sample() -> sample(vector, size, replace = FALSE) -> crea un vector de tamaño "size" eligiendo al azar valores del vector de entrada
 # Si replace = FALSE los valores que se van obteniendo se van eliminando
@@ -104,6 +110,10 @@ runif(1) # un valor entre 0 y 1
 runif(5) # 5 valores entre 0 y 1
 runif(5, min = 0, max = 2) # 5 valores entre 0 y 2
 
+## rnorm() -> rnorm(n, mean = 0, sd = 1) -> genera un vector de n elementos aleatorios que siguen una distribución normal de mean y sd asignados
+rnorm(10) # 10 elementos aleatorios que siguen distribución media = 0 y desviacion estandar = 1
+
+### Unificar datos
 ## paste() -> paste(vector o conjunto de elementos, collapse = NULL, sep = " ")
 paste("Mi número es", mi_numero) # funcionalidad general, sep = " "
 paste("Mi número es", mi_numero, "que dividido entre 4 es", mi_numero/4) # funcionalidad general, sep = " "
@@ -121,7 +131,7 @@ paste("Mi número es", vector_numeros) # se aplica a cada elemento del vector
 paste(vector_numeros, collapse = ", ") # usando el argumento collapse indicamos como queremos colapsar los elementos del vector
 paste("Mis números son", paste(vector_numeros, collapse = ", ")) # como se usaría de forma inteligente
 
-## names() -> names(vector o lista) -> se utiliza para obtener los nombres de los elementos de un vector
+## names() -> names(vector o lista) -> se utiliza para obtener o asignar los nombres de los elementos de un vector
 vector_numeros <- c(1,2,3,4)
 names(vector_numeros) # es nulo, no se han asignado
 names(vector_numeros) <- c("uno", "dos", "tres", "cuatro")
@@ -137,6 +147,7 @@ vector_numeros[["dos"]] # podemos acceder a los elementos del vector o la lista 
 ### Aplicadas a matrices / dataframes
 
 ## is.na() -> is.na(matriz) -> devuelve un vector lógico indicando las posiciones que tienen un NA
+matriz_numeros <- matrix(1:9, nrow = 3, ncol = 3)
 matriz_numeros_na <- matriz_numeros
 matriz_numeros_na[1,2] <- NA
 matriz_numeros_na
@@ -161,16 +172,13 @@ personas <- data.frame(nombre = c("Juan", "Elena"), edad = c(30, 35))
 colnames(personas)
 
 # los rownames no se suelen usar en los casos más básicos, sin embargo en bioinformática se usan a menudo
-
-## rnorm() -> rnorm(n, mean = 0, sd = 1) -> genera un vector de n elementos aleatorios que siguen una distribución normal de mean y sd asignados
-rnorm(10) # 10 elementos aleatorios que siguen distribución media = 0 y desviacion estandar = 1
-
 matriz_expresion <- matrix(rnorm(1000), ncol = 10) # matriz de 100 filas y 10 columnas
 
 # colnames de la matriz
 paste("Paciente",1:ncol(matriz_expresion),sep="_")
 colnames(matriz_expresion) <- paste("Paciente", 1:ncol(matriz_expresion), sep="_")
 colnames(matriz_expresion)
+head(matriz_expresion)
 
 # rownames de la matriz
 paste("Gen", 1:nrow(matriz_expresion),sep="_")
@@ -179,7 +187,6 @@ rownames(matriz_expresion)
 head(matriz_expresion)
 
 #### Funciones aplicadas a números
-
 ### Funciones vectorizadas
 mi_numero <- 12
 vector_numeros <- c(-8, 10, 8.2, 8.9, 7.456, NA)
@@ -215,7 +222,6 @@ abs(vector_numeros)
 ## round() -> round(numero o vector de numeros, digits = 0) -> redondea a dígitos indicados
 round(mi_numero)
 round(vector_numeros) # a cero dígitos decimales (por defecto)
-
 round(vector_numeros, digits = 1) # a un dígito decimal
 
 ## ceiling() -> ceiling(numero o vector numérico) -> trunca un número hasta el entero superior (techo)
@@ -230,13 +236,12 @@ sign(vector_numeros)
 ## MiniReto: Calcula el valor redondeado (3 cifras) del valor absoluto del siguiente vector. Después ordénalo de mayor a menor
 vector_numeros <- c(-8.654653, 10.46434, 9.46465464, -4.46546768)
 
+
+
 ### Funciones Agregadas
 
-## seq() -> seq(from, to, by = 1) -> genera un vector numérico desde "from" hasta "to" de "by" en "by
-seq(1, 10) # vector de 1 a 10 de 1 en 1
-seq(-10, 20, 5) # vector de -10 a 20 de 5 en 5
-
-## mean() -> mean(numero o vector de números, na.rm = FALSE) -> calcula la media sin eliminar NA
+## mean() -> mean(vector de números, na.rm = FALSE) -> calcula la media sin eliminar NA
+vector_numeros
 mean(vector_numeros) # por defecto no elimina el NA, para que lo haga usamos su argumento na.rm
 mean(vector_numeros, na.rm = TRUE) # ahora si lo elimina y calcula la media
 mean(matriz_numeros) # devuelve la media de todos los valores de la matriz
@@ -268,6 +273,7 @@ range(matriz_numeros)
 # la suma de cada fila (rowSums)
 # la suma de cada columna (colSums)
 # de una matriz de números
+matriz_numeros
 rowMeans(matriz_numeros) # media de cada fila
 colSums(matriz_numeros) # suma de cada columna
 # !ATENCIÓN -> También tienen parámetro na.rm = FALSE
@@ -275,6 +281,8 @@ colSums(matriz_numeros) # suma de cada columna
 # MiniReto: Crea un dataframe con las siguientes columnas (media, mediana y sd), que calcule dichos valores para este vector
 set.seed(12354) # fijamos una semilla de aleatoriedad para obtener todos el mismo resultado
 valores <- rnorm(125)
+
+
 
 #### Funciones aplicadas a texto
 texto <- "Hola Mundo"
@@ -325,8 +333,8 @@ dias <- c("    10 de Enero", "11 de enero", "12 de ENERO     ")
 as.numeric(c("100", "200"))
 as.numeric(c(TRUE, FALSE, TRUE)) # 1 es TRUE, 0 es FALSE
 
-factor(c("plátanos", "limones")) # crea un factor de dos categorías 
-as.numeric(factor(c("plátanos", "limones"))) # asigna a cada factor un número 
+factor(c("plátanos", "limones", "limones")) # crea un factor de dos categorías 
+as.numeric(factor(c("plátanos", "limones", "limones"))) # asigna a cada factor un número 
 
 ## as.character() -> as.character(atomic o vector) -> convierte cualquier cosa a texto
 as.character(vector_numeros)
