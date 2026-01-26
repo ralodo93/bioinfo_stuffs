@@ -8,14 +8,15 @@ data("starwars")
 
 # 1. Obtener información acerca de:
 
-# 1.1. ¿Número de filas? ¿Número de columnas?. Usar una función
+# 1.1. ¿Número de filas? ¿Número de columnas?.
 
-# 1.2. ¿Cuales son los nombres de las columnas?. Usar una función
+# 1.2. ¿Cuales son los nombres de las columnas?.
 
-# 1.3. ¿Podrías mostrar las primeras 10 filas?. Usar una función
+# 1.3. ¿Podrías mostrar las primeras 10 filas?.
 
 # 2. Filtra la tabla para quedarnos con las filas que: 
 # Tengan en la columna "species" el valor "Human" Y no tengan un NA en la columna "mass"
+# Guarda la tabla en una variable llamada: "starwars_human"
 
 
 # 3. Selecciona tan solo algunas columnas de la tabla anterior. Modifica la variable "starwars_human" para que contenga tan solo

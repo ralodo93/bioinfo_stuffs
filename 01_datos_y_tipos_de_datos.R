@@ -79,10 +79,6 @@ FALSE
 # Comprueba si una persona aprueba con nota de 8 y asistencia de 75
 
 
-## Factores (Categorías) -> se usa la función factor()
-# Son datos que parecen texto pero representan niveles o grupos definidos.
-factor("Hombre")
-
 ### Datos Estructurales
 # Son formas de organizar los "ladrillos" anteriores en grupos más grandes.
 
@@ -93,16 +89,20 @@ c("Azul", "Rojo", "Verde") # Vector de texto
 c(TRUE, FALSE, FALSE) # Vector booleano
 c(1,"Azul",TRUE) # Vector mixto -> ! Lo convierte todo a TEXTO
 
-# Acceder a los elementos de un vector - Se usa corchetes indicando la posición o posiciones que se desean obtener  []
+# Acceder a los elementos de un vector
+
+# Por posición - Se usa corchetes indicando la posición o posiciones que se desean obtener  []
 c(10, 20, 30, 40)[1] # del vector dado, accedo a la posición número 1
 c(10, 20, 30, 40)[c(1, 3)] # del vector dado, accedo a las posiciones 1 y 3
 
-# MiniReto: Crea un vector con los nombres de los días de la semana laboral (Lunes a Viernes). 
-# Extrae únicamente el miércoles y el viernes usando sus posiciones.
 
-# Acceder a los elementos de un vector - Se usa corchetes indicando la posición o posiciones en los que un vector booleano sea TRUE
+# Por booleano - Se usa corchetes indicando la posición o posiciones en los que un vector booleano sea TRUE
 c(10, 20, 30, 40) > 20
 c(10, 20, 30, 40)[c(10, 20, 30, 40) > 20]
+
+# MiniReto: Crea un vector con los nombres de los días de la semana laboral (Lunes a Viernes). 
+# Extrae únicamente el miércoles y el viernes usando sus posiciones.
+# Extrae únicamente el lunes y el jueves usando booleanos.
 
 
 # Operaciones con vectores
@@ -131,26 +131,52 @@ c(rep("Hola", 5), rep("Bonjour", 3))
 # MiniReto: Crea una secuencia que vaya del 100 al 200, pero que solo incluya los números de 5 en 5 (100, 105, 110...).
 
 
+## Factores (Categorías) -> se usa la función factor()
+# Son datos que parecen texto pero representan niveles o grupos definidos.
+# devuelve el mismo vector pero con los elementos definidos como niveles
+factor(c("Hola", "Hola", "Bonjour", "Hello")) # Los niveles son: "Bonjour", "Hello" y "Hola"
+
+# Por defecto el orden de los niveles se establece por orden alfabético
+# Si quisiéramos usar otro orden, usaremos el argumento levels
+# Ahora los niveles serán "Hola", "Bonjour" y "Hello"
+factor(c("Hola", "Hola", "Bonjour", "Hello"), levels = c("Hola", "Bonjour", "Hello"))
+
+
 ## Matrices (2 dimensiones: filas y columnas) -> matrix() o as.matrix()
 # Son tablas donde TODO (absolutamente todo) debe ser del mismo tipo de dato.
-matrix(1:9, nrow = 3, ncol = 3) # Una tabla de 3x3 con números del 1 al 9
+# columna 1: 1, 2, 3
+# columna 2: 4, 5, 6
+# columna 3: 7, 8, 9
+matrix(1:9, ncol = 3, nrow = 3)
+
+# vector de 1 a 10
+# ncol = 2, nrow = 5
+# columna 1: 1, 2, 3, 4, 5
+# columna 2: 6, 7, 8, 9, 10
+matrix(1:10, ncol = 2, nrow = 5)
+
+
+# MINIRETO: Crea una matriz de 1 a 20, con 5 filas y 4 columnas
+
+
 
 # Acceder a los elementos de una matriz: [,] A la izquierda de la coma se refiere a las filas, y a la derecha a las columnas
+
+# Por posición - Igual que los vectores
 matrix(1:9, nrow = 3, ncol = 3)[1, 3] # accedo a la fila 1, columna 3
 matrix(1:9, nrow = 3, ncol = 3)[1, ] # accedo a la fila 1, todas las columnas (no se indica ninguna, por lo que son todas)
 matrix(1:9, nrow = 3, ncol = 3)[, 3] # accedo a todas las filas (no se indica ninguna, por lo que son todas), de la columna 3
-
-# También se pueden usar vectores
 matrix(1:9, nrow = 3, ncol = 3)[c(1, 2), 3] # accedo a la fila 1 y 2, columna 3
-
-# MiniReto: Crea una matriz de 2 filas y 5 columnas que contenga los números del 1 al 10. 
-# Después, extrae todos los números que están en la segunda fila.
-
 
 # Operaciones con matrices
 # Al aplicar operaciones atómicas a matrices, se realizarán a cada elementos de forma individual
 matrix(1:9, nrow = 3, ncol = 3) * 2 # cada elemento se multiplica por 2
 matrix(1:9, nrow = 3, ncol = 3) < 6 # evalúa si cada elemento es menor de 30
+
+# MiniReto: Crea una matriz de 2 filas y 5 columnas que contenga los números del 1 al 10. 
+# Después, extrae todos los números que están en la segunda fila.
+
+
 
 
 ## DataFrames (2 dimensiones: filas y columnas) -> data.frame()
@@ -211,8 +237,12 @@ NULL
 # en una sola línea de código.
 
 
+
+
 # Reto B: Una cuenta de 120€, más un 10% de propina, dividido entre 4 personas.
 # ¿Cuánto paga cada uno? (Escribe la operación completa).
+
+
 
 
 # --- 2. LOGICA ---
