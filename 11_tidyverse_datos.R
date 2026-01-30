@@ -598,7 +598,6 @@ data_final <- metadata %>%
 #    - Selecciona: Solo ID, Grupo, Genero e IMC.
 #    - Guárdalo en una tabla llamada metadata_clean
 
-
 # 2. Transformación de Expresión:
 #    - Pasa la matriz 'expresion' a formato largo (Gen, ID, Valor).
 #    - Llama a la tabla expresion_tidy
