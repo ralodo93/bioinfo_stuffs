@@ -22,7 +22,7 @@ mi_numero <- 24
 # Para conocer su valor simplemente la ejecutamos
 mi_numero
 
-## Reglas y consejos para los nombres de variables
+## Reglas y consejos para los nombres de variables ##
 
 # Regla 1. NUNCA empezar el nombre de una variable por un número
 # INCORRECTO: 8precios <- 1:8
@@ -54,6 +54,9 @@ mi_numero
 ## Vamos a crear variables
 
 # Las variables pueden contener cualquier tipo de dato: número, texto, booleano, factor, vectores, matrices, dataframes y listas
+mi_numero <- 25
+mi_texto <- "Hola Mundo"
+mi_bool <- TRUE
 
 # Utilidad 1, nos permite procesar un mismo datos sin tener que escribirlo
 
@@ -64,94 +67,58 @@ mi_numero
 mi_numero <- 145879 # si asigno el número a la variable mi_numero
 mi_numero * (mi_numero + 10) - mi_numero  # puedo reutilizarla las veces que sean necesarias
 
-# ¿Os acordáis de bloque de código de las matrices?
 
-# Esto es muy tedioso de escribir
-matrix(1:9, nrow = 3, ncol = 3)[1, 3] # accedo a la fila 1, columna 3
-matrix(1:9, nrow = 3, ncol = 3)[1, ] # accedo a la fila 1, todas las columnas (no se indica ninguna, por lo que son todas)
-matrix(1:9, nrow = 3, ncol = 3)[, 3] # accedo a todas las filas (no se indica ninguna, por lo que son todas), de la columna 3
+# Utilidad 2, guardar el resultado de una operación
+mi_numero <- 25 * 10
+mi_texto <- toupper(mi_texto)
+mi_bool <- (25 < 40) & (30 > 52)
 
-matriz1 <- matrix(1:9, nrow = 3, ncol = 3) # crea una variable matriz1 con el valor de la matriz
-matriz1[1,3] # accedo a la fila 1, columna 3
-matriz1[1, ] # accedo a la fila 1, todas las columnas (no se indica ninguna, por lo que son todas)
-matriz1[, 3] # accedo a todas las filas (no se indica ninguna, por lo que son todas), de la columna 3
+#### EJERCICIOS COMPLEMENTARIOS: DATOS ATÓMICOS Y OPERACIONES CON VARIABLES ####
 
-# Utilidad 2, almacena información de una operación
-
-matriz1[1,3] # saca por consola un valor, pero no puedo hacer nada con ese valor -> lo guardo como variable
-mi_numero <- matriz1[1,3] # ahora mi_numero obtiene el dato
-mi_numero * 10 # Y puedo reutilizarlo
-
-# Utilidad 3, evita modificar todo el código cuando cambiamos algo
-
-# imagina que trabajo con este vector
-c(8, 7, 4, 5, 10)
-
-res_multiplicacion <- c(8, 7, 4, 5, 10) * 10
-res_division <- c(8, 7, 4, 5, 10) / 10
-res_suma <- c(8, 7, 4, 5, 10) + 10
-res_cuadrado <- c(8, 7, 4, 5, 10) ^ 2
-
-# Si ahora quiero cambiar el valor 5 por un 50, debo ir línea a línea cambiando el valor
-# Si uso una variable, solo tengo que modificarlo una vez
-
-vector_uso <- c(8, 7, 4, 50, 10)
-res_multiplicacion <- vector_uso * 10
-res_division <- vector_uso / 10
-res_suma <- vector_uso + 10
-res_cuadrado <- vector_uso ^ 2
+# Ejercicio 1: Un comercio local quiere calcular el IVA de un producto. 
+# Si el precio del producto es de 125.50 euros y el IVA es del 21%, 
+# calcula el importe total (precio + IVA) utilizando las operaciones matemáticas básicas.
 
 
+# Ejercicio 2: El área de un círculo se calcula como PI por el radio al cuadrado.
+# Sabiendo que PI es aproximadamente 3.14159, calcula el área de un círculo
+# cuyo radio es de 7 cm.
 
 
-#################################################################
-# EJERCICIOS DE REFUERZO
-#################################################################
-
-# --- 1. NÚMEROS ---
-
-# Reto A: Calcula cuántos segundos hay en una semana completa (7 días). Crea una variable "dia" que almacene
-# la información del número de segundos que hay en un día. Después crea una variable "semana" que multiplique
-# la variable "dia" por 7
+# Ejercicio 3: Estás gestionando una base de datos de clientes. 
+# El nombre de un cliente viene registrado como "   juan perez   ". 
+# Realiza las siguientes tareas de limpieza:
+# 1. Elimina los espacios en blanco sobrantes a los lados.
+# 2. Convierte el nombre completo a MAYÚSCULAS.
 
 
-# Reto B: Una cuenta de 120€, más un 10% de propina, dividido entre 4 personas.
-# 1. ¿Cuánto paga cada uno?. Crea una variable "propina" con valor 0.1. Después almacena el resultado en
-# otra variable llamada "cuenta". 2. Modifica la propina a 12% y calcula de nuevo la cuenta
+# Ejercicio 4: Una empresa de logística genera códigos de envío. 
+# Si el código original es "PEDIDO-2024-Z", extrae únicamente los 
+# primeros 6 caracteres para obtener el tipo de documento.
 
 
-# --- 2. LOGICA ---
-
-# Reto A: Edad 17 años, ticket FALSE. Crea la variable "edad" y la variable "ticket" 
-# Regla: Ser mayor de 18 O ( | ) tener ticket igual a TRUE. Usa las variables.
-# 1. ¿Puede entrar?. 2. Modifica los valores hasta que pueda entrar
+# Ejercicio 5: Un sensor de temperatura ha registrado un valor de 23.8562 grados.
+# Redondea dicho valor a 1 solo decimal y, posteriormente, calcula el entero superior.
 
 
-# Reto B: Comprueba si (5 multiplicado por 5) es DISTINTO de (10 sumado a 15).
+# Ejercicio 6: Tienes el texto "250". Transfórmalo a tipo numérico y comprueba 
+# con una función lógica si el cambio se ha realizado correctamente (debe devolver TRUE).
 
 
-# --- 3. VECTORES Y SECUENCIAS ---
-
-# Reto A: Crea una secuencia del 1 al 50 de 5 en 5. Guárdalo en una variable llamada "secuencia".
-# De esa variable, extrae la posición 2 y la 4 usando c(2, 4).
-
-
-# Reto B: Crea un variable "frutas" que sea un vector con 4 frutas y usa un índice negativo [-1] 
-# para mostrar todas menos la primera.
+# Ejercicio 7: Una plataforma de streaming requiere que, para acceder a una oferta, 
+# la persona usuaria sea mayor de 18 años O tenga un cupón de descuento válido.
+# Comprueba si una persona de 16 años con cupón (cupón es TRUE) puede acceder.
 
 
-# --- 4. MATRICES Y DATAFRAMES ---
-
-# Reto A: Crea una matriz de 3x3 con los números del 10 al 18. Guardalo en una variable llamada matriz
-# Extrae el número que está en el centro (Fila 2, Columna 2).
-
-
-# Reto B: Crea un Dataframe con: Equipos = c("Local", "Visitante") y Goles = c(3, 1). Guárdala en una variable llamada "resultados"
-# Extrae la columna "Goles" usando el símbolo $. Pista: resultados$Goles
+# Ejercicio 8: En un proceso de selección, se busca a alguien que cumpla dos requisitos:
+# 1. Que su nombre contenga la letra "a" (Usa grepl sobre el nombre "Luis").
+# 2. Que su edad sea mayor de 25 años (Edad: 30).
+# Comprueba si el candidato Luis cumple AMBOS requisitos simultáneamente.
 
 
-# --- 5. LISTAS Y VALORES NULOS ---
+# Ejercicio 9: El sistema de inventario ha devuelto un valor erróneo "PRODUCTO_AGOTADO".
+# Sustituye la palabra "AGOTADO" por "REPOSICION" en dicho texto.
 
-# Reto A: Crea una variable "diccionario", que es una lista con: una secuencia 1:5, un valor NA y el texto "Pendiente".
-# Accede al segundo elemento (el NA) usando [[]].
 
+# Ejercicio 10: Verifica si el resultado de sumar el valor absoluto de -50 
+# y la raíz cuadrada de 144 es igual a 62. El resultado debe ser un booleano.
