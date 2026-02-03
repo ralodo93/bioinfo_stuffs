@@ -521,13 +521,19 @@ apply(notas, 1, min)
 # Se usa mucho con listas. No importa lo que le des, siempre te devolverá una LISTA.
 ciudades <- c("madrid", "barcelona", "sevilla")
 
-# Queremos poner todas en mayúsculas usando toupper()
-lista_mayus <- lapply(ciudades, toupper)
-print(lista_mayus) # El resultado es una lista con [[1]], [[2]], etc.
+# Imagina que quieres ver el resumen estadístico de varios grupos
+datos <- list(grupo_A = c(1,2,3), grupo_B = c(10,20,30))
+
+# Esto NO funciona (da error o no hace lo que esperas):
+# summary(datos) 
+
+# Esto SÍ funciona: aplica la función a cada grupo por separado
+lapply(datos, summary)
 
 # MINIRETO: Tienes una lista con los precios de tres carritos de la compra.
 # Usa lapply para calcular el total (sum) de cada carrito.
 carritos <- list(compra1 = c(10, 5, 2), compra2 = c(100, 20), compra3 = c(5, 5, 5, 5))
+
 
 # SOLUCIÓN:
 lapply(carritos, sum)
@@ -535,18 +541,26 @@ lapply(carritos, sum)
 
 ## 3. SAPPLY ##
 # Es el hermano "inteligente" de lapply. Intenta devolver un vector o matriz si es posible.
-# Comparamos resultados:
-resultado_lapply <- lapply(ciudades, toupper) # Devuelve lista
-resultado_sapply <- sapply(ciudades, toupper) # Devuelve vector
+# ¿Cuándo es útil? Cuando tenemos una función que NO está vectorizada (como las que creamos con IF/ELSE)
+# y queremos aplicarla a todo un vector obteniendo un resultado limpio.
 
-print(resultado_sapply)
+# Si intentamos pasarle un vector a tu función 'evaluar_velocidad', daría error porque usa IF.
+# Pero con SAPPLY, aplicamos la función uno a uno y nos devuelve un vector perfecto:
 
-# MINIRETO: Usa el vector 'temperaturas' de abajo. 
-# Usa sapply para calcular el cuadrado (x^2) de cada temperatura.
-temperaturas <- c(15, 22, 35, 10)
+velocidades_registradas <- c(40, 85, 120, 30)
+
+# Aplicamos tu función de multas a todas las velocidades de una vez:
+resultado_multas <- sapply(velocidades_registradas, evaluar_velocidad)
+
+print(resultado_multas)
+
+
+# MINIRETO: Usa tu función 'logaritmo' (la que creaste antes que controlaba negativos) 
+# y aplícala a este vector para obtener un vector de resultados.
+valores_test <- c(10, -5, 100)
 
 # SOLUCIÓN:
-sapply(temperaturas, function(x) x^2) 
+sapply(valores_test, logaritmo)
 
 
 ## RESUMEN FINAL: ¿CUÁL ELEGIR? ##
@@ -554,3 +568,246 @@ sapply(temperaturas, function(x) x^2)
 # - apply:  Cuando trabajes con tablas (filas vs columnas).
 # - lapply: Cuando necesites el resultado estructurado como lista.
 # - sapply: Cuando quieras un vector limpio como resultado.
+
+
+################################################################################
+# EJERCICIOS COMPLEMENTARIOS: ESTRUCTURAS DE CONTROL EN R
+################################################################################
+
+### PARTE 1: CONDICIONALES (IF, ELSE, ELSE IF) ###
+
+# Ejercicio 1: Control de Calidad en Producción
+# Crea una variable llamada 'peso_producto' con el valor 502.
+# Escribe una estructura IF/ELSE que compruebe:
+# - Si el peso está entre 495 y 505 (inclusive), imprime "Producto Aceptado".
+# - En caso contrario, imprime "Producto Rechazado".
+
+# Ejercicio 2: Clasificación de Clientes por Gasto
+# Crea una variable 'gasto_total'. 
+# Implementa una estructura IF / ELSE IF / ELSE que categorice el gasto:
+# - Si es mayor de 1000: "Cliente VIP"
+# - Si es mayor de 500: "Cliente Preferente"
+# - En cualquier otro caso: "Cliente Estándar"
+# Prueba el código cambiando el valor de 'gasto_total'.
+
+# Ejercicio 3: Validación de Acceso (Anidada)
+# Dispones de dos variables: 'usuario_registrado' (TRUE/FALSE) y 'edad_usuario'.
+# Crea un sistema de control que:
+# 1. Primero compruebe si el usuario está registrado.
+# 2. Si lo está, compruebe si es mayor de 18 años.
+#    - Si es mayor: imprime "Acceso completo concedido".
+#    - Si es menor: imprime "Acceso restringido: Solo contenido juvenil".
+# 3. Si no está registrado, imprime "Por favor, regístrese para continuar".
+
+
+### PARTE 2: CONDICIONALES VECTORIZADOS (IFELSE) ###
+
+# Ejercicio 4: Gestión de Stock
+# Tienes un vector con el stock actual de varios productos: 
+# stock_productos <- c(15, 3, 0, 8, 2, 20)
+# Usa la función ifelse() para crear un nuevo vector que diga "Reponer" 
+# si el stock es menor a 5, y "Suficiente" en caso contrario.
+
+# Ejercicio 5: Categorización de Temperaturas (Anidada)
+# Dado el vector: temperaturas_sala <- c(18, 25, 32, 12, 21)
+# Usa ifelse() anidados para clasificar las temperaturas en:
+# - "Frío" si es menor de 15.
+# - "Calor" si es mayor de 30.
+# - "Óptimo" para el resto de casos.
+
+
+### PARTE 3: BUCLES (FOR, WHILE) ###
+
+# Ejercicio 6: Generador de Informes Semanales
+# Crea un bucle FOR que recorra un vector con los nombres de los días 
+# de la semana laboral (Lunes a Viernes) e imprima: 
+# "Generando informe del [día]..."
+
+# Ejercicio 7: Simulación de Interés Compuesto
+# Un cliente invierte 5000€ a un interés anual del 3%.
+# Crea un bucle FOR que calcule y muestre el capital acumulado cada año 
+# durante una década (10 iteraciones), actualizando el capital en cada paso.
+
+# Ejercicio 8: Control de Consumo Energético (Bucle + Condicional)
+# Tienes un vector de consumos diarios: consumos <- c(120, 450, 300, 550, 150)
+# Crea un bucle FOR que recorra el vector y, para cada consumo:
+# - Si supera los 400, imprima: "Alerta: Consumo excesivo detectado ([valor])"
+# - Si no, imprima: "Consumo normal ([valor])"
+
+# Ejercicio 9: Sistema de Llenado de Depósito (WHILE)
+# Un depósito tiene una capacidad de 100 litros y actualmente está vacío (0).
+# Simula el llenado usando un bucle WHILE: en cada iteración se añaden 
+# entre 10 y 20 litros de forma aleatoria (usa sample).
+# El bucle debe parar cuando el depósito llegue o supere los 100 litros.
+# Imprime el estado del depósito en cada iteración.
+
+
+### PARTE 4: FUNCIONES Y ESTRUCTURAS DE CONTROL ###
+
+# Ejercicio 10: Conversor de Divisas con Validación
+# Crea una función llamada 'convertir_a_euros' que reciba una 'cantidad' 
+# y la 'moneda' ("USD" o "GBP").
+# - Si la moneda es "USD", multiplica por 0.92.
+# - Si es "GBP", multiplica por 1.17.
+# - Si es otra moneda, devuelve un mensaje de "Moneda no soportada".
+# - Añade un IF inicial para comprobar que la cantidad no sea negativa.
+
+# Ejercicio 11: Contador de Caracteres Críticos
+# Crea una función llamada 'detectar_anomalías' que reciba un vector de 
+# mediciones de presión. La función debe usar un bucle FOR y un contador 
+# para devolver cuántas veces la presión superó el valor de 150.
+
+
+### PARTE 5: FAMILIA APPLY ###
+
+# Ejercicio 12: Resumen de Ventas (APPLY)
+# Tienes una matriz de ventas de 4 tiendas (filas) durante 3 meses (columnas):
+# ventas_matriz <- matrix(c(10,12,15, 8,9,11, 20,22,25, 5,6,7), nrow = 4, byrow = TRUE)
+# Usa apply() para calcular el total de ventas por tienda (filas).
+
+# Ejercicio 13: Limpieza de Textos (LAPPLY)
+# Dada la lista: clientes_nombres <- list("juan ", " MARIA", " peDro ")
+# Usa lapply() y la función toupper() para convertir todos los nombres a mayúsculas.
+
+# Ejercicio 14: Procesamiento de Mediciones (SAPPLY)
+# Crea un vector de presiones: presiones_test <- c(140, 160, 130, 180)
+# Usa la función 'detectar_anomalías' del Ejercicio 11 (o una lógica similar)
+# junto con sapply() para evaluar un vector de datos y obtener un resultado limpio.
+
+
+################################################################################
+# SOLUCIONES: EJERCICIOS ESTRUCTURAS DE CONTROL
+################################################################################
+
+### PARTE 1: CONDICIONALES ###
+
+# Solución Ejercicio 1
+peso_producto <- 502
+if (peso_producto >= 495 & peso_producto <= 505) {
+  print("Producto Aceptado")
+} else {
+  print("Producto Rechazado")
+}
+
+# Solución Ejercicio 2
+gasto_total <- 1200
+if (gasto_total > 1000) {
+  print("Cliente VIP")
+} else if (gasto_total > 500) {
+  print("Cliente Preferente")
+} else {
+  print("Cliente Estándar")
+}
+
+# Solución Ejercicio 3
+usuario_registrado <- TRUE
+edad_usuario <- 16
+
+if (usuario_registrado) {
+  if (edad_usuario >= 18) {
+    print("Acceso completo concedido")
+  } else {
+    print("Acceso restringido: Solo contenido juvenil")
+  }
+} else {
+  print("Por favor, regístrese para continuar")
+}
+
+
+### PARTE 2: CONDICIONALES VECTORIZADOS ###
+
+# Solución Ejercicio 4
+stock_productos <- c(15, 3, 0, 8, 2, 20)
+estado_stock <- ifelse(stock_productos < 5, "Reponer", "Suficiente")
+print(estado_stock)
+
+# Solución Ejercicio 5
+temperaturas_sala <- c(18, 25, 32, 12, 21)
+categoria_temp <- ifelse(temperaturas_sala < 15, "Frío",
+                         ifelse(temperaturas_sala > 30, "Calor", "Óptimo"))
+print(categoria_temp)
+
+
+### PARTE 3: BUCLES ###
+
+# Solución Ejercicio 6
+dias <- c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
+for (dia in dias) {
+  print(paste("Generando informe del", dia, "..."))
+}
+
+# Solución Ejercicio 7
+capital_acumulado <- 5000
+interes_anual <- 0.03
+for (anio in 1:10) {
+  ganancia <- capital_acumulado * interes_anual
+  capital_acumulado <- capital_acumulado + ganancia
+  print(paste("Año", anio, ": Capital total =", round(capital_acumulado, 2), "€"))
+}
+
+# Solución Ejercicio 8
+consumos <- c(120, 450, 300, 550, 150)
+for (valor in consumos) {
+  if (valor > 400) {
+    print(paste("Alerta: Consumo excesivo detectado (", valor, ")"))
+  } else {
+    print(paste("Consumo normal (", valor, ")"))
+  }
+}
+
+# Solución Ejercicio 9
+deposito <- 0
+while (deposito < 100) {
+  litros_nuevos <- sample(10:20, 1)
+  deposito <- deposito + litros_nuevos
+  print(paste("Llenando... Actual:", deposito, "litros"))
+}
+print("Depósito completo.")
+
+
+### PARTE 4: FUNCIONES Y CONTROL ###
+
+# Solución Ejercicio 10
+convertir_a_euros <- function(cantidad, moneda) {
+  if (cantidad < 0) {
+    return("Error: La cantidad no puede ser negativa")
+  }
+  
+  if (moneda == "USD") {
+    res <- cantidad * 0.92
+  } else if (moneda == "GBP") {
+    res <- cantidad * 1.17
+  } else {
+    return("Moneda no soportada")
+  }
+  return(res)
+}
+
+# Solución Ejercicio 11
+contar_anomalias <- function(mediciones) {
+  contador <- 0
+  for (medicion in mediciones) {
+    if (medicion > 150) {
+      contador <- contador + 1
+    }
+  }
+  return(contador)
+}
+
+
+### PARTE 5: FAMILIA APPLY ###
+
+# Solución Ejercicio 12
+ventas_matriz <- matrix(c(10,12,15, 8,9,11, 20,22,25, 5,6,7), nrow = 4, byrow = TRUE)
+apply(ventas_matriz, 1, sum)
+
+# Solución Ejercicio 13
+clientes_nombres <- list("juan ", " MARIA", " peDro ")
+lapply(clientes_nombres, toupper)
+
+# Solución Ejercicio 14
+presiones_test <- c(140, 160, 130, 180)
+# Usamos sapply para aplicar una lógica de validación rápida a cada elemento
+sapply(presiones_test, function(x) ifelse(x > 150, "Anomalía", "Normal"))
+
+
