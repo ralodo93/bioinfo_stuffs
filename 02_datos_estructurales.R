@@ -1,120 +1,108 @@
-#### Datos Estructurales ####
-# Son formas de organizar los datos atómicos en estructuras más complejas
+# Tipos de Datos Estructurales ----
+# Son estructuras formadas por conjuntos de datos atómicos. Pueden ser 5 tipos.
+# Vectores: Conjunto de datos de un mismo tipo de una dimensión. Se definen con c()
+c(8, 5, 4, 1) # vector numérico
+c("Hola", "Hello", "Bonjour") # vector de character
+c(TRUE, TRUE, FALSE) # vector booleano
 
-### Vectores ###
-## Estructura de Datos Unidimensional ##
+# Factores: Conjunto de datos de un mismo tipo de una dimensión que se agrupan en categorías
+# Se definen con factor()
+factor(c("Hombre", "Mujer")) # factor con dos categorías
 
-# --- Creación de Vectores ---
-# Conjunto de datos del mismo tipo. Se asignan con c() (combinar)
-c(10, 20)                       # Vector de dos elementos numéricos
-vector_numeros <- c(10, 20)     # Asignación a variable
+# Matrices: Conjunto de datos de un mismo tipo de dos dimensiones (filas y columnas)
+# Se definen con matrix()
+matrix(c(1, 2, 3, 4), ncol = 2) # matriz de dos filas y dos columnas con los valores de un vector
 
-# Tipos de datos en vectores (siempre homogéneos)
-c(20, 4, 8.3, -5)               # Numérico
-c("Hola", "Hello")              # Texto
-c(TRUE, FALSE, TRUE)            # Booleano
+# Dataframes: Conjunto de datos heterogéneos de dos dimensiones (filas y columnas)
+# Se definen con data.frame()
+# dataframe de dos filas y dos columnas, los valores de cada columna se asignan según los vectores
+data.frame(nombre = c("Luis", "Ana"), edad = c(20, 30)) 
 
-# IMPORTANTE: Coerción (R convierte todo al tipo más flexible si hay mezcla)
-c(TRUE, "HOLA", 125)            # Se convierte todo a texto ("TRUE", "HOLA", "125")
+# Listas: Conjunto de datos heterogéneos de infinitas dimensiones
+# Se definen con list()
+# lista de 3 elementos (un número, un character y un vector)
+list(1, "Hola", c(12, 34, 56))
 
-# Concatenación y vectores vacíos
-c(vector_numeros, -10, -20)     # Unir vectores existentes con nuevos datos
-vector_vacio <- c()             # Crear vector vacío
-vector_vacio <- c(vector_vacio, 10, 30) # Rellenar vector
+#-------------------------------------------------------------------------#
 
+# Vectores ----
+## Crear un vector ----
 
-# MINIRETO: Crea un vector con los elementos: 4, 8, 20 y -9 y guárdalo en la variable: vector_numeros
+### Usando la función c() ----
+vector_numeros <- c(1, 2, 3, 4, 5, 6)
 
+# Si usamos más de un tipo de dato, lo transformará todos en el dato más flexible (texto)
+# A esto se le llama coerción
+c("Hola", 54, TRUE)
 
-# SOLUCIÓN:
-vector_numeros <- c(4, 8, 20, -9)
+# Vectores vacíos y concatenación
+vector_vacio <- c() # esto crea un vector vacío (NULL)
+vector_relleno <- c(vector_vacio, 8) # añadir elementos a un vector
+vector_final <- c(vector_relleno, vector_numeros) # concatenar vectores
 
+### Vectores secuenciales ----
+# Operador :
+1:10 # crea un vector numérico con los números de 1 a 10 (enteros)
 
-## Operaciones Vectorializadas ##
-# --- Aritmética y Lógica ---
-# Las operaciones se aplican a CADA elemento (vectorización)
-vector_numeros * 10             # Multiplica cada elemento por 10
-vector_numeros > 0              # Evalúa qué elementos son mayores de 0
+# Función seq()
+seq(1, 10, 2) # Crea un vector numéricos de 1 a 10, pero de 2 en 2
 
-# Operador de pertenencia (%in%)
-"uva" %in% c("manzana", "fresa") # Comprueba si el elemento está en el conjunto
+# Función rep()
+rep(c("Hola", "Hello"), times = 3) # repite un vector 3 veces
+rep(c("Hola", "Hello"), each = 3) # repite cada elemento de un vector 3 veces
 
-# MINIRETO: Usa el vector que hemos creado antes (vector_numeros) y evaúa que elementos son mayores de 0
+### Vectores con valores aleatorios ----
+# Función sample()
+sample(c(2, 8), size = 1) # Extrae 1 valor aleatorio entre 2 y 8
+sample(c(2, 8, 9), size = 2) # Extrae 2 valores aleatorio entre 2, 8 y 9 sin poder repetir número
+sample(c(2, 8, 9), size = 4, replace = TRUE) # Extrae 4 valores aleatorio entre 2, 8 y 9 pudiendo repetir número
 
+# Función rnorm()
+rnorm(12) # genera un vector con 12 valores aleatorios que siguen una distribución normal con media=0 y desviacion estandar=1
+rnorm(12, media = 10, sd = 0.5) # genera un vector con 12 valores aleatorios que siguen una distribución normal con media=10 y desviacion estandar=0.5
 
-# SOLUCIÓN:
-vector_numeros > 0
+# Funcion runif()
+runif(5) # Genera un vector de 5 números aleatorios distribuidos de forma uniforma con valores entre 0 y 1
+runif(5, min = -1, max = 1) # Genera un vector de 5 números aleatorios distribuidos de forma uniforma con valores entre -1 y 1
 
+# Control de los valores aleatorios
+# Usamos la funcion set.seed() para fijar una semilla de aleatoriedad universal
+set.seed(12345)
+sample(1:10, size = 2) # se obtienen los valores 3 y 8
 
-## Crear Vectores Automáticos ##
-# --- Secuencias y Repeticiones ---
-1:10                            # Secuencia de 1 en 1
-seq(1, 10, by = 2)              # Secuencia de 1 a 10 saltando de 2 en 2
-rep("Hola", times = 5)          # Repite el bloque 5 veces
-rep(c("Hola", "Hello"), times = 5) # Repite el bloque 5 veces
-rep(c("A", "B"), each = 3)      # Repite cada elemento 3 veces ("A","A","A","B"...)
+## Matemáticas y Lógica ----
+vector_numeros * 9 # genera un vector del mismo tamaño multiplicando cada elemento por 9
+vector_numeros < 3 # genera un vector del mismo tamaño devolviendo TRUE o FALSE para cada elemento
 
-## Crear vectores automáticos ##
+# Operador especial para vectores: %in%
+"uva" %in% c("uva", "manzana", "naranja") # devuelve TRUE si "uva" está en el vector
 
-# Por secuencia #
-1:10 # se usa el operador : para crear un vector de 1 a 10 (de 1 en 1)
--10:1 # crea un vector de -10 a 1 (de 1 en 1)
-seq(1, 10, 2) # crea un vector numérico de 1 a 10 (de 2 en 2)
-
-# Por repetición #
-rep("Hola", times = 5) # Crea un vector de texto con 5 elementos "Hola"
-rep(c("Hola", "Hello"), times = 5) # Crea un vector de 5 repeticiones de los elementos "Hola" y "Hello" (10 elementos)
-rep(c("Hola", "Hello"), each = 3) # Crea un vector repitiendo cada elemento 3 veces
-
-# --- Vectores Aleatorios ---
-set.seed(12345)                 # Fija la semilla para que los resultados sean reproducibles
-runif(5, min = 0, max = 1)      # 5 números aleatorios (Distribución Uniforme) entre min y max
-rnorm(10, mean = 0, sd = 1)     # 10 números aleatorios (Distribución Normal) con mean y sd
-
-# Muestreo (Sampling)
-sample(1:10, size = 1)          # 1 número al azar entre el 1 y el 10
-sample(vector_numeros, size = 3, replace = TRUE) # Muestreo con reemplazo
-
-# MINIRETO: Crea un vector de 3 elementos aleatorios (con reemplazo) del vector 'vector_numeros'
-
-
-# SOLUCIÓN:
-sample(vector_numeros, size = 3, replace = TRUE)
-
-
-
-## Funciones Asociadas a Vectores ##
-# --- Propiedades y Limpieza ---
+## Funciones de vectores ----
 length(vector_numeros) # indica el número de elementos de un vector
 names(vector_numeros) # muestra los nombres de los vectores, por defecto es NULL porque no existen
+
 # Asignar nombres (Debe coincidir la longitud del vector con la de los nombres)
-names(vector_numeros) <- c("num1", "num2", "num3", "num4", "num5") # Esto da error... sabrías decir por qué?
+names(vector_numeros) <- c("num1", "num2", "num3", "num4", "num5", "num6", "num7") # Esto da error... sabrías decir por qué?
 names(vector_numeros) <- c("num1", "num2", "num3") # Esto no da error... pero no es del todo correcto
 vector_numeros # ¿por qué?
-names(vector_numeros) <- c("num1", "num2", "num3", "num4") # Esto si es correcto
+names(vector_numeros) <- c("num1", "num2", "num3", "num4", "num5", "num6") # Esto si es correcto
 vector_numeros # mostrar vector completo
 names(vector_numeros) # mostrar solo nombres de los elementos
+
 # Manipulación de texto en vectores
-paste("Mi número favorito es el", vector_numeros) # la función paste se ejecuta elemento a elemento
-paste(vector_numeros, collapse =", ") # para colapsar todos lo elementos de un vector en un texto usamos collapse y el separador que queramos
+paste(vector_numeros, collapse = ", ") # para colapsar todos lo elementos de un vector en un texto usamos collapse y el separador que queramos
 paste("Mis números favoritos son", paste(vector_numeros, collapse = ", ")) # de este modo podemos jugar con diferentes paste para generar un texto complejo
+
 # Eliminar NAs de un vector
-vector_con_NA <- c(10, NA, 15, 25, 8)
+vector_con_NA <- c(10, NA, 15, 25, 8) # incluimos un elemento NA en un vector
 na.omit(vector_con_NA) # elimina los NA de un vector
-# Valores repetidos
+
+# Valores repetidos y únicos
 mi_vector_repetido <- c(rep("Hola", 4), "Hello")
 duplicated(mi_vector_repetido) # la primera vez que se encuentra un elemento repetido es FALSE, a partir de la segunda es TRUE
 unique(mi_vector_repetido) # devuelve los elementos únicos de un vector
 
-# MINIRETO: Asigna nombres "num1", "num2", etc., de forma automática a vector_numeros
-
-
-# SOLUCIÓN:
-names(vector_numeros) <- paste("num",1:length(vector_numeros), sep = "")
-vector_numeros
-
-## Operaciones Estadísticas ##
-# --- Resumen de Datos ---
+### Operaciones Estadísticas ----
 mean(vector_numeros) # media
 median(vector_numeros) # mediana
 max(vector_numeros) # valor máximo
@@ -129,423 +117,566 @@ summary(vector_numeros) # resumen
 # si sumamos un vector booleano, el resultado es el número de TRUE que hay
 sum(c(TRUE, FALSE, FALSE, FALSE, TRUE))
 
-# Operaciones con vectores de texto #
-# Ya hemos visto paste() con el argumento collapse
 
-
-## Acceso a Elementos (Indexación) ##
-# --- Selección por Posición y Condición ---
+## Acceso a Elementos (Indexación) ----
+### Selección por Posición y Condición ----
 # IMPORTANTE: En R las posiciones empiezan en 1 (no en 0)
 vector_numeros[2]               # Acceder al segundo elemento
 vector_numeros[c(1, 3)]         # Acceder a la primera y tercera posición
 
 # Selección por condición (Filtrado)
-vector_numeros[vector_numeros > 0] # Devuelve solo los positivos
+vector_numeros[vector_numeros > 3] # Devuelve solo los mayores de 3
 
-## Reasignar Valores ##
-# --- Modificación de Contenido ---
+### Reasignar Valores ----
 vector_numeros[3] <- 8          # Cambia la posición 3 por el valor 8
-vector_numeros[vector_numeros < 0] <- 0 # Cambia todos los negativos a 0
+vector_numeros[vector_numeros < 3] <- 0 # Cambia todos los menores de 3 a 0
 
 
-# MINIRETO: Usando el vector c(10, 50, 20, 30, 80), crea una variable vector_minireto y determina: 
-# 1) posiciones 1, 3 y 4. 2) elementos <= 30
+# EJERCICIO 1: Diseño experimental y repeticiones
+# Contexto: Vas a montar un experimento con 3 tratamientos: "Control", 
+# "Nitrógeno" y "Fósforo". Necesitas 5 réplicas por tratamiento.
+# 1. Crea un vector llamado 'tratamientos' que repita cada etiqueta 5 veces 
+#    seguidas (es decir: Control, Control..., Nitrógeno, Nitrógeno...).
+# 2. Crea un vector llamado 'id_parcela' que contenga una secuencia de 
+#    números del 1 al 15.
+# 3. Usa la función 'length()' para comprobar que ambos vectores miden lo mismo.
 
 
-# SOLUCIÓN:
-vector_minireto <- c(10, 50, 20, 30, 80)
-vector_minireto[c(1, 3, 4)]
-vector_minireto[vector_minireto <= 30]
+# SOLUCIÓN
+tratamientos <- rep(c("Control", "Nitrogeno", "Fosforo"), each = 5)
+id_parcela <- 1:15
+length(tratamientos) == length(id_parcela)
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 2: Simulación de datos y estadística descriptiva
+# Contexto: Simulamos la longitud (en cm) de 50 individuos de una población 
+# de peces que sigue una distribución normal (media = 15, sd = 2).
+# 1. Fija la semilla en '123' para que el resultado sea reproducible.
+# 2. Genera el vector 'peces_longitud' con 50 valores aleatorios normales.
+# 3. Calcula la media, la desviación estándar y el valor máximo de la muestra.
+# 4. ¿Cuántos peces miden más de 18 cm? (Pista: usa sum() sobre un vector lógico).
 
 
-### Factores ###
-## Variables Categóricas ##
+# SOLUCIÓN
+set.seed(123)
+peces_longitud <- rnorm(50, mean = 15, sd = 2)
+mean(peces_longitud)
+sd(peces_longitud)
+max(peces_longitud)
+sum(peces_longitud > 18)
 
-# --- Definición de Factores ---
-# Aunque es un dato atómico, se entiende como un vector con etiquetas de categorías (levels).
-# Se definen con la función factor()
-factor(c("Hombre", "Mujer", "Mujer", "Hombre"))
+#-------------------------------------------------------------------------#
 
+# EJERCICIO 3: Muestreo aleatorio y operadores de pertenencia
+# Contexto: Tienes un inventario de 6 especies presentes en un ecosistema.
+# 1. Crea el vector 'especies' con: "Quercus", "Pinus", "Fagus", "Betula", 
+#    "Abies" y "Acer".
+# 2. Selecciona aleatoriamente 3 especies para un análisis genético (sin repetición).
+# 3. Comprueba mediante el operador %in% si la especie "Betula" ha sido 
+#    seleccionada en tu sorteo aleatorio.
+
+
+# SOLUCIÓN
+especies <- c("Quercus", "Pinus", "Fagus", "Betula", "Abies", "Acer")
+seleccionadas <- sample(especies, size = 3)
+"Betula" %in% seleccionadas
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 4: Indexación, limpieza y sustitución (Outliers)
+# Contexto: Dispones de un vector de biomasa (kg) con algunos errores de 
+# medición y valores ausentes (NA).
+# 1. Crea el vector: biomasa <- c(1.2, 2.5, NA, 450, 3.1, 1.8).
+# 2. El valor 450 es un error (outlier); cámbialo por un valor de 4.5 
+#    usando indexación por posición (es la 4ª posición).
+# 3. Crea un nuevo vector 'biomasa_limpia' eliminando los valores NA.
+# 4. En 'biomasa_limpia', sustituye todos los valores menores a 2 por el valor 0.
+
+
+# SOLUCIÓN
+biomasa <- c(1.2, 2.5, NA, 450, 3.1, 1.8)
+biomasa[4] <- 4.5
+biomasa_limpia <- na.omit(biomasa)
+biomasa_limpia[biomasa_limpia < 2] <- 0
+biomasa_limpia
+
+#-------------------------------------------------------------------------#
+
+
+# Factores ----
+## Crear un Factor ----
 # Los factores son muy útiles para representar datos cualitativos (etiquetas)
 # que se repiten a lo largo de un conjunto de datos.
+factor(c("Hombre", "Mujer", "Mujer", "Hombre"))
 factor(rep(c(1,2), 8)) # Los factores también pueden ser números
 
-# MINIRETO: Crea un factor con las preferencias de clima: "Calor", "Frío", "Templado"
-# Usa una muestra aleatoria de 15 elementos.
-
-
-# SOLUCIÓN:
-vector_climas <- sample(c("Calor", "Frío", "Calor", "Templado"), 15, replace = TRUE)
+# Se pueden asignar a variables
+vector_climas <- sample(c("Calor", "Frío", "Templado"), size = 10, replace = TRUE)
 factor_climas <- factor(vector_climas)
-factor_climas
 
-
-## Niveles (Levels) ##
-# --- Control de Categorías ---
+## Niveles (Levels) ----
 # Los niveles definen las categorías únicas y, muy importante, su orden jerárquico.
+# Orden por defecto es alfanumérico
+factor(c("Hombre", "Mujer", "Mujer", "Hombre"))
 
-# Orden por defecto:
-factor(c("Hombre", "Mujer", "Mujer", "Hombre")) # Se establecen por orden alfabético (Hombre, Mujer)
-
-# Orden personalizado:
-# Usamos el parámetro levels = para definir el orden que nosotros queramos
+# Para usar un orden personalizado usamos el argumento levels
 factor(c("Hombre", "Mujer", "Mujer", "Hombre"), levels = c("Mujer", "Hombre"))
 
-
-# MINIRETO: Usa el factor de climas anterior estableciendo el orden: "Frío", "Templado", "Calor"
-
-
-# SOLUCIÓN:
-factor(vector_climas, levels = c("Frío", "Templado", "Calor"))
-
-
-## Propiedades de los Factores ##
+## Propiedades de los Factores ----
 levels(factor_climas)  # Muestra las categorías únicas del factor
 nlevels(factor_climas) # Indica cuántas categorías diferentes existen
 table(factor_climas)   # Crea una tabla de frecuencias (cuenta cuántos hay de cada nivel)
 
+# EJERCICIO 1: Categorización de la degradación del hábitat
+# Contexto: En un estudio de conservación, has evaluado 12 parcelas y las has 
+# clasificado según su nivel de degradación: "Baja", "Media" y "Alta".
+# 1. Crea un vector llamado 'muestreo' que repita 4 veces cada categoría 
+#    usando la función 'rep()' con el argumento 'each'.
+# 2. Transforma ese vector en un factor llamado 'factor_degradacion'.
+# 3. Define los niveles ('levels') para que sigan un orden lógico de menor 
+#    a mayor impacto: "Baja", "Media", "Alta".
+# 4. Usa la función 'table()' para obtener el recuento de parcelas en cada 
+#    categoría y comprueba que aparecen en el orden correcto.
 
 
-### Matrices ###
-## Estructuras Bidimensionales Homogéneas ##
+# SOLUCIÓN
+muestreo <- rep(c("Baja", "Media", "Alta"), each = 4)
+factor_degradacion <- factor(muestreo, levels = c("Baja", "Media", "Alta"))
 
-# --- Creación de Matrices ---
-# Estructuras de filas y columnas donde todos los datos son del mismo tipo.
-# Se crean con matrix(), indicando datos y número de filas (nrow) o columnas (ncol).
-matrix(1:9, ncol = 3) # Rellena por defecto por columnas
-matrix(c("Hola", "Bonjour", "Hello", "Ciao"), ncol = 2)
+# Comprobación de la estructura y frecuencias
+levels(factor_degradacion)
+table(factor_degradacion)
 
-# Almacenamiento en variables
-mi_matriz <- matrix(1:9, ncol = 3)
-
-# Ver la matriz (abre una pestaña nueva en RStudio)
-View(mi_matriz)
+#-------------------------------------------------------------------------#
 
 
-# MINIRETO: Crea una matriz de 2 filas y 3 columnas con los números del 1 al 6. 
-# Guárdala en la variable 'minireto_matriz'
+# Matrices ----
+## Crear una matriz ----
+matrix(1:9, ncol = 3) # matriz con los elementos de 1 a 9, con 3 columnas
+matrix(c("Hola", "Bonjour", "Hello", "Ciao"), ncol = 2) # matriz con elementos de texto
+matrix(c(TRUE, FALSE, FALSE, FALSE), ncol = 2) # matriz con Booleanos
 
+# Asignar a una variable
+matriz1 <- matrix(1:9, ncol = 3)
 
-# SOLUCIÓN:
-minireto_matriz <- matrix(1:6, nrow = 2)
+# Ver la matriz (abre una pestaña nueva)
+View(matriz1)
 
+## Matemáticas y Lógica ----
+# Al igual que los vectores, las operaciones matemáticas y lógicas se hacen elemento a elemento
+matriz1 * 8
+matriz1 < 5
 
-## Operaciones con Matrices ##
-# --- Aritmética Elemental ---
-# Las operaciones se aplican a cada celda individualmente
-matrix(1:4, nrow = 2) * 10
-matrix(1:4, nrow = 2) + 5
-
-# Funciones globales
-# Se aplican sobre el total de los elementos de la matriz
-mean(mi_matriz) # Media de todos los valores
-
-
-# MINIRETO: Crea una matriz de 2x2 con los números 10, 20, 30, 40 y divídela toda entre 2
-
-
-# SOLUCIÓN:
-matriz_reto <- matrix(c(10, 20, 30, 40), nrow = 2)
-matriz_reto / 2
-
-
-## Acceso a Elementos (Indexación) ##
-# --- Selección por [fila, columna] ---
-mi_matriz[1, 2] # Elemento específico (Fila 1, Columna 2)
-mi_matriz[1, ]  # Fila completa (deja el espacio de columna vacío)
-mi_matriz[, 3]  # Columna completa (deja el espacio de fila vacío)
-
-# Filtrado por Booleanos
-mi_matriz[mi_matriz > 5] # Devuelve un vector con los elementos que cumplen la condición
-
-# --- Reasignación de Valores ---
-mi_matriz[1, 2] <- 8            # Cambia una celda específica
-mi_matriz[, 2] <- 7             # Cambia una columna entera
-mi_matriz[mi_matriz > 5] <- 10  # Cambia todos los valores que cumplen el criterio
-
-
-# MINIRETO: De una matriz de 3x3 con números del 1 al 9, extrae solo la segunda columna.
-
-
-# SOLUCIÓN:
-matriz_3x3 <- matrix(1:9, ncol = 3)
-matriz_3x3[, 2]
-
-
-## Funciones de Estructura ##
-# --- Dimensiones y Nombres ---
-ncol(mi_matriz) # Número de columnas
-nrow(mi_matriz) # Número de filas
-dim(mi_matriz)  # Dimensiones totales (Filas y Columnas)
+## Funciones Aplicadas a Matrices ----
+ncol(matriz1) # número de columnas de una matriz
+nrow(matriz1) # número de filas de una matriz
+dim(matriz1) # número de filas y columnas de una matriz
+head(matriz1) # Ver las primeras 6 filas de la matriz
+tail(matriz1, n = 2) # Ver las últimas 2 filas de la matriz
 
 # Gestión de etiquetas
-colnames(mi_matriz) <- paste("Col", 1:ncol(mi_matriz), sep = ".")
-rownames(mi_matriz) <- paste("Fila", 1:nrow(mi_matriz), sep = ".")
+colnames(matriz1) <- c("col1", "col2", "col3") # por defecto colnames() es NULL, pero podemos asignarle un valor
+rownames(matriz1) <- c("row1", "row2", "row3") # por defecto rownames() es NULL, pero podemos asignarle un valor
+matriz1
 
-mi_matriz # Mostrar matriz con sus nuevos nombres
+# Gestión de NA
+vector_numeros <- 1:9
+vector_numeros[5] <- NA
+matriz_con_NA <- matrix(vector_numeros, ncol = 3)
+na.omit(matriz_con_NA) # Elimina las filas que tengan un NA
 
-# Es posible filtrar la matriz en base al nombre de columnas y filas
-mi_matriz[rownames(mi_matriz)[1:2],]
-mi_matriz[,colnames(mi_matriz)[1:2]]
+### Operaciones estadísticas ----
+# Las operaciones estadísticas que vimos en los vectores también se pueden aplicar al conjunto de la matriz
+mean(matriz1) # media de los elementos de la matriz
+
+## Acceso a Elementos ----
+### Por Posición, Condición y Nombre ----
+# Por posición: matrix[filas, columnas]
+matriz1[1,2] # Acceder a la celda de la fila 1, columna 2
+matriz1[1,] # Acceder a la fila 1 completa
+matriz1[,2] # Acceder a la columna 2 completa
+matriz1[c(1, 3), 2] # Acceder a las celdas de las filas 1 y 3, de la columna 2
+
+# Por condición: matrix[condicón]
+matriz1[matriz1 > 2] # devuelve todos los elementos mayores que dos
+
+# Por nombre: matrix[nombre filas, nombre columnas]
+matriz1["row1", c("col1", "col3")] # Fila de nombre row1, columnas col1 y col3
+
+### Reasignación Valores ----
+matriz1[1, 2] <- 8 # Modifica el valor de la celda fila 1, columna 2
+matriz1["row1", "col2"] <- 4 # Modifica el valor de la fila row1, columna col2
+
+matriz1[1,] <- 7 # Modifica todos los valores de la fila 1 y los convierte en 7
+matriz1[1,] <- c(1, 4, 7) # Modifica todos los valores de la fila 1 mediante un vector
+
+matriz1[matriz1 > 2] <- 8 # Modifica todos los valores mayores que 2 y los convierte en 8
+
+# EJERCICIO 1: Creación y etiquetado de una matriz de abundancia
+# Contexto: Has muestreado 3 parcelas (P1, P2, P3) y has registrado la 
+# abundancia de 3 especies de insectos.
+# 1. Crea una matriz llamada 'comunidad' con los valores del 1 al 9, 
+#    organizados en 3 columnas (una columna por especie).
+# 2. Asigna nombres a las filas: "Parcela_1", "Parcela_2" y "Parcela_3".
+# 3. Asigna nombres a las columnas: "Especie_A", "Especie_B" y "Especie_C".
+# 4. Usa la función 'dim()' para verificar las dimensiones de tu matriz.
 
 
-# MINIRETO: Cambia los rownames de 'mi_matriz' usando paste() y seq() y muestra las columnas 1 y 3
+# SOLUCIÓN
+comunidad <- matrix(1:9, ncol = 3)
+rownames(comunidad) <- c("Parcela_1", "Parcela_2", "Parcela_3")
+colnames(comunidad) <- c("Especie_A", "Especie_B", "Especie_C")
+dim(comunidad)
+comunidad
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 2: Extracción de datos y submuestreo
+# Contexto: Utilizando la matriz 'comunidad' del ejercicio anterior:
+# 1. Extrae en un vector todas las abundancias de la "Parcela_2".
+# 2. Extrae el valor de abundancia de la "Especie_C" en la "Parcela_1" 
+#    usando los nombres de filas y columnas.
+# 3. Calcula la suma total de individuos de la "Especie_B" (toda la columna 2).
+# 4. Calcula la desviación estándar de toda la matriz
 
 
-# SOLUCIÓN:
-rownames(mi_matriz) <- paste("ID", seq(1:nrow(mi_matriz)), sep = "_")
-mi_matriz[,colnames(mi_matriz)[c(1, 3)]]
+# SOLUCIÓN
+abund_p2 <- comunidad["Parcela_2", ]
+abund_p1_spC <- comunidad["Parcela_1", "Especie_C"]
+total_spB <- sum(comunidad[, "Especie_B"])
+media_matriz <- mean(comunidad)
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 3: Umbrales de detección y reasignación
+# Contexto: En un estudio de presencia/ausencia, decidimos que cualquier 
+# valor de abundancia inferior a 4 es poco fiable y debe considerarse 0.
+# 1. Crea una copia de la matriz llamada 'comunidad_limpia'.
+# 2. Sustituye todos los valores menores a 4 por el valor 0 usando 
+#    indexación por condición.
+# 3. Multiplica la matriz resultante por 10 para simular una estima 
+#    de densidad por hectárea.
 
 
-### DataFrames ###
-## Estructura Tabular Heterogénea ##
+# SOLUCIÓN
+comunidad_limpia <- comunidad
+comunidad_limpia[comunidad_limpia < 4] <- 0
+comunidad_hectarea <- comunidad_limpia * 10
 
-# --- Creación de DataFrames ---
-# A diferencia de las matrices, cada columna puede tener un tipo de dato distinto.
+comunidad_hectarea
+
+#-------------------------------------------------------------------------#
+
+
+# DataFrames ----
+## Crear un DataFrame ----
 data.frame(nombre = c("Luis", "Sara"), edad = c(30, 20))
+
+# Asignar a una variable
+tabla_nombres <- data.frame(nombre = c("Luis", "Sara"), edad = c(30, 20))
 
 # Creación a partir de vectores previos
 nombres <- c("Luis", "Sara")
 edades <- c(30, 20)
-df <- data.frame(nombre = nombres, edad = edades) # 'df' es el nombre estándar por convención
+tabla_nombres <- data.frame(nombre = nombres, edad = edades) 
 
-# Ver el dataframe en una pestaña nueva
-View(df)
+# Ver un dataframe
+View(tabla_nombres)
+
+## Funciones aplicadas a DataFrames ----
+ncol(tabla_nombres) # número de columnas de un dataframe
+nrow(tabla_nombres) # número de filas de un dataframe
+dim(tabla_nombres) # número de filas y columnas de un dataframe
+head(tabla_nombres) # Ver las primeras 6 filas de un dataframe
+tail(tabla_nombres, n = 2) # Ver las últimas 2 filas de un dataframe
+
+# Gestión de etiquetas
+colnames(tabla_nombres) <- c("col1", "col2") # por defecto colnames() tiene los valores que se asignan en la función data.frame()
+rownames(tabla_nombres) <- c("row1", "row2") # por defecto rownames() es un vector character de 1 a nrow
+tabla_nombres
+
+# Gestión de NA
+nombres[2] <- NA
+tabla_nombres <- data.frame(nombre = nombres, edad = edades)
+na.omit(tabla_nombres) # Elimina las filas que tengan un NA
+
+## Acceso a Elementos ----
+### Por Posición, Nombre y Condición ----
+nombres <- c("Luis", "Sara", "Esteban")
+edades <- c(30, 20, 45)
+tabla_nombres <- data.frame(nombre = nombres, edad = edades) 
+
+# Por posicion: dataframe[filas, columnas] Igual que las matrices
+tabla_nombres[1, 2] # Celda de fila 1, columna 2
+tabla_nombres[,2] # Todas las filas de la columna 2
+
+# Por nombre: dataframe[nombre filas, nombre columnas] Ó dataframe$nombre_columna
+tabla_nombres[,"nombre"] # solo muestra columna nombre
+tabla_nombres$edad # solo muestra columna edad
+
+# Por condición: dataframe[condicion para filas, condición para columnas]
+tabla_nombres[tabla_nombres$edad > 25,] # filtra las columnas que no cumplen la condición
+
+### Reasignación de Valores ----
+tabla_nombres[1, 2] <- 31 # Cambia el valor de la celda específica
+
+# Todos los elementos de la columna "nombre" cuyo valor de "edad" sea menor de 25 ahora pasan a tener el valor "Juan"
+tabla_nombres[tabla_nombres$edad < 25, "nombre"] <- "Juan" 
+
+# Crear una nueva columna
+tabla_nombres$Telefono <- c(900800100, 900700100, 900600100)
+tabla_nombres
+
+# EJERCICIO 1: Construcción de una base de datos de campo
+# Contexto: Crea una tabla con los datos de 3 ejemplares de tortuga capturados.
+# 1. Crea tres vectores: 'id' (T1, T2, T3), 'especie' (un factor con los niveles 
+#    "Mora" y "Leprosa") y 'peso_gr' (valores: 450, 520, 480).
+# 2. Une los vectores en un data frame llamado 'registro_tortugas'.
+# 3. Usa la función 'dim()' para confirmar que tienes 3 filas y 3 columnas.
 
 
-# MINIRETO: Crea un DataFrame llamado "tienda" con una columna "producto" (manzana, pera) 
-# y otra "precio" (1.5, 2.0)
+# SOLUCIÓN
+id <- c("T1", "T2", "T3")
+especie <- factor(c("Mora", "Leprosa", "Mora"), levels = c("Mora", "Leprosa"))
+peso_gr <- c(450, 520, 480)
+
+registro_tortugas <- data.frame(id = id, especie = especie, peso_gr = peso_gr)
+dim(registro_tortugas)
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 2: Acceso, filtrado y limpieza de registros
+# Contexto: Trabajando con el data frame 'registro_tortugas' del ejercicio anterior:
+# 1. Accede a la columna 'peso_gr' usando el operador '$' y calcula su media.
+# 2. Selecciona únicamente las filas cuya especie sea igual a "Mora".
+# 3. Supón que el registro T2 tiene un peso erróneo. Cambia el peso de la 
+#    fila 2, columna 3, por el valor 500.
+
+
+# SOLUCIÓN
+media_peso <- mean(registro_tortugas$peso_gr)
+solo_mora <- registro_tortugas[registro_tortugas$especie == "Mora", ]
+registro_tortugas[2, 3] <- 500
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 3: Simulación de un inventario forestal masivo
+# Contexto: Necesitas generar una tabla de datos simulada para una clase práctica 
+# con 100 árboles de un bosque mediterráneo.
+# 1. Fija la semilla en '2026'.
+# 2. Crea la columna 'altura' con 100 valores aleatorios normales (media=12, sd=3).
+# 3. Crea la columna 'tipo_suelo' repitiendo 50 veces "Calizo" y 50 veces "Silíceo".
+# 4. Crea la columna 'estado' seleccionando aleatoriamente entre "Sano" y "Enfermo" 
+#    100 veces con reemplazo.
+# 5. Une todo en un data frame llamado 'bosque_simulado'.
+
+
+# SOLUCIÓN
+set.seed(2026)
+altura <- rnorm(100, mean = 12, sd = 3)
+tipo_suelo <- rep(c("Calizo", "Siliceo"), each = 50)
+estado <- sample(c("Sano", "Enfermo"), size = 100, replace = TRUE)
+
+bosque_simulado <- data.frame(altura = altura, tipo_suelo = tipo_suelo, estado = estado)
+head(bosque_simulado) # Visualizar las primeras filas
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 4: Análisis condicional y gestión de errores
+# Contexto: Utilizando el data frame 'bosque_simulado' del ejercicio anterior:
+# 1. Filtra y muestra solo los árboles que midan más de 15 metros Y estén "Sanos".
+# 2. Crea una nueva columna llamada 'id_arbol' que contenga una secuencia del 1 al 100.
+# 3. Por un error de sensor, todas las alturas mayores de 20 metros son erróneas. 
+#    Identifica esas celdas y cámbialas por el valor NA.
+# 4. Crea un nuevo data frame llamado 'bosque_final' que elimine todas las 
+#    filas que ahora contienen NA.
+
+
+# SOLUCIÓN
+arboles_top <- bosque_simulado[bosque_simulado$altura > 15 & bosque_simulado$estado == "Sano", ]
+bosque_simulado$id_arbol <- 1:100
+bosque_simulado[bosque_simulado$altura > 20, "altura"] <- NA
+bosque_final <- na.omit(bosque_simulado)
+
+nrow(bosque_final) # Comprobar cuántos árboles quedan tras la limpieza
+
+#-------------------------------------------------------------------------#
+
+# Listas ----
+## Crear Listas ----
+list(1, "Hola", c(8, 7, 4))
+
+# Asignar a variables
+lista1 <- list(1, "Hola", c(8, 7, 4))
+
+# Podemos asignar directamente nombres a cada elemento de la lista
+lista1 <- list(num = 1, text = "Hola", vector_numeros = c(8, 7, 4))
+lista1
+
+
+## Funciones aplicadas a listas ----
+length(lista1) # devuelve el número de elementos de la lista
+names(lista1) # devuelve los nombres de la lista
+names(lista1)[2] <- "texto" # modificar los nonbres de una lista
+
+### Función especial strsplit() ---- 
+# Esta función divide cadenas de texto y siempre devuelve 
+# una lista para no perder información
+resultado_split <- strsplit("Hola Mundo", split = " ")
+resultado_split
+
+# Si queremos desplegar los elementos de una lista (pasar de lista a matriz) usamos unlist()
+unlist(resultado_split)
+
+
+## Acceso a los elementos de una lista ----
+### Por Posición y Nombre ----
+# Por Posición: lista[posicion] devuelve el elemento como una lista de un elemento
+lista1[1]
+
+# Por Posición: lista[[posicion]] devuelve el elemento tal cual es
+lista1[[3]]
+
+# Por nombre: lista[nombre] Ó lista[[nombre]]. Mismo funcionamiento que las posiciones
+lista1["num"]
+lista1[["texto"]]
+
+# Por nombre: lista$nombre es una alternativa a lista[[nombre]]
+lista1$num
+
+
+# EJERCICIO 1: Gestión de metadatos de un inventario
+# Contexto: En ecología, a menudo guardamos los datos junto con sus metadatos.
+# 1. Crea una lista llamada 'inventario' que contenga:
+#    - 'fecha': "2026-02-06"
+#    - 'especies': Un vector con "Lince", "Águila", "Corzo"
+#    - 'conteo': Un vector con 2, 5, 12
+# 2. Accede al nombre de la segunda especie ("Águila") usando el símbolo '$' 
+#    para entrar en la lista y corchetes [] para la posición del vector.
+# 3. Añade un cuarto elemento a la lista llamado 'responsable' con tu nombre.
 
 
 # SOLUCIÓN:
-tienda <- data.frame(producto = c("manzana", "pera"), precio = c(1.5, 2.0))
+inventario <- list(fecha = "2026-02-06", 
+                   especies = c("Lince", "Águila", "Corzo"), 
+                   conteo = c(2, 5, 12))
+
+especie_dos <- inventario$especies[2]
+inventario$responsable <- "Tu Nombre"
+
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 2: Descomposición de códigos de anillamiento
+# Contexto: Las anillas de unas aves recuperadas tienen el formato "ES.99" 
+# (País.Código). Necesitas separar ambos datos.
+# 1. Usa 'strsplit()' para dividir el texto "ES.99" usando el punto "." como split.
+# 2. El resultado es una lista. Úsala para extraer solo el código numérico (99). 
+#    Recuerda usar doble corchete [[]] para acceder al contenido y luego 
+#    el índice del vector, o usar 'unlist()'.
 
 
-## Acceso a Elementos ##
-# --- Selección y Filtrado ---
+# SOLUCIÓN
+anilla_split <- strsplit("ES.99", split = ".", fixed = TRUE)
 
-# 1. Por Posiciones (como las matrices)
-df[1, 2] # Fila 1, columna 2
+# Opción A: Accediendo directamente a la jerarquía
+codigo_num <- anilla_split[[1]][2]
 
-# 2. Por Columnas (Acceso directo con $)
-# Extrae la columna completa transformándola en un VECTOR
-df$nombre
-df$edad
-
-# 3. Por Nombres (usando corchetes)
-df[, "nombre"]
-df[, c("nombre", "edad")]
-df[,colnames(df)[1]]
-
-# 4. Filtrado por Booleanos (Condiciones)
-# IMPORTANTE: La condición se pone en el lugar de las filas, dejando vacía la columna
-df[df$edad > 25, ] # Filas donde la edad es mayor a 25
+# Opción B: Simplificando la estructura primero
+vector_anilla <- unlist(anilla_split)
+codigo_num_v2 <- vector_anilla[2]
 
 
-# --- Reasignación de Valores ---
-df[1, 2] <- 31 # Cambia el valor de la celda específica
+#==============================================================================#
+# EJERCICIOS DE REPASO
+#==============================================================================#
+
+# EJERCICIO 1: Simulación de Gradiente Altitudinal y Respuesta Vegetal
+# Contexto: Queremos estudiar cómo varía la biomasa de una planta según la altitud.
+# 1. Genera un vector 'altitud' con una secuencia de 100 a 1000 metros, en intervalos de 100.
+# 2. Para cada altitud, se han tomado 3 muestras. Crea un vector 'muestras_alt' que 
+#    repita cada valor de altitud 3 veces (Total: 30 elementos).
+# 3. Simula la 'biomasa' mediante una distribución normal con media 25 y sd 5.
+# 4. Debido a un fallo del sensor, los valores de biomasa por debajo de 20 en 
+#    altitudes superiores a 800 metros son erróneos. Localiza esos casos, 
+#    sustitúyelos por NA y crea un dataframe final llamado 'estudio_altitud' 
+#    sin esos valores perdidos.
 
 
-# MINIRETO: Del DataFrame "tienda", extrae solo la columna de precios usando el símbolo $
+# SOLUCIÓN
+altitud <- seq(100, 1000, by = 100)
+muestras_alt <- rep(altitud, each = 3)
+set.seed(42) # Para reproducibilidad
+biomasa <- rnorm(length(muestras_alt), mean = 25, sd = 5)
+indices_error <- muestras_alt > 800 & biomasa < 20
+biomasa[indices_error] <- NA
+estudio_altitud <- na.omit(data.frame(altitud = muestras_alt, biomasa = biomasa))
 
 
-# SOLUCIÓN:
-tienda$precio
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 2: Análisis de Comunidades mediante Matrices y Coerción
+# Contexto: Dispones de una matriz de abundancia de 4 especies en 3 islas.
+# 1. Crea una matriz 3x4 llamada 'islas_mat' con valores aleatorios de una 
+#    distribución uniforme entre 0 y 50 (usa runif y redondea con round()).
+# 2. Asigna nombres a las filas ("Ibiza", "Mallorca", "Menorca") y a las 
+#    columnas ("Sp_1", "Sp_2", "Sp_3", "Sp_4").
+# 3. Calcula la abundancia total de la isla "Mallorca".
+# 4. Transforma la matriz en un dataframe y añade una columna de tipo factor 
+#    llamada 'proteccion' que asigne "Alta" a Ibiza, "Media" a Mallorca y "Baja" a Menorca.
 
 
-## Funciones con DataFrames ##
-# --- Estructura y Metadatos ---
-ncol(df)      # número de columnas
-nrow(df)      # número de filas
-dim(df)       # dimensiones (filas y columnas)
-colnames(df)  # nombres de las columnas
-
-# Modificar nombres de columnas
-colnames(df) <- paste("Col", seq(1:ncol(df)), sep = ".")
-
-# Nombres de las filas
-rownames(df)  # por defecto es un índice de 1 a nrow() en formato texto
-
-
-# MINIRETO: Cambia los rownames de 'tienda' por "Id_1" e "Id_2"
-
-
-# SOLUCIÓN:
-rownames(tienda) <- paste("Id", 1:nrow(tienda), sep = "_")
-tienda
-
-
-### Listas ###
-## Estructuras Flexibles y Heterogéneas ##
-
-# --- Creación de Listas ---
-# Es el objeto más flexible: puede contener vectores, matrices, DataFrames o incluso otras listas.
-# Cada elemento puede tener un tamaño y tipo de dato diferente.
-list(num = 546, vector = c(1,2,5), df = data.frame(nombre = c("Luis", "Sara"), edad = c(30, 20)))
-
-# Asignación a variable
-lista <- list(num = 546, 
-              vector = c(1,2,5), 
-              df = data.frame(nombre = c("Luis", "Sara"), edad = c(30, 20)))
-
-
-# MINIRETO: Crea una lista que contenga tu nombre (texto) y un vector con tus 3 números de la suerte.
-
-
-# SOLUCIÓN:
-mi_lista <- list(nombre = "TuNombre", suerte = c(7, 13, 22))
-
-
-## Acceso a Elementos ##
-# --- Extracción de Contenido ---
-
-# 1. Posiciones (Dobles Corchetes)
-# Usamos [[]] para entrar "dentro" del elemento de la lista
-lista[[2]]        # Extrae el contenido de la segunda posición (el vector)
-
-# 2. Nombres de elementos (Operador $)
-# Es la forma más rápida y legible si los elementos están nombrados
-lista$vector
-lista$df$nombre   # Acceder a una columna específica de un DataFrame que está dentro de la lista
-
-# 3. Nombres con Dobles Corchetes
-# Útil si el nombre del elemento está guardado en otra variable
-lista[["vector"]]
-
-
-# MINIRETO: De la lista creada en el minireto anterior, accede a tu nombre usando el operador $
-
-
-# SOLUCIÓN:
-mi_lista$nombre
-
-
-## Funciones que devuelven una Lista ##
-# --- El caso de strsplit() ---
-# Esta función divide cadenas de texto y siempre devuelve una lista para no perder información
-resultado_split <- strsplit("Hola Mundo", split = " ") 
-
-# Ejemplo con vectores de texto
-vector_climas <- c("Calor", "Frío", "Templado")
-climas_split <- strsplit(vector_climas, split = "al")
-
-# Acceso a un elemento específico del resultado
-climas_split[[1]] # Acceder a los trozos del primer elemento ("C" "or")
-
-
-# MINIRETO: De la frase "R-es-genial", separa las palabras por el guion e imprime solo la tercera palabra.
-
-
-# SOLUCIÓN:
-palabras <- strsplit("R-es-genial", split = "-")
-palabras[[1]][3]
-
-
-
-#### EJERCICIOS COMPLEMENTARIOS: DATOS ESTRUCTURALES ####
-
-## Ejercicio 1: Biodiversidad en Parcelas (Vectores) ##
-# Crea un vector llamado 'especies_contadas' con el número de ejemplares 
-# detectados de 5 especies: 12, 45, 7, 89 y 21.
-# 1. Asigna nombres automáticos (p. ej., "Esp_1", "Esp_2"...) usando paste() y length().
-# 2. Calcula cuántas especies tienen una población superior a 20 ejemplares.
-
-
-
-
-
-
-# SOLUCIÓN:
-especies_contadas <- c(12, 45, 7, 89, 21)
-names(especies_contadas) <- paste("Esp", 1:length(especies_contadas), sep = "_")
-sum(especies_contadas > 20)
-
-
-## Ejercicio 2: Crecimiento de Plantas (Vectores aleatorios) ##
-# Genera un vector 'crecimiento' con 30 valores aleatorios de una distribución 
-# normal (media = 15 cm, sd = 4). Fija la semilla en 123.
-# 1. Debido a limitaciones del macetero, ningún valor puede superar los 20 cm. 
-#    Sustituye los valores > 20 por 20.
-# 2. Calcula la media final de crecimiento.
-
-
-
-
-
-# SOLUCIÓN:
+# SOLUCIÓN
 set.seed(123)
-crecimiento <- rnorm(30, mean = 15, sd = 4)
-crecimiento[crecimiento > 20] <- 20
-mean(crecimiento)
+islas_mat <- matrix(round(runif(12, 0, 50)), nrow = 3, ncol = 4)
+rownames(islas_mat) <- c("Ibiza", "Mallorca", "Menorca")
+colnames(islas_mat) <- paste0("Sp_", 1:4)
+total_mallorca <- sum(islas_mat["Mallorca", ])
+islas_df <- as.data.frame(islas_mat)
+islas_df$proteccion <- factor(c("Alta", "Media", "Baja"), levels = c("Baja", "Media", "Alta"))
 
 
-## Ejercicio 3: Análisis de Microorganismos (Matrices) ##
-# Crea una matriz 'muestras_agua' de 4 filas (puntos de muestreo) y 3 columnas (réplicas)
-# con valores aleatorios entre 0 y 1 (concentración de un patógeno) usando runif().
-# 1. Nombra las columnas como "Replica.A", "Replica.B" y "Replica.C".
-# 2. Extrae en un vector los valores de la "Replica.B" que sean menores a 0.5.
+#-------------------------------------------------------------------------#
+
+# EJERCICIO 3: Gestión de Capturas y Re-avistamientos (Lógica y Texto)
+# Contexto: Tienes un historial de códigos de captura: "Z-22", "Z-45", "X-10", "Z-22", "Y-01".
+# 1. Almacena estos códigos en un vector 'capturas'.
+# 2. Usa una función para identificar qué capturas son duplicadas (re-avistamientos).
+# 3. Crea un nuevo vector 'unicas' que contenga solo los códigos sin repetir.
+# 4. Usa 'paste()' para generar un mensaje que diga: "El inventario final incluye: ..." 
+#    colapsando los códigos únicos separados por un guion " - ".
 
 
+# SOLUCIÓN
+capturas <- c("Z-22", "Z-45", "X-10", "Z-22", "Y-01")
+reavistamientos <- duplicated(capturas)
+unicas <- unique(capturas)
+mensaje <- paste("El inventario final incluye:", paste(unicas, collapse = " - "))
 
 
+#-------------------------------------------------------------------------#
 
-# SOLUCIÓN:
-muestras_agua <- matrix(runif(12), nrow = 4)
-colnames(muestras_agua) <- paste("Replica", c("A", "B", "C"), sep = ".")
-filtro_patogeno <- muestras_agua[muestras_agua[, "Replica.B"] < 0.5, "Replica.B"]
-
-
-## Ejercicio 4: Monitoreo de Fauna (DataFrames) ##
-# Crea un DataFrame 'monitoreo' con tres columnas:
-# 1) 'especie': Lince, Águila, Lobo, Corzo.
-# 2) 'peso': secuencia de 10 a 40 de 10 en 10.
-# 3) 'transmisor': vector booleano alternado (TRUE, FALSE, TRUE, FALSE).
-# Filtra y muestra solo las filas de animales que pesen más de 25 kg.
-
-
+# EJERCICIO 4: Estructura Compleja de un Proyecto de Monitorización
+# Contexto: Debes organizar toda la información de una campaña de anillamiento en una lista.
+# 1. Crea una lista llamada 'proyecto_aves' que contenga:
+#    - Un vector 'tecnicos' con 2 nombres.
+#    - Un dataframe con 5 filas y 2 columnas (ID_ave, Peso).
+#    - Una matriz 2x2 con el éxito de eclosión por zona.
+# 2. Accede al peso de la tercera ave registrada en el dataframe dentro de la lista.
+# 3. Supón que el segundo técnico se ha jubilado; cambia su nombre por "Vacante" 
+#    accediendo directamente a la posición dentro de la lista.
+# 4. Usa 'strsplit()' para extraer el código de zona de un ID de muestra "ZONA_A-44" 
+#    y guárdalo como un nuevo elemento de la lista llamado 'metadato_zona'.
 
 
-
-# SOLUCIÓN:
-monitoreo <- data.frame(
-  especie = c("Lince", "Águila", "Lobo", "Corzo"),
-  peso = seq(10, 40, by = 10),
-  transmisor = c(TRUE, FALSE, TRUE, FALSE)
+# SOLUCIÓN
+proyecto_aves <- list(
+  tecnicos = c("Marta", "Jorge"),
+  datos = data.frame(ID_ave = 1:5, Peso = c(12, 15, 14, 13, 16)),
+  exito = matrix(c(0.8, 0.9, 0.7, 0.85), ncol = 2)
 )
-monitoreo[monitoreo$peso > 25, ]
+peso_ave3 <- proyecto_aves$datos$Peso[3]
+proyecto_aves$tecnicos[2] <- "Vacante"
+zona_split <- strsplit("ZONA_A-44", split = "-")
+proyecto_aves$metadato_zona <- zona_split[[1]][1]
 
-
-## Ejercicio 5: Estado de Conservación (Factores) ##
-# Tienes el estado de 10 zonas protegidas: "Vulnerable", "En Peligro", "Vulnerable", 
-# "Crítico", "Crítico", "Vulnerable", "En Peligro", "Crítico", "Vulnerable", "En Peligro".
-# 1. Conviértelo en factor.
-# 2. Asegura el orden jerárquico: "Vulnerable", "En Peligro", "Crítico".
-
-
-
-
-
-# SOLUCIÓN:
-estados <- c("Vulnerable", "En Peligro", "Vulnerable", "Crítico", "Crítico", 
-             "Vulnerable", "En Peligro", "Crítico", "Vulnerable", "En Peligro")
-factor_conservacion <- factor(estados, levels = c("Vulnerable", "En Peligro", "Crítico"))
-
-
-## Ejercicio 6: Expedición Científica (Listas) ##
-# Crea una lista 'expedicion' que contenga:
-# 1) El vector 'crecimiento' del ejercicio 2.
-# 2) El DataFrame 'monitoreo' del ejercicio 4.
-# 3) Un resumen (summary) del vector 'especies_contadas' del ejercicio 1.
-# Accede mediante el operador $ a la columna 'especie' del DataFrame dentro de la lista.
-
-
-
-
-
-# SOLUCIÓN:
-expedicion <- list(
-  botanica = crecimiento,
-  zoologia = monitoreo,
-  conteo_especies = summary(especies_contadas)
-)
-expedicion$zoologia$especie
