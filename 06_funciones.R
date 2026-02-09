@@ -1,95 +1,136 @@
-#### Funciones ####
+# Funciones ----
 
-### Estructura de una Función ###
-sqrt(5) # el nombre de la función es sqrt, el argumento de la función es 5, el return es el resultado de aplicar la función a ese argumento
-round(10.85) # el nombre de la función es round, el argumento es 10.85, el return es el resultado de aplicar la función a esos argumentos
-round(10.85, digits = 1) # el nombre de la función es round, los argumentos son 10.85 y digits = 1, el return es el resultado de aplicar la función a esos argumentos
+# Concepto y Uso de una Función ----
 
-## Ayuda de una función ##
-?sqrt # abre una ventana en Ayuda (o Help). Nos indica que hace la función, cuales son sus argumentos y algunos ejemplos
-?round # aquí vemos que round tiene dos arguementos, un vector numérico (x) y un valor numérico (digits) que por defecto es 0
+# Una función es un bloque de código que podemos reutilizar de forma sencilla y
+# orgánica para aplicar la misma operación a diferentes datos. En este curso
+# ya hemos visto muchas funciones, pero hemos pasado de lado por ellas, por lo
+# que en este bloque aprenderemos realmente a usarlas.
 
+## Uso y Ayuda de una Función ----
 
-# MINIRETO: Busca la ayuda de la función mean, ¿que pasa cuando se aplica a cada uno de estos vectores? ¿Cómo lo solucionarías?
-set.seed(123)
-vector1 <- rnorm(12)
-vector2 <- c(12, 8, 7, NA, 5, 4, 9, 10, 8)
+### Usar una Función ----
+# Cómo hemos ido viendo a lo largo de la clase, las funciones se usar siguiendo la estructura de:
+# nombre_funcion(argumento1, argument2, etc); obteniendo un resultado.
+round(5.458, 2)
 
+### Usar la Ayuda de una Función ----
+# Cuando no sabemos (o no recordamos) como usar una función, las funciones instaladas en R tienen una sección
+# de ayuda que nos sirve como guía y descripción de como usar dicha función, además de para que sirve y 
+# algunos ejemplos de uso. Para acceder a la ayuda d euna función usamos ?nombre_funcion
+?round
 
-# SOLUCIÓN:
-?mean
-mean(vector1) # no hay problema
-mean(vector2) # devuelve NA porque hay un NA y por defecto na.rm es FALSE
-mean(vector2, na.rm = TRUE) # modificamos el argumento na.rm y ya funciona
+## Argumentos de una Función ----
 
-# Esto mismo ocurre con muchas de las funciones que aplican cálculos estadísticos, por lo que ten cuidado: 
-# 1) elimina siempre NA antes de aplicar la función ó 2) usa siempre el argumento na.rm = TRUE
+# El aspecto clave como usuarios de una función (además de para que sirve) es saber los argumentos que pide una función.
+# Un argumento es un elemento que usa una función para llevar a cabo una operación. Una función puede tener tantos argumentos
+# como sea necesarios.
+?round # Volviendo a la ayuda de round, vemos que tiene un argumento x y otro argumento digits
+round(x = 5.258, digits = 2) # Ésta sería la forma "formal" de llamar a esta función
 
+### Cómo usar los Argumentos de una Función ----
+# Aunque siempre podemos usar las funciones mediante su forma "formal", en la mayoría de los casos
+# querremos ahorrarnos un poco de código para tareas que conocemos bien. En este aspecto nos centraremos
+# en como se usan los argumentos de una función, que siguen una serie de reglas simples:
+# Por defecto, si no se indica ningún argumento, se asignan los argumentos por orden
 
-## Argumentos ##
-# Aunque ya hemos visto algo sobre los argumentos, vamos a aprender a usarlos de forma correcta. Para ello usaremos como ejemplo la función log
-?log # la ayuda nos dice que hay dos argumentos: x es un vector numérico y base es un valor que indica la base sobre la que se calcula el logaritmo de x
+round(5.258, 2) # x = 5.258, digits = 2
+round(2, 5.258) # x = 2, digits = 5.258
 
-# el uso correcto de esta función sería
-log(x = 10) # si queremos el logarimto natural (base = exp(1))
-log(x = 10, base = 2) # si queremos usar una base distinta a exp(1)
+# Si uno de los argumentos se asignan, el resto sigue el orden, pero el argumento asignado coge el valor que se le da
+round(digits = 2, 5.258) # digits = 2, el primer argumento es x, por lo que x = 5.258
 
-# sin embargo, las funciones en R leen los argumentos por orden, ya que los argumentos son x y base, podemos usar simplemente el orden
-# CUIDADO: usar esto siempre que: 1) conozcamos la función y 2) la función no tenga demasiado argumentos
-log(10, 2) # logaritmo en base 2 de 10
-round(12.6487, 2)
+# En muchas ocasiones, las funciones definen algunos de estos argumentos asignando un valor por defecto. Es decir, en caso que
+# ese argumento no se asigne a ningún valor, toma el preestablecido
+?round
+round(5.258) # el argumento digits por defecto es cero
 
-# podemos mezclar entre argumentos por orden y argumentos por nombre
-round(12.6546, digits = 2) # seguramente esta sea la forma más elegante de usar la función, es la más clara
-
-# ejemplo de función que no podremos usar tan solo por orden, tiene demasiados argumentos
-install.packages("pheatmap")
-library(pheatmap)
-?pheatmap
-
-test = matrix(rnorm(200), 20, 10)
-pheatmap(test) # genera un gráfico de un heatmap
-pheatmap(test, cluster_row = FALSE) # sin clusterizar filas
+?paste # el argumento collapse es NULL
+?sample # el argumento replace es FALSE
+?log # el argumento base es exp(1)
 
 
-### Crear Funciones ###
+# RECOMENDACIÓN: Si conocéis una función y es una función simple (2-3 argumentos) podéis usarla sin asignar argumentos
+seq(1, 10, 5)
+substring("Hola Mundo", 2, 5)
+log(10, 2)
 
-## Estructura ##
-# nombre_funcion <- function(arg1, arg2, ...){bloque de código que indique que hace la función}
+# Pero si la función es más compleja o tiene un argumento diferencial que modifica su comportamiento, es mejor definir los argumentos
+sample(c(1, 8, 6), size = 2, replace = TRUE)
 
-imprimir_nombre <- function(nombre, apellido){ # entre las llaves va el código
-  texto <- paste("Me llamo",nombre, apellido)
-  return(texto) # return se usa para devolver un resultado
+### Funciones estadísticas ----
+# Todas las funciones que aplican operaciones estadísticas a un vector numérico (media, suma, mediana etc) tiene un 
+# argumento común que es motivo de muchos fallos en nuestro código
+?mean # el argumento na.rm indica si se deben eliminar NAs antes de aplicar la media
+
+vector_na <- 1:10
+vector_na[3] <- NA
+mean(vector_na) # devuelve NA ya que na.rm por defecto es FALSE
+mean(vector_na, na.rm = TRUE) # Ahora elimina el NA y calcula la media
+
+
+# Crear Funciones ----
+
+# Habrá momentos en los que queramos crear nuestras propias funciones
+
+## Estructura de una Función ----
+# Para crear una función usamos la función function, con los elementos de una función: nombre, argumentos, cuerpo y return
+# nombre_funcion <- function(arg1, arg2, ...){
+#       bloque de código que indique que hace la función (cuerpo)
+#       lo que devuelve la función (return)
+# }
+
+imprimir_saludo <- function(nombre, apellido){
+  texto <- paste("Hola, me llamo", nombre, apellido)
+  return(texto)
 }
 
-# Lo puedo reutilizar las veces que quiera
-imprimir_nombre("Juan","Arenas")
-imprimir_nombre("Marta","López")
-imprimir_nombre("Ana","Martínez")
+imprimir_saludo("Juan", "Álvarez")
+imprimir_saludo("Ana","Torres")
 
-# Ya que la función usa paste, que es un función vectorizada, podríamos utilizar vectores para obtener un resultado en un solo comando
-imprimir_nombre(nombre = c("Juan", "Ana", "Marta"), apellido = c("Arenas", "López", "Martínez"))
+# Como en la función se usa una función vectorizada, podemos usar esta funcionalidad
+imprimir_saludo(nombre = c("Juan", "Ana"), apellido = c("Álvarez", "Torres"))
 
+### Scope o Entorno de una función ----
+# En la función anterior hemos creado una variable texto dentro de la función, sin embargo esa variable no se
+# ha incorporado al entorno. Tampoco los argumentos de dicha función.
+# Esto se debe a que las funciones tienen su propio entorno, pueden usar elementos del entorno general pero
+# no incorporar sus propios elementos al entorno
 
-# MINIRETO: Crea una función que calcule la media de un vector de números (no uses mean, usa la fórmula de la media). Llama a la función calcular_media
-set.seed(123)
-vector_numeros <- rnorm(12)
-
-
-# SOLUCIÓN:
-calcular_media <- function(x){
-  suma <- sum(x, na.rm = TRUE)
-  n <- length(x)
-  return(suma / n)
+nombre <- "Juan"
+imprimir_saludo <- function(apellido){
+  texto <- paste("Hola, me llamo", nombre, apellido)
+  return(texto)
 }
-calcular_media(vector_numeros)
 
-## Buenas Prácticas ##
-# Podemos diseñar las funciones como queramos pero hay una serie de buenas prácticas que deberíamos tener en cuenta
+imprimir_saludo("Álvarez") # Utiliza la variable nombre del entorno global
+apellido # pero si intento acceder a sus elementos, no existen fuera de la función
+texto
 
-# --- Documentar la función ---
-# Añadir comentarios previos a la función (o dentro de la misma), detallando datos de entrada, de salida y lo que hace
 
+## ¿Para qué sirve una Función? ----
+
+# Por regla general crearemos una función cuando: queramos ejecutar un mismo proceso varias veces y no exista una función que ya lo haga
+# Por ejemplo: función para calcular el área de un triángulo. Lo quiero aplicar varias veces pero no quiero mirar la fórmula cada vez
+
+area_triangulo <- function(base, altura){
+  area <- (base * altura) / 2
+  return(area)
+}
+area_triangulo(5, 10)
+
+# También podemos crear una función para añadir funcionalidad a una función ya existente.
+# Por ejemplo, quiero crear una función que calcule la media de un vector, pero de forma que na.rm siempre sea TRUE
+media <- function(x){
+  resultado <- mean(x, na.rm = TRUE)
+  return(resultado)
+}
+media(c(8, 7, 4, NA, 5, 6))
+
+## Buenas Prácticas para crear Funciones ----
+# Aunque no es necesario aplicar las siguientes prácticas para trabajar con funciones, si que son muy recomendables
+
+# 1. Documentación. Añade comentarios y documenta tu función. Una versión mínima de una función debería ser:
 # Función: calcular_imc
 # Descripción: Calcula el Índice de Masa Corporal.
 # Argumentos: peso (kg), altura (metros).
@@ -98,438 +139,171 @@ calcular_imc <- function(peso, altura) {
   return(peso / (altura^2))
 }
 
-# --- Modularidad ---
-# En ocasiones es probable que la función que estés creando sea muy grande o haga varias cosas diferentes
-# En estas situaciones se recomienda modularizar la función, es decir, crear pequeñas funciones que hagan
-# cosas muy concretas y sean fáciles de controlar y añadirlas todas a una o varias funciones más generales
-
-# 1. Función para calcular el descuento
-restar_descuento <- function(precio, porcentaje) {
-  descuento <- precio * (porcentaje / 100)
-  return(precio - descuento)
+# 2. Modularidad. Cuando tengas funciones muy extensas, es posible dividirla en varias funciones más pequeñas
+# de modo que controlemos mejor como funciona el proceso  global.
+# Ejemplo, queremos calcular la media y la desviación estandar de un vector usando funciones como la que hemos creado anteriormente.
+# en lugar de hacer una función con todo el código "crudo" creamos varias funciones y las aplicamos en una función final
+media <- function(x){
+  resultado <- mean(x, na.rm = TRUE)
+  return(resultado)
 }
 
-# 2. Función para calcular el IVA (16% en este ejemplo)
-sumar_iva <- function(precio) {
-  return(precio * 1.16)
+desviacion_estandar <- function(x){
+  resultado <- sd(x, na.rm = TRUE)
+  return(resultado)
 }
 
-# 3. Función Modular (utiliza las dos anteriores)
-calcular_precio_final <- function(precio_base, tasa_descuento) {
-  # Primero llamamos a la función de descuento
-  precio_con_descuento <- restar_descuento(precio_base, tasa_descuento)
-  
-  # Luego, sobre ese resultado, aplicamos el IVA
-  precio_final <- sumar_iva(precio_con_descuento)
-  
-  return(precio_final)
+obtener_estadisticas <- function(x){
+  resultado <- list(media = media(x), desviacion_estandar = desviacion_estandar(x))
+  return(resultado)
 }
+obtener_estadisticas(c(8, 7, 4, NA, 5, 6))
 
-# --- Probando el sistema ---
-resultado <- calcular_precio_final(precio_base = 100, tasa_descuento = 10)
-print(paste("El precio final es:", resultado))
-
-
-# --- Testing ---
-# Siempre prueba tu función con valores extremos (NA, NULL etc)
-
-# --- Estructuras de Control ---
-# Dentro de las funciones debemos incluir estructuras de control que nos aseguren que la función se ejecuta correctamente
-calcular_precio_final <- function(precio_base, tasa_descuento){
-  if (!is.numeric(precio_base)){ # si precio_base NO es numérico
-    message("'precio_base' debe ser una variable numérica, prueba de nuevo") # también puede ser un print
-    return() # devuelve un NULL
-  }
-  
-  if (!is.numeric(tasa_descuento)){ # si precio_base NO es numérico
-    stop("'tasa_descuento' debe ser una variable numérica, prueba de nuevo") # esto devuelve un mensaje similar pero con la palabra error
-    # En este caso no se devuelve nada, stop para la ejecución
-    # También se puede usar warning, pero esto no para la ejecución
-  }
-  
-  # Primero llamamos a la función de descuento
-  precio_con_descuento <- restar_descuento(precio_base, tasa_descuento)
-  
-  # Luego, sobre ese resultado, aplicamos el IVA
-  precio_final <- sumar_iva(precio_con_descuento)
-  
-  return(precio_final)
+# 3. Checking. Usando las estructuras de control condicionales, podemos controlar que la función se ejecute de forma correcta
+obtener_estadisticas <- function(x){
+  if (!is.numeric(x)){
+    stop("x debe ser un vector numérico") # usamos stop para parar una función y devolver un mensaje
+  } 
+  resultado <- list(media = media(x), desviacion_estandar = desviacion_estandar(x))
+  return(resultado)
 }
+obtener_estadisticas(c("Hola", "Mundo"))
 
-calcular_precio_final(precio_base = "100", tasa_descuento = "10")
-calcular_precio_final(precio_base = 100, tasa_descuento = "10")
-calcular_precio_final(precio_base = 100, tasa_descuento = 10)
-
-# MINIRETO:
-# Situación: Una pequeña librería necesita automatizar el cálculo del valor de su stock.
-# Para ello, debes crear un sistema modular siguiendo las buenas prácticas aprendidas.
-
-# 1. Crea una función llamada 'calcular_valor_producto'. 
-#    - Debe recibir dos argumentos: 'cantidad' y 'precio_unitario'.
-#    - Debe retornar el producto de ambos.
-#    - No olvides documentarla (descripción, argumentos y retorno).
-
-# 2. Crea una función llamada 'aplicar_merma'.
-#    - Debe recibir el 'valor_total' y un 'porcentaje_merma' (pérdidas por deterioro).
-#    - Debe restar dicho porcentaje al valor total y retornar el resultado.
-
-# 3. Crea una función principal llamada 'gestion_stock'.
-#    - Debe recibir: 'unidades', 'precio' y 'porcentaje'.
-#    - Dentro de la función, utiliza estructuras de control (if) para validar:
-#      a) Que 'unidades' sea un valor numérico
-#      b) Que 'precio' sea un valor numérico 
-#    - La función debe llamar internamente a las dos funciones anteriores para 
-#      obtener el valor neto final tras aplicar la merma.
-
-# 4. Prueba la función principal con un caso de éxito (p.ej. 10 unidades a 20€ con 5% de merma) 
-#    y con un caso de error (introduciendo un texto en lugar de un número).
-
+# EJERCICIO 1. Función de Crecimiento Logístico de Poblaciones
+# En ecología, el crecimiento de una población suele seguir un modelo logístico. 
+# Crea una función llamada 'crecimiento_logistico' que calcule el tamaño poblacional (Nt).
+# La fórmula es: Nt = K / (1 + ((K - N0) / N0) * exp(-r * t))
+# Argumentos:
+#   - N0: Tamaño poblacional inicial.
+#   - K: Capacidad de carga del entorno.
+#   - r: Tasa intrínseca de crecimiento.
+#   - t: Tiempo transcurrido.
+# La función debe comprobar si alguno de los parámetros es negativo y, de ser así, 
+# detener la ejecución con un mensaje de error apropiado.
 
 
 # SOLUCIÓN:
-# 1. Función: calcular_valor_producto
-# Descripción: Calcula el valor total de un producto según existencias.
-# Argumentos: cantidad (unidades), precio_unitario (moneda).
-# Retorna: Valor total numérico.
-calcular_valor_producto <- function(cantidad, precio_unitario) {
-  return(cantidad * precio_unitario)
-}
-
-# 2. Función: aplicar_merma
-# Descripción: Resta un porcentaje de pérdida al valor total.
-# Argumentos: valor_total, porcentaje_merma.
-# Retorna: Valor neto tras la reducción.
-aplicar_merma <- function(valor_total, porcentaje_merma) {
-  descuento <- valor_total * (porcentaje_merma / 100)
-  return(valor_total - descuento)
-}
-
-# 3. Función Modular: gestion_stock
-# Descripción: Integra el cálculo de valor y merma con validación de datos.
-# Argumentos: unidades, precio, porcentaje.
-# Retorna: Valor final del stock.
-gestion_stock <- function(unidades, precio, porcentaje) {
-  
-  # Validación de 'unidades'
-  if (!is.numeric(unidades)) {
-    stop("'unidades' debe ser una variable numérica, prueba de nuevo")
+crecimiento_logistico <- function(N0, K, r, t) {
+  if (any(c(N0, K, r, t) < 0)) {
+    stop("Todos los parámetros biológicos deben ser valores no negativos.")
   }
+  Nt <- K / (1 + ((K - N0) / N0) * exp(-r * t))
+  return(Nt)
+}
+crecimiento_logistico(N0 = 10, K = 100, r = 0.5, t = 10)
+
+
+# EJERCICIO  2. Índice de Diversidad de Simpson
+# El índice de Simpson (D) mide la probabilidad de que dos individuos seleccionados 
+# al azar de una muestra pertenezcan a la misma especie: D = sum(pi^2), donde pi 
+# es la proporción de individuos de la especie i.
+# Crea una función 'indice_simpson' que reciba un vector numérico con las 
+# abundancias de cada especie.
+# Requisitos:
+#   - Debe calcular internamente las proporciones (pi).
+#   - Debe manejar valores NA eliminándolos antes del cálculo.
+#   - Debe retornar el valor de la diversidad (1 - D), conocido como Índice de 
+#     Diversidad de Simpson.
+
+
+# SOLUCIÓN
+indice_simpson <- function(abundancias) {
+  abundancias <- abundancias[!is.na(abundancias)]
+  proporciones <- abundancias / sum(abundancias)
+  D <- sum(proporciones^2)
+  return(1 - D)
+}
+
+# Solución ejemplo:
+indice_simpson(c(10, 20, 70, NA))
+
+
+# EJERCICIO 3. Conversión de Unidades y Modularidad
+# Es común en botánica medir la tasa de transpiración en diferentes unidades.
+# Crea dos funciones modulares:
+#   a) 'celsius_a_kelvin': convierte grados Celsius a Kelvin (K = C + 273.15).
+#   b) 'presion_vapor': calcula la presión de vapor de saturación (es) usando la 
+#      fórmula simplificada: es = 0.611 * exp((17.27 * Temp) / (Temp + 237.3)).
+# Crea una tercera función 'analisis_climatico' que reciba una temperatura en Celsius, 
+# use la primera función para obtener Kelvin y la segunda para obtener la presión, 
+# devolviendo ambos resultados en una lista etiquetada.
+
+
+# SOLUCIÓN:
+celsius_a_kelvin <- function(celsius) {
+  return(celsius + 273.15)
+}
+
+presion_vapor <- function(temp_c) {
+  es <- 0.611 * exp((17.27 * temp_c) / (temp_c + 237.3))
+  return(es)
+}
+
+analisis_climatico <- function(temp_c) {
+  res <- list(
+    temp_k = celsius_a_kelvin(temp_c),
+    presion_sat = presion_vapor(temp_c)
+  )
+  return(res)
+}
+
+analisis_climatico(25)
+
+
+# EJERCICIO 4. Función con Argumentos por Defecto: Estandarización de Biomasa
+# Imagina que estás analizando muestras de biomasa forestal. Crea una función 
+# llamada 'estandarizar_biomasa' que reciba un vector de pesos.
+# Argumentos:
+#   - x: Vector numérico de pesos.
+#   - metodo: Un texto que por defecto sea "centrado". 
+# Si metodo == "centrado", resta la media al vector.
+# Si metodo == "zscore", resta la media y divide por la desviación estándar.
+# Usa las funciones de ayuda 'mean' y 'sd' asegurándote de que siempre se 
+# eliminen los NA por defecto dentro de tu función.
+
+
+# SOLUCIÓN
+estandarizar_biomasa <- function(x, metodo = "centrado") {
+  mu <- mean(x, na.rm = TRUE)
+  sigma <- sd(x, na.rm = TRUE)
   
-  # Validación de 'precio'
-  if (!is.numeric(precio)) {
-    stop("'precio' debe ser una variable numérica, prueba de nuevo")
+  if (metodo == "centrado") {
+    return(x - mu)
+  } else if (metodo == "zscore") {
+    return((x - mu) / sigma)
+  } else {
+    stop("Método no reconocido. Usa 'centrado' o 'zscore'.")
   }
+}
+
+# Solución ejemplo:
+estandarizar_biomasa(c(1.2, 2.5, 0.8, 4.1), metodo = "zscore")
+
+
+# EJERCICIO 5. Scope y Reutilización: Filtro de Calidad de Datos Genómicos
+# Define una variable global 'UMBRAL_CALIDAD' con valor 20.
+# Crea una función 'filtrar_lecturas' que reciba un vector de puntuaciones de 
+# calidad de secuenciación.
+# La función debe:
+#   1. Identificar qué lecturas están por debajo del 'UMBRAL_CALIDAD'.
+#   2. Devolver una lista con: el vector filtrado (solo valores >= umbral) y el 
+#      porcentaje de lecturas eliminadas.
+# Demuestra qué ocurre si intentas acceder a una variable creada dentro de la 
+# función desde el entorno global.
+
+
+
+# SOLUCIÓN
+UMBRAL_CALIDAD <- 20
+
+filtrar_lecturas <- function(puntuaciones) {
+  eliminadas <- sum(puntuaciones < UMBRAL_CALIDAD, na.rm = TRUE)
+  porcentaje_perdida <- (eliminadas / length(puntuaciones)) * 100
+  filtradas <- puntuaciones[puntuaciones >= UMBRAL_CALIDAD]
   
-  # Proceso modular
-  valor_bruto <- calcular_valor_producto(unidades, precio)
-  valor_neto <- aplicar_merma(valor_bruto, porcentaje)
-  
-  return(valor_neto)
+  return(list(datos_limpios = filtradas, perdida = porcentaje_perdida))
 }
 
-# 4. --- Testing del sistema ---
-
-# Caso de éxito
-resultado_exito <- gestion_stock(unidades = 10, precio = 20, porcentaje = 5)
-print(paste("El valor neto del stock es:", resultado_exito))
-
-# Caso de error con stop (unidades como texto)
-gestion_stock(unidades = "10", precio = 20, porcentaje = 5)
-
-
-## Lógica de las Funciones ##
-# Sabemos como crear una función, pero... ¿que lógica debemos seguir para crear una función?
-# ADVERTENCIA: Es un consejo personal de como suelo hacerlo yo, seguro hay maneras diferentes y mejores
-
-# Ejemplo 1: Estandarización de nombres de usuario
-# En una base de datos de recursos humanos, los nombres han llegado con espacios
-# extra y mezclas de mayúsculas y minúsculas. 
-# Crea una función llamada 'normalizar_usuario' que reciba una cadena de texto, 
-# elimine los espacios en blanco a los extremos (usando trimws) y convierta 
-# todo el texto a minúsculas (usando tolower).
-
-# Paso 1: Crear un ejemplo de testing
-nombre = "    JuAn     " # creamos un ejemplo que contenga todas las particularidades, es como ponernos en el peor escenario
-# Paso 2: que pasos debo hacer?
-# como elimino espacios?
-nombre_trim <- trimws(nombre)
-# como transforme a minusculas?
-nombre_minus <- tolower(nombre_trim)
-# Paso 3: colapsar código
-# es posible colapsar algo de código sin generar líneas muy extensas
-nombre_minus <- tolower(trimws(nombre)) # esto sería el bloque de la función
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-normalizar_usuario <- function(nombre){
-  nombre_minus <- tolower(trimws(nombre))
-  return(nombre_minus)
-}
-
-# Paso 5: Testing. probar varias variantes
-normalizar_usuario("juan")
-normalizar_usuario("Juan")
-normalizar_usuario("   juan")
-
-
-# Ejemplo 2: Conversor de divisas con valor por defecto
-# Imagina que trabajas en un departamento financiero y necesitas convertir 
-# presupuestos de dólares a euros.
-# Crea una función llamada 'convertir_a_euros' que reciba una cantidad en dólares
-# y un tipo de cambio. El tipo de cambio debe tener un valor por defecto de 0.92.
-# La función debe devolver la cantidad resultante.
-
-# Paso 1: Crear un ejemplo de testing
-dolares <- 10
-cambio <- 0.92
-# Paso 2: que pasos debo hacer?
-# pasar de dólares a euros
-euros <- dolares * cambio
-# Paso 3: colapsar código
-# ya de por si el código es muy simple
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-convertir_a_euros <- function(dolares, cambio = 0.92){
-  euros <- dolares * cambio
-  return(euros)
-}
-
-# Paso 5: Testing. probar varias variantes
-convertir_a_euros(100)
-convertir_a_euros(100, cambio = 0.9)
-convertir_a_euros(10.85, cambio = 0.85)
-
-
-# Ejemplo 3: Cálculo de margen de beneficio (Vectorización)
-# Una empresa de retail necesita calcular rápidamente el beneficio neto de 
-# varios productos.
-# Crea una función llamada 'calcular_beneficio' que reciba dos argumentos: 
-# un vector de precios de venta y un vector de costes de adquisición. 
-# La función debe restar el coste al precio de venta para obtener el beneficio.
-# Prueba la función pasando dos vectores de la misma longitud: 
-# precios <- c(100, 250, 500) y costes <- c(60, 150, 420).
-
-# Paso 1: Crear un ejemplo de testing
-precios <- c(100, 250, 500)
-costes <- c(60, 150, 420)
-# Paso 2: que pasos debo hacer?
-# calcular beneficios
-beneficios <- precios - costes
-# calcular beneficio total
-total <- sum(beneficios)
-# Paso 3: colapsar código
-# ya de por si el código es muy simple
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-calcular_beneficio <- function(precios, costes){
-  beneficios <- precios - costes
-  total <- sum(beneficios)
-  return(total)
-}
-
-# Paso 5: Testing. probar varias variantes
-calcular_beneficio(precios, costes)
-calcular_beneficio(c(10, 20), c(5, 2, 1)) # WARNING: vectores de longitud distinta
-
-
-# Ejercicio 4: Flujo modular de gestión de inventario
-# Vamos a crear un sistema modular para gestionar el stock de un almacén.
-# Para ello, sigue estos tres pasos creando funciones independientes:
-#
-# A. Crea una función 'ajustar_stock' que reciba un vector de stock actual 
-#    y le reste una cantidad fija de unidades vendidas.
-#
-# B. Crea una función 'formatear_referencia' que reciba un código numérico 
-#    y una categoría, y devuelva una etiqueta usando paste0 de este tipo: 
-#    "REF-CATEGORIA-CODIGO" (la categoría debe aparecer en mayúsculas).
-#
-# C. Crea una función 'generar_alerta' que reciba el stock final y el nombre 
-#    de la referencia formateada, y devuelva un mensaje de texto que diga: 
-#    "Producto [NOMBRE_REF] actualizado. Stock restante: [VALOR]". Por defecto 
-#    la venta será de 1 unidad.
-#
-# Al finalizar, ejecuta el flujo completo usando un stock inicial de 50, 
-# para la categoría "muebles" y el código 105.
-
-# En este caso podemos dividir la función en módulos más pequeños. Tenemos dos opciones
-# 1. si tenemos claro como hacerlo, programamos primero los módulos y luego la 
-# función principal (generar_alerta)
-
-# PARTE 1
-# Paso 1: Crear un ejemplo de testing
-stock_inicial <- 50
-venta <- 1
-# Paso 2: que pasos debo hacer?
-# calcular stock
-stock_final <- stock_inicial - venta
-# Paso 3: colapsar código
-# ya de por si el código es muy simple
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-ajustar_stock <- function(stock_inicial, venta){
-  stock_final <- stock_inicial - venta
-  return(stock_final)
-}
-
-# Paso 5: Testing. probar varias variantes
-ajustar_stock(50, 1)
-
-# PARTE 2
-# Paso 1: Crear un ejemplo de testing
-categoria <- "muebles"
-codigo <- 105
-# Paso 2: que pasos debo hacer?
-# formatear la referencia
-paste("REF",toupper(categoria),codigo, sep = "-")
-# Paso 3: colapsar código
-# ya de por si el código es muy simple
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-formatear_referencia <- function(categoria, codigo){
-  formato <- paste("REF",toupper(categoria),codigo, sep = "-")
-  return(formato)
-}
-
-# Paso 5: Testing. probar varias variantes
-formatear_referencia("muebles", 105)
-
-# PARTE 3
-# Paso 1: Crear un ejemplo de testing
-categoria <- "muebles"
-codigo <- 105
-stock_inicial <- 50
-venta <- 1
-# Paso 2: que pasos debo hacer?
-# ajustar stock
-stock_final <- ajustar_stock(stock_inicial, venta)
-# formatear código
-formato <- formatear_referencia(categoria, codigo)
-# mensaje
-mensaje <- paste("Producto", formato,"actualizado. Stock restante:", stock_final)
-# Paso 3: colapsar código
-# ya de por si el código es muy simple, ya lo tenemos modularizado
-
-# Los pasos 1, 2 y 3 se deberían repetir siempre y cuando haya variantes en el código. 
-# Como en este caso es algo simple, solo necesitaremos comprobarlos una vez.
-
-# Paso 4: crear la función
-generar_alerta <- function(stock_inicial, categoria, codigo, venta = 1){
-  # ajustar stock
-  stock_final <- ajustar_stock(stock_inicial, venta)
-  # formatear código
-  formato <- formatear_referencia(categoria, codigo)
-  # mensaje: "Producto [NOMBRE_REF] actualizado. Stock restante: [VALOR]"
-  mensaje <- paste("Producto", formato,"actualizado. Stock restante:", stock_final)
-  return(mensaje)
-}
-
-# Paso 5: Testing. probar varias variantes
-generar_alerta(50, "muebles", 105)
-
-# 2. si no tenemos muy claro como hacer la función, intentamos hacerla completa, sin modular
-# Paso 1: Crear un ejemplo de testing
-categoria <- "muebles"
-codigo <- 105
-stock_inicial <- 50
-venta <- 1
-# Paso 2: que pasos debo hacer?
-# ajustar stock
-stock_final <- stock_inicial - venta
-# formatear código
-formato <- paste("REF",toupper(categoria),codigo, sep = "-")
-# mensaje
-mensaje <- paste("Producto", formato,"actualizado. Stock restante:", stock_final)
-# Paso 3: colapsar código
-# en este punto ya podemos valorar la necesidad de crear funciones modulares
-
-# Paso 4: crear la función
-generar_alerta <- function(stock_inicial, categoria, codigo, venta = 1){
-  # ajustar stock
-  stock_final <- stock_inicial - venta # decidir si esto se puede modular, si se puedo crear una función
-  # formatear código
-  formato <- paste("REF",toupper(categoria),codigo, sep = "-") # decidir si esto se puede modular, si se puede crear una función
-  # mensaje
-  mensaje <- paste("Producto", formato,"actualizado. Stock restante:", stock_final) # decidir si esto se puede modular, si se puede crear una función
-  return(mensaje)
-}
-
-# Paso 5: Testing. probar varias variantes
-generar_alerta(50, "muebles", 105)
-
-
-
-##########################################################
-# EJERCICIOS DE REFUERZO: FUNCIONES EN R #
-##########################################################
-
-# Ejercicio 1: Exploración de funciones estadísticas en campo
-# Situación: Has registrado la altura de 10 ejemplares de una planta endémica.
-# Uno de los datos se perdió (NA).
-# 1. Crea un vector llamado 'alturas' con los valores: 1.25, 0.82, 1.54, NA, 1.11, 1.32, 0.93, 1.47, 1.08, 1.29
-# 2. Usa la ayuda (?) para investigar la función 'range'.
-# 3. Calcula el rango de alturas evitando que el valor NA invalide el resultado.
-# 4. Redondea el resultado de la media de estas alturas a un solo decimal usando la función 'round'.
-
-
-
-
-
-# Ejercicio 1
-?range
-alturas <- c(1.25, 0.82, 1.54, NA, 1.11, 1.32, 0.93, 1.47, 1.08, 1.29)
-round(range(alturas, na.rm = TRUE), 1)
-
-
-# Ejercicio 2: Entendiendo los argumentos por orden vs. nombre
-# Situación: Queremos calcular el logaritmo de la biomasa de una parcela para normalizar los datos.
-# 1. Imagina que la biomasa es 150. Calcula su logaritmo en base 10 de tres formas distintas:
-#    a) Especificando los nombres de los argumentos (x y base).
-#    b) Usando solo el orden de los argumentos.
-#    c) Mezclando el primer argumento por orden y el segundo por nombre.
-
-
-
-
-
-# Ejercicio 2
-biomasa <- 150
-log(x = biomasa, base = 10)
-log(biomasa, 10)
-log(biomasa, base = 10)
-
-
-
-# Ejercicio 3: Función básica de conversión de unidades
-# Situación: En los muestreos de agua, la temperatura se toma a veces en Fahrenheit, 
-# pero necesitamos Celsius para el informe.
-# 1. Crea una función llamada 'farenheit_a_celsius'.
-# 2. La fórmula es: (farenheit - 32) * (5 / 9).
-# 3. La función debe recibir el argumento 'temp_f' y retornar el valor convertido.
-# 4. Prueba la función con 32, 68 y 100 grados Fahrenheit.
-
-
-
-
-
-# Ejercicio 3
-farenheit_a_celsius <- function(temp_f){
-  temp_c <- (temp_f - 32) * (5 / 9)
-  return(temp_c)
-}
-farenheit_a_celsius(32)
-farenheit_a_celsius(68)
-farenheit_a_celsius(100)
+# Solución ejemplo y verificación de scope:
+resultado <- filtrar_lecturas(c(15, 22, 30, 18, 25))
+print(resultado)

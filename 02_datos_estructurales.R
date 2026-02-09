@@ -102,6 +102,11 @@ mi_vector_repetido <- c(rep("Hola", 4), "Hello")
 duplicated(mi_vector_repetido) # la primera vez que se encuentra un elemento repetido es FALSE, a partir de la segunda es TRUE
 unique(mi_vector_repetido) # devuelve los elementos únicos de un vector
 
+# Todos o ningñun elemento cumplen una condición
+any(vector_numeros < 5) # algún elemento es menor de 5
+all(vector_numeros < 5) # todos los elementos son menores de 5
+
+
 ### Operaciones Estadísticas ----
 mean(vector_numeros) # media
 median(vector_numeros) # mediana
