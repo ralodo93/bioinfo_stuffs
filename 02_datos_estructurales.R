@@ -136,77 +136,111 @@ vector_numeros[vector_numeros > 3] # Devuelve solo los mayores de 3
 vector_numeros[3] <- 8          # Cambia la posición 3 por el valor 8
 vector_numeros[vector_numeros < 3] <- 0 # Cambia todos los menores de 3 a 0
 
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un ecólogo está estudiando una población de anfibios en una charca. 
+# Durante 7 días, registra el número de ejemplares avistados. Sin embargo, 
+# el segundo día no pudo realizar el muestreo por lluvia, y el quinto día 
+# anotó un valor erróneo que debe ser corregido.
+#
+# Enunciado:
+# 1. Crea un vector llamado 'avistamientos' con los valores: 12, NA, 15, 8, 42, 10, 14.
+# 2. El valor 42 (posición 5) es un error; cámbialo por el valor correcto: 11.
+# 3. Asigna nombres al vector 'avistamientos' ("Lunes", "Martes", etc.)
+# 4. Calcula la media de avistamientos eliminando primero el valor NA con la 
+#    función na.omit(). Guarda el resultado en 'media_presencia'. Redondea el resultado a 1 decimal
+############################################################
 
-# EJERCICIO 1: Diseño experimental y repeticiones
-# Contexto: Vas a montar un experimento con 3 tratamientos: "Control", 
-# "Nitrógeno" y "Fósforo". Necesitas 5 réplicas por tratamiento.
-# 1. Crea un vector llamado 'tratamientos' que repita cada etiqueta 5 veces 
-#    seguidas (es decir: Control, Control..., Nitrógeno, Nitrógeno...).
-# 2. Crea un vector llamado 'id_parcela' que contenga una secuencia de 
-#    números del 1 al 15.
-# 3. Usa la función 'length()' para comprobar que ambos vectores miden lo mismo.
+# El estudiante debe completar a partir de aquí:
 
-
-# SOLUCIÓN
-tratamientos <- rep(c("Control", "Nitrogeno", "Fosforo"), each = 5)
-id_parcela <- 1:15
-length(tratamientos) == length(id_parcela)
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 2: Simulación de datos y estadística descriptiva
-# Contexto: Simulamos la longitud (en cm) de 50 individuos de una población 
-# de peces que sigue una distribución normal (media = 15, sd = 2).
-# 1. Fija la semilla en '123' para que el resultado sea reproducible.
-# 2. Genera el vector 'peces_longitud' con 50 valores aleatorios normales.
-# 3. Calcula la media, la desviación estándar y el valor máximo de la muestra.
-# 4. ¿Cuántos peces miden más de 18 cm? (Pista: usa sum() sobre un vector lógico).
 
 
 # SOLUCIÓN
-set.seed(123)
-peces_longitud <- rnorm(50, mean = 15, sd = 2)
-mean(peces_longitud)
-sd(peces_longitud)
-max(peces_longitud)
-sum(peces_longitud > 18)
 
-#-------------------------------------------------------------------------#
+avistamientos <- c(12, NA, 15, 8, 42, 10, 14)
 
-# EJERCICIO 3: Muestreo aleatorio y operadores de pertenencia
-# Contexto: Tienes un inventario de 6 especies presentes en un ecosistema.
-# 1. Crea el vector 'especies' con: "Quercus", "Pinus", "Fagus", "Betula", 
-#    "Abies" y "Acer".
-# 2. Selecciona aleatoriamente 3 especies para un análisis genético (sin repetición).
-# 3. Comprueba mediante el operador %in% si la especie "Betula" ha sido 
-#    seleccionada en tu sorteo aleatorio.
+avistamientos[5] <- 11
+
+names(avistamientos) <- c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+avistamientos
+
+avistamientos <- na.omit(avistamientos)
+
+media_presencia <- round(mean(avistamientos), 1)
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# En un laboratorio de genética se generan 100 secuencias cortas de ADN 
+# de forma aleatoria para testear un algoritmo. Se sabe que el contenido 
+# GC (Guanina-Citosina) en estas secuencias sigue una distribución normal.
+#
+# Enunciado:
+# 1. Fija una semilla de aleatoriedad con el número 2024.
+# 2. Genera un vector llamado 'contenido_gc' con 100 valores aleatorios 
+#    que sigan una distribución normal con media 50 y desviación estándar 5.
+# 3. ¿Hay algún valor en el vector que sea mayor a 65? Usa una función 
+#    que devuelva un solo valor lógico (TRUE/FALSE).
+# 4. Crea un nuevo vector llamado 'altos_gc' que contenga únicamente los 
+#    valores de 'contenido_gc' que sean superiores a 55.
+# 5. Calcula cuántos valores hay en el vector 'altos_gc' utilizando la 
+#    función que mide la longitud del vector.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
 
 
 # SOLUCIÓN
-especies <- c("Quercus", "Pinus", "Fagus", "Betula", "Abies", "Acer")
-seleccionadas <- sample(especies, size = 3)
-"Betula" %in% seleccionadas
 
-#-------------------------------------------------------------------------#
+set.seed(2024)
 
-# EJERCICIO 4: Indexación, limpieza y sustitución (Outliers)
-# Contexto: Dispones de un vector de biomasa (kg) con algunos errores de 
-# medición y valores ausentes (NA).
-# 1. Crea el vector: biomasa <- c(1.2, 2.5, NA, 450, 3.1, 1.8).
-# 2. El valor 450 es un error (outlier); cámbialo por un valor de 4.5 
-#    usando indexación por posición (es la 4ª posición).
-# 3. Crea un nuevo vector 'biomasa_limpia' eliminando los valores NA.
-# 4. En 'biomasa_limpia', sustituye todos los valores menores a 2 por el valor 0.
+contenido_gc <- rnorm(100, mean = 50, sd = 5)
+
+any(contenido_gc > 65)
+
+altos_gc <- contenido_gc[contenido_gc > 55]
+
+length(altos_gc)
+
+
+############################################################
+# EJERCICIO 3
+# Contexto:
+# Un nutricionista analiza los componentes de varias dietas. Tiene una 
+# lista de "Superalimentos" y quiere comprobar si los ingredientes de 
+# un paciente están en esa lista, además de limpiar duplicados.
+#
+# Enunciado:
+# 1. Crea el vector 'superalimentos' con: "Arándano", "Espinaca", "Nuez", "Chía".
+# 2. Crea el vector 'dieta_paciente' repitiendo "Nuez" 3 veces y "Manzana" 2 veces.
+# 3. Obtén los elementos únicos de 'dieta_paciente' y guárdalos en 'ingredientes'.
+# 4. Usa el operador %in% para verificar cuáles de los 'ingredientes' están 
+#    en la lista de 'superalimentos'.
+# 5. Genera un texto colapsado (en una sola cadena) que diga: 
+#    "Ingredientes a analizar: [aquí los elementos de tu vector ingredientes]" 
+#    separados por un guion (" - ").
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
 
 
 # SOLUCIÓN
-biomasa <- c(1.2, 2.5, NA, 450, 3.1, 1.8)
-biomasa[4] <- 4.5
-biomasa_limpia <- na.omit(biomasa)
-biomasa_limpia[biomasa_limpia < 2] <- 0
-biomasa_limpia
 
-#-------------------------------------------------------------------------#
+superalimentos <- c("Arándano", "Espinaca", "Nuez", "Chía")
+
+dieta_paciente <- c(rep("Nuez", 3), rep("Manzana", 2))
+
+ingredientes <- unique(dieta_paciente)
+
+ingredientes %in% superalimentos
+
+paste("Ingredientes a analizar:", paste(ingredientes, collapse = " - "))
+
+
+############################################################
 
 
 # Factores ----
@@ -233,27 +267,45 @@ levels(factor_climas)  # Muestra las categorías únicas del factor
 nlevels(factor_climas) # Indica cuántas categorías diferentes existen
 table(factor_climas)   # Crea una tabla de frecuencias (cuenta cuántos hay de cada nivel)
 
-# EJERCICIO 1: Categorización de la degradación del hábitat
-# Contexto: En un estudio de conservación, has evaluado 12 parcelas y las has 
-# clasificado según su nivel de degradación: "Baja", "Media" y "Alta".
-# 1. Crea un vector llamado 'muestreo' que repita 4 veces cada categoría 
-#    usando la función 'rep()' con el argumento 'each'.
-# 2. Transforma ese vector en un factor llamado 'factor_degradacion'.
-# 3. Define los niveles ('levels') para que sigan un orden lógico de menor 
-#    a mayor impacto: "Baja", "Media", "Alta".
-# 4. Usa la función 'table()' para obtener el recuento de parcelas en cada 
-#    categoría y comprueba que aparecen en el orden correcto.
+############################################################
+# EJERCICIO 1
+# Contexto:
+# En un estudio sobre oncología, se clasifica la gravedad de los tumores 
+# de 15 pacientes utilizando la escala TNM simplificada: "Benigno", 
+# "Moderado" y "Grave". Es vital que el factor mantenga un orden clínico 
+# lógico (de menor a mayor gravedad) para que los análisis posteriores 
+# no sigan el orden alfabético por defecto.
+#
+# Enunciado:
+# 1. Crea un vector llamado 'muestras_cancer' que contenga 15 valores 
+#    aleatorios de las categorías: "Benigno", "Moderado" y "Grave". 
+#    (Usa sample con reemplazo).
+# 2. Convierte ese vector en un factor llamado 'factor_cancer'.
+# 3. Define manualmente los niveles (levels) para que el orden sea: 
+#    1. Benigno, 2. Moderado, 3. Grave.
+# 4. Utiliza una función para contar cuántos pacientes hay en cada 
+#    categoría de gravedad.
+# 5. Muestra por consola cuántos niveles o categorías distintas 
+#    tiene tu factor.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+set.seed(2024)
 
 
 # SOLUCIÓN
-muestreo <- rep(c("Baja", "Media", "Alta"), each = 4)
-factor_degradacion <- factor(muestreo, levels = c("Baja", "Media", "Alta"))
 
-# Comprobación de la estructura y frecuencias
-levels(factor_degradacion)
-table(factor_degradacion)
+muestras_cancer <- sample(c("Benigno", "Moderado", "Grave"), size = 15, replace = TRUE)
 
-#-------------------------------------------------------------------------#
+factor_cancer <- factor(muestras_cancer)
+
+factor_cancer <- factor(muestras_cancer, levels = c("Benigno", "Moderado", "Grave"))
+
+table(factor_cancer)
+
+nlevels(factor_cancer)
+
+############################################################
 
 
 # Matrices ----
@@ -318,60 +370,78 @@ matriz1[1,] <- c(1, 4, 7) # Modifica todos los valores de la fila 1 mediante un 
 
 matriz1[matriz1 > 2] <- 8 # Modifica todos los valores mayores que 2 y los convierte en 8
 
-# EJERCICIO 1: Creación y etiquetado de una matriz de abundancia
-# Contexto: Has muestreado 3 parcelas (P1, P2, P3) y has registrado la 
-# abundancia de 3 especies de insectos.
-# 1. Crea una matriz llamada 'comunidad' con los valores del 1 al 9, 
-#    organizados en 3 columnas (una columna por especie).
-# 2. Asigna nombres a las filas: "Parcela_1", "Parcela_2" y "Parcela_3".
-# 3. Asigna nombres a las columnas: "Especie_A", "Especie_B" y "Especie_C".
-# 4. Usa la función 'dim()' para verificar las dimensiones de tu matriz.
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un laboratorio de análisis clínicos registra los niveles de tres 
+# metabolitos (Glucosa, Urea y Ácido Úrico) en tres pacientes distintos. 
+# Los datos deben organizarse en una estructura bidimensional para su 
+# correcta interpretación y etiquetado.
+#
+# Enunciado:
+# 1. Crea una matriz llamada 'analisis' con los números del 1 al 9, 
+#    distribuidos en 3 columnas.
+# 2. Asigna nombres a las columnas: "Glucosa", "Urea" y "Ac_Urico".
+# 3. Asigna nombres a las filas: "Paciente_A", "Paciente_B" y "Paciente_C".
+# 4. Accede únicamente a la columna "Urea" por su nombre y muestra el 
+#    resultado.
+# 5. Muestra por consola las dimensiones (filas y columnas) de la matriz.
+############################################################
 
+# El estudiante debe completar a partir de aquí:
 
-# SOLUCIÓN
-comunidad <- matrix(1:9, ncol = 3)
-rownames(comunidad) <- c("Parcela_1", "Parcela_2", "Parcela_3")
-colnames(comunidad) <- c("Especie_A", "Especie_B", "Especie_C")
-dim(comunidad)
-comunidad
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 2: Extracción de datos y submuestreo
-# Contexto: Utilizando la matriz 'comunidad' del ejercicio anterior:
-# 1. Extrae en un vector todas las abundancias de la "Parcela_2".
-# 2. Extrae el valor de abundancia de la "Especie_C" en la "Parcela_1" 
-#    usando los nombres de filas y columnas.
-# 3. Calcula la suma total de individuos de la "Especie_B" (toda la columna 2).
-# 4. Calcula la desviación estándar de toda la matriz
 
 
 # SOLUCIÓN
-abund_p2 <- comunidad["Parcela_2", ]
-abund_p1_spC <- comunidad["Parcela_1", "Especie_C"]
-total_spB <- sum(comunidad[, "Especie_B"])
-media_matriz <- mean(comunidad)
 
-#-------------------------------------------------------------------------#
+analisis <- matrix(1:9, ncol = 3)
 
-# EJERCICIO 3: Umbrales de detección y reasignación
-# Contexto: En un estudio de presencia/ausencia, decidimos que cualquier 
-# valor de abundancia inferior a 4 es poco fiable y debe considerarse 0.
-# 1. Crea una copia de la matriz llamada 'comunidad_limpia'.
-# 2. Sustituye todos los valores menores a 4 por el valor 0 usando 
-#    indexación por condición.
-# 3. Multiplica la matriz resultante por 10 para simular una estima 
-#    de densidad por hectárea.
+colnames(analisis) <- c("Glucosa", "Urea", "Ac_Urico")
+
+rownames(analisis) <- c("Paciente_A", "Paciente_B", "Paciente_C")
+
+analisis[,"Urea"]
+
+dim(analisis)
+
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# Estás analizando la expresión de 4 genes en 5 muestras de tejido. 
+# Debido a un error de lectura, algunos valores son extremadamente altos 
+# y deben ser normalizados. Además, una de las muestras presenta un valor 
+# perdido (NA) que debe ser gestionado antes del análisis estadístico.
+#
+# Enunciado:
+# 1. Crea una matriz llamada 'expresion' de 5 filas y 4 columnas usando 
+#    valores aleatorios de una distribución normal (media=10, sd=2). 
+#    Usa set.seed(42) antes de generar los datos.
+# 2. Introduce un valor NA en la celda de la fila 2, columna 3.
+# 3. Crea una nueva matriz llamada 'expresion_limpia' eliminando la fila 
+#    que contiene el valor NA.
+# 4. En la matriz 'expresion_limpia', busca todos los valores que sean 
+#    mayores a 12 y sustitúyelos por el valor exacto 12 (truncamiento).
+# 5. Calcula la media global de todos los elementos de 'expresion_limpia'.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
 
 
 # SOLUCIÓN
-comunidad_limpia <- comunidad
-comunidad_limpia[comunidad_limpia < 4] <- 0
-comunidad_hectarea <- comunidad_limpia * 10
+set.seed(42)
+expresion <- matrix(rnorm(20, mean = 10, sd = 2), ncol = 4)
 
-comunidad_hectarea
+expresion[2, 3] <- NA
 
-#-------------------------------------------------------------------------#
+expresion_limpia <- na.omit(expresion)
+
+expresion_limpia[expresion_limpia > 12] <- 12
+
+mean(expresion_limpia)
+
+############################################################
 
 
 # DataFrames ----
@@ -406,6 +476,17 @@ nombres[2] <- NA
 tabla_nombres <- data.frame(nombre = nombres, edad = edades)
 na.omit(tabla_nombres) # Elimina las filas que tengan un NA
 
+# Unir Dataframes
+
+# Concatenar filas
+tabla_nombres2 <- data.frame(nombre = c("Ana", "Alex"), edad = c(35, 45))
+tabla_final <- rbind(tabla_nombres, tabla_nombres2)
+
+# Concatenar Columnas
+bioquimica <- data.frame(glucosa = rnorm(4, mean = 85, sd = 2), proteina = rnorm(4, mean = 7, sd = 0.2))
+tabla_final <- cbind(tabla_final, bioquimica)
+
+
 ## Acceso a Elementos ----
 ### Por Posición, Nombre y Condición ----
 nombres <- c("Luis", "Sara", "Esteban")
@@ -433,80 +514,81 @@ tabla_nombres[tabla_nombres$edad < 25, "nombre"] <- "Juan"
 tabla_nombres$Telefono <- c(900800100, 900700100, 900600100)
 tabla_nombres
 
-# EJERCICIO 1: Construcción de una base de datos de campo
-# Contexto: Crea una tabla con los datos de 3 ejemplares de tortuga capturados.
-# 1. Crea tres vectores: 'id' (T1, T2, T3), 'especie' (un factor con los niveles 
-#    "Mora" y "Leprosa") y 'peso_gr' (valores: 450, 520, 480).
-# 2. Une los vectores en un data frame llamado 'registro_tortugas'.
-# 3. Usa la función 'dim()' para confirmar que tienes 3 filas y 3 columnas.
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un equipo de investigación está realizando un seguimiento de constantes 
+# vitales en pacientes de una unidad de cuidados intensivos. Se dispone 
+# de los nombres y la frecuencia cardíaca, pero se necesita consolidar 
+# la información y limpiar los registros incompletos.
+#
+# Enunciado:
+# 1. Crea un dataframe llamado 'pacientes' con dos columnas: 
+#    'nombre' (Marcos, Elena, NA) y 'ppm' (frecuencia cardíaca: 72, 85, 60).
+# 2. Utiliza una función para visualizar el número total de filas y 
+#    columnas que tiene el dataframe.
+# 3. Elimina del dataframe cualquier fila que contenga un valor NA.
+# 4. Añade una nueva columna llamada 'Estado' con el valor "Estable" 
+#    para todos los pacientes restantes.
+############################################################
 
+# El estudiante debe completar a partir de aquí:
 
-# SOLUCIÓN
-id <- c("T1", "T2", "T3")
-especie <- factor(c("Mora", "Leprosa", "Mora"), levels = c("Mora", "Leprosa"))
-peso_gr <- c(450, 520, 480)
-
-registro_tortugas <- data.frame(id = id, especie = especie, peso_gr = peso_gr)
-dim(registro_tortugas)
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 2: Acceso, filtrado y limpieza de registros
-# Contexto: Trabajando con el data frame 'registro_tortugas' del ejercicio anterior:
-# 1. Accede a la columna 'peso_gr' usando el operador '$' y calcula su media.
-# 2. Selecciona únicamente las filas cuya especie sea igual a "Mora".
-# 3. Supón que el registro T2 tiene un peso erróneo. Cambia el peso de la 
-#    fila 2, columna 3, por el valor 500.
 
 
 # SOLUCIÓN
-media_peso <- mean(registro_tortugas$peso_gr)
-solo_mora <- registro_tortugas[registro_tortugas$especie == "Mora", ]
-registro_tortugas[2, 3] <- 500
 
-#-------------------------------------------------------------------------#
+pacientes <- data.frame(nombre = c("Marcos", "Elena", NA),
+                        frecuencia_cardiaca = c(72, 85, 60))
 
-# EJERCICIO 3: Simulación de un inventario forestal masivo
-# Contexto: Necesitas generar una tabla de datos simulada para una clase práctica 
-# con 100 árboles de un bosque mediterráneo.
-# 1. Fija la semilla en '2026'.
-# 2. Crea la columna 'altura' con 100 valores aleatorios normales (media=12, sd=3).
-# 3. Crea la columna 'tipo_suelo' repitiendo 50 veces "Calizo" y 50 veces "Silíceo".
-# 4. Crea la columna 'estado' seleccionando aleatoriamente entre "Sano" y "Enfermo" 
-#    100 veces con reemplazo.
-# 5. Une todo en un data frame llamado 'bosque_simulado'.
+dim(pacientes)
+
+pacientes <- na.omit(pacientes)
+
+pacientes$Estado <- "Estable"
 
 
-# SOLUCIÓN
-set.seed(2026)
-altura <- rnorm(100, mean = 12, sd = 3)
-tipo_suelo <- rep(c("Calizo", "Siliceo"), each = 50)
-estado <- sample(c("Sano", "Enfermo"), size = 100, replace = TRUE)
+############################################################
+# EJERCICIO 2
+# Contexto:
+# En un estudio multicéntrico sobre diabetes, se han recogido datos de 
+# glucosa en dos hospitales diferentes. Es necesario unir ambas bases de 
+# datos, añadir información sobre el tratamiento y filtrar aquellos 
+# pacientes con niveles de glucosa en riesgo (superiores a 100 mg/dL).
+#
+# Enunciado:
+# 1. Crea 'hospital_A' con los pacientes "P1" y "P2" (columna 'id') 
+#    y glucosa 95 y 110 (columna 'glucosa').
+# 2. Crea 'hospital_B' con los pacientes "P3" y "P4" y glucosa 88 y 120.
+# 3. Une ambos dataframes por filas en una variable llamada 'estudio_total'.
+# 4. Crea un segundo dataframe llamado 'clinica' que contenga una sola 
+#    columna 'insulina' con 4 valores lógicos (TRUE, FALSE, TRUE, FALSE).
+# 5. Une 'estudio_total' y 'clinica' por columnas.
+# 6. Filtra el dataframe final para mostrar solo las filas donde la 
+#    'glucosa' sea mayor a 100.
+############################################################
 
-bosque_simulado <- data.frame(altura = altura, tipo_suelo = tipo_suelo, estado = estado)
-head(bosque_simulado) # Visualizar las primeras filas
+# El estudiante debe completar a partir de aquí:
 
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 4: Análisis condicional y gestión de errores
-# Contexto: Utilizando el data frame 'bosque_simulado' del ejercicio anterior:
-# 1. Filtra y muestra solo los árboles que midan más de 15 metros Y estén "Sanos".
-# 2. Crea una nueva columna llamada 'id_arbol' que contenga una secuencia del 1 al 100.
-# 3. Por un error de sensor, todas las alturas mayores de 20 metros son erróneas. 
-#    Identifica esas celdas y cámbialas por el valor NA.
-# 4. Crea un nuevo data frame llamado 'bosque_final' que elimine todas las 
-#    filas que ahora contienen NA.
 
 
 # SOLUCIÓN
-arboles_top <- bosque_simulado[bosque_simulado$altura > 15 & bosque_simulado$estado == "Sano", ]
-bosque_simulado$id_arbol <- 1:100
-bosque_simulado[bosque_simulado$altura > 20, "altura"] <- NA
-bosque_final <- na.omit(bosque_simulado)
 
-nrow(bosque_final) # Comprobar cuántos árboles quedan tras la limpieza
+hospital_1 <- data.frame(id = c("P1", "P2"),
+                         glucosa = c(95, 110))
 
-#-------------------------------------------------------------------------#
+hospital_2 <- data.frame(id = c("P3", "P4"),
+                         glucosa = c(88, 120))
+
+estudio_total <- rbind(hospital_1, hospital_2)
+
+clinica <- data.frame(insulina = c(TRUE, FALSE, TRUE, FALSE))
+
+estudio_total <- cbind(estudio_total, clinica)
+
+estudio_total[estudio_total$glucosa > 100,]
+
+############################################################
 
 # Listas ----
 ## Crear Listas ----
@@ -551,137 +633,165 @@ lista1[["texto"]]
 lista1$num
 
 
-# EJERCICIO 1: Gestión de metadatos de un inventario
-# Contexto: En ecología, a menudo guardamos los datos junto con sus metadatos.
-# 1. Crea una lista llamada 'inventario' que contenga:
-#    - 'fecha': "2026-02-06"
-#    - 'especies': Un vector con "Lince", "Águila", "Corzo"
-#    - 'conteo': Un vector con 2, 5, 12
-# 2. Accede al nombre de la segunda especie ("Águila") usando el símbolo '$' 
-#    para entrar en la lista y corchetes [] para la posición del vector.
-# 3. Añade un cuarto elemento a la lista llamado 'responsable' con tu nombre.
+############################################################
+# EJERCICIO 15
+# Contexto:
+# Un investigador en genómica está procesando una muestra de tejido. 
+# Para organizar la información, decide utilizar una lista que contenga 
+# el nombre del proyecto, las lecturas de expresión de tres genes y los 
+# nombres de dichos genes obtenidos a partir de una cadena de texto.
+#
+# Enunciado:
+# 1. Crea una variable 'cadena_genes' con el texto "GAPDH;BRCA1;TP53".
+# 2. Utiliza la función strsplit() para dividir la cadena por el separador ";" 
+#    y guarda el resultado en una lista llamada 'lista_nombres'.
+# 3. Crea una lista maestra llamada 'experimento' que contenga tres elementos:
+#    - 'id': un número entero (p.ej. 101).
+#    - 'genes': el vector con los nombres de los genes (pista: usa unlist() 
+#       sobre 'lista_nombres').
+#    - 'expresion': un vector numérico con los valores 14.5, 2.3, 8.9.
+# 4. Accede al vector de 'expresion' dentro de la lista 'experimento' 
+#    usando el operador $ y calcula su media.
+# 5. Cambia el nombre del primer elemento de la lista 'experimento' 
+#    de "id" a "codigo_muestra" usando la función names().
+############################################################
+
+# El estudiante debe completar a partir de aquí
 
 
-# SOLUCIÓN:
-inventario <- list(fecha = "2026-02-06", 
-                   especies = c("Lince", "Águila", "Corzo"), 
-                   conteo = c(2, 5, 12))
-
-especie_dos <- inventario$especies[2]
-inventario$responsable <- "Tu Nombre"
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 2: Descomposición de códigos de anillamiento
-# Contexto: Las anillas de unas aves recuperadas tienen el formato "ES.99" 
-# (País.Código). Necesitas separar ambos datos.
-# 1. Usa 'strsplit()' para dividir el texto "ES.99" usando el punto "." como split.
-# 2. El resultado es una lista. Úsala para extraer solo el código numérico (99). 
-#    Recuerda usar doble corchete [[]] para acceder al contenido y luego 
-#    el índice del vector, o usar 'unlist()'.
-
-
-# SOLUCIÓN
-anilla_split <- strsplit("ES.99", split = ".", fixed = TRUE)
-
-# Opción A: Accediendo directamente a la jerarquía
-codigo_num <- anilla_split[[1]][2]
-
-# Opción B: Simplificando la estructura primero
-vector_anilla <- unlist(anilla_split)
-codigo_num_v2 <- vector_anilla[2]
-
-
-#==============================================================================#
-# EJERCICIOS DE REPASO
-#==============================================================================#
-
-# EJERCICIO 1: Simulación de Gradiente Altitudinal y Respuesta Vegetal
-# Contexto: Queremos estudiar cómo varía la biomasa de una planta según la altitud.
-# 1. Genera un vector 'altitud' con una secuencia de 100 a 1000 metros, en intervalos de 100.
-# 2. Para cada altitud, se han tomado 3 muestras. Crea un vector 'muestras_alt' que 
-#    repita cada valor de altitud 3 veces (Total: 30 elementos).
-# 3. Simula la 'biomasa' mediante una distribución normal con media 25 y sd 5.
-# 4. Debido a un fallo del sensor, los valores de biomasa por debajo de 20 en 
-#    altitudes superiores a 800 metros son erróneos. Localiza esos casos, 
-#    sustitúyelos por NA y crea un dataframe final llamado 'estudio_altitud' 
-#    sin esos valores perdidos.
 
 
 # SOLUCIÓN
-altitud <- seq(100, 1000, by = 100)
-muestras_alt <- rep(altitud, each = 3)
-set.seed(42) # Para reproducibilidad
-biomasa <- rnorm(length(muestras_alt), mean = 25, sd = 5)
-indices_error <- muestras_alt > 800 & biomasa < 20
-biomasa[indices_error] <- NA
-estudio_altitud <- na.omit(data.frame(altitud = muestras_alt, biomasa = biomasa))
 
+cadena_genes <- "GAPDH;BRCA1;TP53"
 
-#-------------------------------------------------------------------------#
+lista_nombres <- strsplit(cadena_genes, ";")
 
-# EJERCICIO 2: Análisis de Comunidades mediante Matrices y Coerción
-# Contexto: Dispones de una matriz de abundancia de 4 especies en 3 islas.
-# 1. Crea una matriz 3x4 llamada 'islas_mat' con valores aleatorios de una 
-#    distribución uniforme entre 0 y 50 (usa runif y redondea con round()).
-# 2. Asigna nombres a las filas ("Ibiza", "Mallorca", "Menorca") y a las 
-#    columnas ("Sp_1", "Sp_2", "Sp_3", "Sp_4").
-# 3. Calcula la abundancia total de la isla "Mallorca".
-# 4. Transforma la matriz en un dataframe y añade una columna de tipo factor 
-#    llamada 'proteccion' que asigne "Alta" a Ibiza, "Media" a Mallorca y "Baja" a Menorca.
-
-
-# SOLUCIÓN
-set.seed(123)
-islas_mat <- matrix(round(runif(12, 0, 50)), nrow = 3, ncol = 4)
-rownames(islas_mat) <- c("Ibiza", "Mallorca", "Menorca")
-colnames(islas_mat) <- paste0("Sp_", 1:4)
-total_mallorca <- sum(islas_mat["Mallorca", ])
-islas_df <- as.data.frame(islas_mat)
-islas_df$proteccion <- factor(c("Alta", "Media", "Baja"), levels = c("Baja", "Media", "Alta"))
-
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 3: Gestión de Capturas y Re-avistamientos (Lógica y Texto)
-# Contexto: Tienes un historial de códigos de captura: "Z-22", "Z-45", "X-10", "Z-22", "Y-01".
-# 1. Almacena estos códigos en un vector 'capturas'.
-# 2. Usa una función para identificar qué capturas son duplicadas (re-avistamientos).
-# 3. Crea un nuevo vector 'unicas' que contenga solo los códigos sin repetir.
-# 4. Usa 'paste()' para generar un mensaje que diga: "El inventario final incluye: ..." 
-#    colapsando los códigos únicos separados por un guion " - ".
-
-
-# SOLUCIÓN
-capturas <- c("Z-22", "Z-45", "X-10", "Z-22", "Y-01")
-reavistamientos <- duplicated(capturas)
-unicas <- unique(capturas)
-mensaje <- paste("El inventario final incluye:", paste(unicas, collapse = " - "))
-
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 4: Estructura Compleja de un Proyecto de Monitorización
-# Contexto: Debes organizar toda la información de una campaña de anillamiento en una lista.
-# 1. Crea una lista llamada 'proyecto_aves' que contenga:
-#    - Un vector 'tecnicos' con 2 nombres.
-#    - Un dataframe con 5 filas y 2 columnas (ID_ave, Peso).
-#    - Una matriz 2x2 con el éxito de eclosión por zona.
-# 2. Accede al peso de la tercera ave registrada en el dataframe dentro de la lista.
-# 3. Supón que el segundo técnico se ha jubilado; cambia su nombre por "Vacante" 
-#    accediendo directamente a la posición dentro de la lista.
-# 4. Usa 'strsplit()' para extraer el código de zona de un ID de muestra "ZONA_A-44" 
-#    y guárdalo como un nuevo elemento de la lista llamado 'metadato_zona'.
-
-
-# SOLUCIÓN
-proyecto_aves <- list(
-  tecnicos = c("Marta", "Jorge"),
-  datos = data.frame(ID_ave = 1:5, Peso = c(12, 15, 14, 13, 16)),
-  exito = matrix(c(0.8, 0.9, 0.7, 0.85), ncol = 2)
+experimento <- list(
+  id = 101,
+  genes = unlist(lista_nombres),
+  expresion = c(14.5, 2.3, 8.9)
 )
-peso_ave3 <- proyecto_aves$datos$Peso[3]
-proyecto_aves$tecnicos[2] <- "Vacante"
-zona_split <- strsplit("ZONA_A-44", split = "-")
-proyecto_aves$metadato_zona <- zona_split[[1]][1]
 
+mean(experimento$expresion)
+
+names(experimento)[1] <- "codigo_muestra"
+
+############################################################
+
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un equipo de epidemiología está analizando la prevalencia de una variante 
+# vírica en 4 regiones. Tienen los datos de casos detectados y quieren 
+# etiquetarlos por niveles de riesgo, asegurando que la estructura sea 
+# fácil de leer para el informe final.
+#
+# Enunciado:
+# 1. Crea un vector 'casos' con los valores: 120, 450, 80, 310.
+# 2. Crea un factor 'riesgo' basado en esos casos. Si el valor es mayor 
+#    a 200 es "Alto", si es menor o igual es "Bajo". 
+#    Nota: Crea el factor manualmente con: c("Bajo", "Alto", "Bajo", "Alto") 
+#    y asegúrate de que el nivel "Bajo" sea el primero.
+# 3. Construye un dataframe llamado 'informe_viral' que combine los 
+#    vectores 'casos' y 'riesgo' como columnas.
+# 4. Asigna como nombres de fila de este dataframe las regiones: 
+#    "Norte", "Sur", "Este", "Oeste".
+# 5. Filtra el dataframe para mostrar solo las regiones con riesgo "Alto".
+#
+############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+casos <- c(120, 450, 80, 310)
+
+riesgo <- factor(c("Bajo", "Alto", "Bajo", "Alto"), levels = c("Bajo", "Alto"))
+
+informe_viral <- data.frame(casos = casos, riesgo = riesgo)
+
+rownames(informe_viral) <- c("Norte", "Sur", "Este", "Oeste")
+
+informe_viral[informe_viral$riesgo == "Alto", ]
+
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# En un ensayo de toxicología, se mide la respuesta celular a 5 dosis 
+# diferentes. Los datos se recogen en una matriz, pero se sospecha que 
+# una lectura es errónea (un valor negativo imposible) y debe ser 
+# tratada como un dato faltante (NA) antes de procesar la media.
+#
+# Enunciado:
+# 1. Crea una matriz 'ensayo' de 5 filas y 2 columnas (Dosis A y Dosis B) 
+#    con los valores: 10, 12, 15, -1, 18 (columna 1) y 20, 22, 25, 27, 30 (columna 2).
+# 2. Identifica el valor -1 por su posición [4, 1] y cámbialo por NA.
+# 3. Crea una variable 'ensayo_limpio' eliminando la fila que contiene el NA.
+# 4. Calcula la suma total de todos los valores de 'ensayo_limpio'.
+# 5. Comprueba si "algún" (any) valor en 'ensayo_limpio' es mayor a 28.
+############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+ensayo <- matrix(c(10, 12, 15, -1, 18, 20, 22, 25, 27, 30), ncol = 2)
+colnames(ensayo) <- c("Dosis A", "Dosis B")
+
+ensayo[4, 1] <- NA
+
+ensayo_limpio <- na.omit(ensayo)
+
+sum(ensayo_limpio)
+
+any(ensayo_limpio > 28)
+
+
+############################################################
+# EJERCICIO 3
+# Contexto:
+# Un bioinformático organiza la información de un paciente en una lista 
+# compleja. La lista contiene datos personales, un historial de glucosa 
+# y una matriz de expresión proteica. Necesita extraer y manipular 
+# elementos específicos de esta jerarquía.
+#
+# Enunciado:
+# 1. Crea una lista 'paciente_X' con 3 elementos:
+#    - 'info': "Paciente_001"
+#    - 'glucosa': un vector de 1 a 5.
+#    - 'proteinas': una matriz de 2x2 con los valores c(1.2, 2.4, 0.8, 3.1).
+# 2. Accede al vector 'glucosa' mediante el operador $ y multiplícalo por 10.
+# 3. Accede al valor de la matriz 'proteinas' que está en la fila 1, 
+#    columna 2 (2.4) y súmale 0.5.
+# 4. Añade un cuarto elemento a la lista llamado 'apto' con el valor TRUE.
+# 5. Usa la función length() para verificar cuántos elementos tiene ahora la lista.
+############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+paciente_X <- list(
+  info = "Paciente_001",
+  glucosa = 1:5,
+  proteinas = matrix(c(1.2, 2.4, 0.8, 3.1), nrow = 2, ncol = 2)
+)
+
+paciente_X$glucosa <- paciente_X$glucosa * 10
+
+paciente_X$proteinas[1, 2] <- paciente_X$proteinas[1, 2] + 0.5
+
+paciente_X$apto <- TRUE
+
+length(paciente_X)

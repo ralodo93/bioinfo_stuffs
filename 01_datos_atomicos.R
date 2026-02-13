@@ -1,5 +1,6 @@
 # Tipos de Datos Atómicos ----
 # Son los componentes básicos e indivisibles. Pueden ser de cinco tipos (aunque hay más).
+
 # Numéricos: números
 class(10) # devuelve "numeric"
 class(10L) # devuelve "integer"
@@ -64,65 +65,68 @@ sqrt(log10_res)
 sqrt(log10(10000)) # Ejecuta el log10(10000); el resultado lo envía a la función sqrt()
 
 
-# EJERCICIO 1: Cálculo del Índice de Crecimiento Relativo (RGR)
-# Contexto: En un estudio de fisiología vegetal, queremos calcular el crecimiento 
-# de una plántula. Si el peso inicial (W1) es de 2.5 gramos y el peso final (W2) 
-# tras una semana es de 12 gramos, calcula la tasa de crecimiento exponencial 
-# usando la fórmula del logaritmo natural: log(W2) - log(W1).
-# Crea las variables w1 y w2 y almacena el resultado en una variable llamada 'rgr_planta'.
+############################################################
+# EJERCICIO 1
+# Contexto:
+# En un estudio de farmacocinética, se administra una dosis de un fármaco 
+# y se observa que su concentración plasmática decae siguiendo una 
+# escala logarítmica. Se necesita calcular la dosis efectiva final tras 
+# aplicar un factor de corrección por metabolismo basal.
+#
+# Enunciado:
+# 1. Crea una variable llamada 'dosis_mg' con el valor 250.
+# 2. Calcula el logaritmo natural de la dosis y asígnalo a 'log_dosis'.
+# 3. Eleva 'log_dosis' al cuadrado y suma 15 al resultado.
+# 4. Redondea el valor final a 1 decimal usando la función correspondiente.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+# SOLUCIÓN
+
+dosis_mg <- 250
+
+log_dosis <- log(dosis_mg)
+
+resultado <- log_dosis^2 + 15
+
+round(resultado, 1)
+
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# Un técnico de laboratorio mide el área de una placa de cultivo circular 
+# donde crecen bacterias. El radio de la placa es de 5.2 cm. El técnico 
+# debe reportar el área aproximada hacia el número entero superior para 
+# asegurar que tiene suficiente medio de cultivo.
+#
+# Enunciado:
+# 1. Calcula el área siguiendo la fórmula: Área = pi * radio^2. 
+#    Nota: Usa el valor 3.1415 para pi y crea una variable 'radio' con el valor 5.
+# 2. Una vez calculado el área, aplica la función que devuelve el 
+#    entero superior (techo) para obtener la medida final.
+# 3. Realiza todo el proceso anterior (punto 1 y 2) en una sola línea de 
+#    código utilizando el anidamiento de funciones.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
 
 
 
 # SOLUCIÓN:
-w1 <- 2.5
-w2 <- 12
-rgr_planta <- log(w2) - log(w1)
-rgr_planta
 
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 2: Transformación de abundancias y escala logarítmica
-# Contexto: En ecología de comunidades, a menudo trabajamos con abundancias 
-# de especies muy dispares. Tenemos una muestra con 10.000 individuos (1e4) 
-# de una especie generalista. 
-# 1. Asigna este valor a una variable.
-# 2. Calcula su logaritmo en base 10 para normalizar los datos.
-# 3. Calcula la raíz cuadrada del valor original para aplicar una transformación 
-#    más suave (Hellinger-like).
-
-
-
-# SOLUCIÓN:
-abundancia <- 1e4
-log_abundancia <- log10(abundancia)
-sqrt_abundancia <- sqrt(abundancia)
-log_abundancia
-sqrt_abundancia
-
-#-------------------------------------------------------------------------#
-
-# EJERCICIO 3: Estimación de densidad poblacional y redondeo
-# Contexto: Has delimitado una parcela de muestreo circular de 5 metros de radio.
-# 1. Calcula el área de la parcela (Área = pi * radio^2). Nota: usa la constante 'pi'.
-# 2. Si has encontrado 12 individuos de una especie de orquídea, calcula la 
-#    densidad (individuos / área).
-# 3. Calcula el valor absoluto de la diferencia entre esta densidad y una 
-#    densidad teórica de 0.2 individuos/m2. Redondea el valor a 3 decimales. Hazlo en una sola
-#    línea de código
-pi # la constante pi está cargada por defecto en R
-
-
-# SOLUCIÓN:
 radio <- 5
-area_parcela <- pi * radio^2
-densidad <- 12 / area_parcela
-diferencia <- round(abs(densidad - 0.2), 3)
+area <- 3.1415 * radio^2
 
-area_parcela
-densidad
-diferencia
+ceiling(area)
+
+ceiling(3.1415 * radio^2)
 
 #-------------------------------------------------------------------------#
+
 
 # Datos Character (Texto) ----
 ## Definir un character ----
@@ -157,40 +161,74 @@ paste("Mi saludo preferido es", texto) # por defecto se unen mediante " "
 paste("Mi número favorito es", numero, "¿Cuál es el tuyo?") # podemos incorporar números, que se transforman en character
 paste("Mi saludo preferido es", texto, sep = ": ") # para usar un separador diferente, usamos el argumento sep
 
-# EJERCICIO 1: Limpieza y normalización de nombres científicos
-# Contexto: Has recibido una base de datos de campo donde el nombre de una 
-# especie de ave, "  Lullula arborea  ", tiene espacios innecesarios al 
-# principio y al final por un error de transcripción. 
-# 1. Guarda el nombre con los espacios en una variable llamada 'nombre_sucio'.
-# 2. Elimina los espacios sobrantes.
-# 3. Transforma el nombre limpio a mayúsculas para estandarizar el registro.
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un secuenciador de ADN genera identificadores de muestras que a veces 
+# incluyen espacios accidentales al inicio o al final. Además, los 
+# investigadores prefieren trabajar siempre con los códigos en mayúsculas 
+# para evitar errores de duplicidad en la base de datos.
+#
+# Enunciado:
+# 1. Crea una variable 'id_sucio' con el valor "   patient_089_v1   ".
+# 2. Limpia los espacios en blanco sobrantes de 'id_sucio' y guarda el 
+#    resultado en una nueva variable llamada 'id_limpio'.
+# 3. Transforma 'id_limpio' totalmente a mayúsculas.
+# 4. Calcula cuántos caracteres tiene el identificador final después 
+#    de haber sido limpiado.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
 
 
 
 # SOLUCIÓN
-nombre_sucio <- "  Lullula arborea  "
-nombre_limpio <- trimws(nombre_sucio)
-nombre_mayus <- toupper(nombre_limpio)
 
-nombre_mayus <- toupper(trimws(nombre_sucio)) # Alternativa anidando funciones
+id_sucio <- "   patient_089_v1   "
 
-#-------------------------------------------------------------------------#
+id_limpio <- trimws(id_sucio)
 
-# EJERCICIO 2: Generación de códigos de etiquetado y búsqueda
-# Contexto: En un herbario, las muestras se etiquetan combinando el género 
-# y un código numérico. 
-# 1. Crea una variable 'genero' con el texto "Quercus" y una variable 'id' 
-#    con el número 105.
-# 2. Únelos con un guion ("-") para crear el código "Quercus-105".
-# 3. Comprueba mediante una función lógica si el código generado contiene 
-#    la palabra "Quercus".
+toupper(id_limpio)
+
+nchar(id_limpio)
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# En un informe de laboratorio, las variantes genéticas se registran 
+# con un prefijo. Se ha detectado que una serie de muestras fueron 
+# etiquetadas erróneamente con el prefijo "MUT" (mutación) y debe 
+# cambiarse a "VAR" (variante) para cumplir con la nueva normativa. 
+# Además, se requiere extraer solo el código numérico de la variante.
+#
+# Enunciado:
+# 1. Dada la variable 'registro' con el valor "MUT-9482", utiliza la 
+#    función de reemplazo para cambiar "MUT" por "VAR".
+# 2. Comprueba si la palabra "VAR" existe dentro del nuevo texto 
+#    utilizando una función de búsqueda lógica.
+# 3. Extrae únicamente los dígitos "9482" de la variable original 
+#    'registro' usando su posición (caracteres del 5 al 8).
+# 4. Realiza los pasos 1 y 3 anidando funciones
+# 5. Crea una frase final que diga: "Código procesado: [tu_codigo_extraido]" 
+#    utilizando una función para unir texto.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
 
 
-# SOLUCIÓN:
-genero <- "Quercus"
-id <- 105
-codigo_muestra <- paste(genero, id, sep = "-")
-grepl("Quercus", codigo_muestra)
+
+# SOLUCIÓN
+
+registro <- "MUT-9482"
+registro <- gsub("MUT", "VAR", registro)
+grepl("VAR", registro)
+digitos <- substring(registro, 5, 8)
+
+registro <- "MUT-9482"
+digitos <- substring(gsub("MUT", "VAR", registro), 5, 8)
+
+paste("Código procesado:", digitos)
+
 
 #-------------------------------------------------------------------------#
 
@@ -244,47 +282,67 @@ resultado_comp <- numero < 20
 # Los paréntesis definen el orden de evaluación de los operadores
 (numero < 20) | (20 > 5 & numero < 5)
 
-# EJERCICIO 1: Rango de tolerancia térmica
-# Contexto: Una especie de anfibio solo es activa cuando la temperatura ambiente 
-# está entre los 15 °C (mínimo) y los 28 °C (máximo), ambos inclusive.
-# 1. Crea una variable 'temp_actual' con el valor 28.5.
-# 2. Crea una variable lógica llamada 'es_activa' que evalúe si la temperatura 
-#    actual está dentro del rango de tolerancia (mayor o igual a 15 Y menor o igual a 28).
-# 3. Invierte el resultado anterior usando el operador inverso para saber si 
-#    el animal está en situación de "estrés térmico".
+############################################################
+# EJERCICIO 1
+# Contexto:
+# En un ensayo clínico, un paciente se considera apto para un tratamiento 
+# experimental si su edad es mayor o igual a 18 años y su nivel de 
+# glucosa en ayunas es estrictamente menor a 110 mg/dL.
+#
+# Enunciado:
+# 1. Crea las variables 'edad' con valor 25 y 'glucosa' con valor 105.
+# 2. Crea una variable lógica llamada 'es_apto' que combine ambas 
+#    condiciones usando el operador AND (&).
+# 3. Invierte el resultado de 'es_apto' usando el operador inverso (!) 
+#    y guárdalo en una variable llamada 'excluido'.
+# 4. Compara si el valor de 'edad' es diferente de 30.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
 
 
-# SOLUCIÓN:
-temp_actual <- 28.5
-es_activa <- (temp_actual >= 15) & (temp_actual <= 28)
-!es_activa
+#SOLUCIÓN
 
-#-------------------------------------------------------------------------#
+edad <- 25
+glucosa <- 105
 
-# EJERCICIO 2: Validación de calidad en inventarios forestales
-# Contexto: Estamos revisando una base de datos de árboles. Un registro se 
-# considera "sospechoso" si ocurre cualquiera de estas dos condiciones:
-#    a) El diámetro (DAP) es menor o igual a 0 cm (error de medida).
-#    b) La especie registrada no coincide con "Pinus sylvestris" (fuera de zona).
-# 1. Define 'dap' como 45 y 'especie' como "Pinus sylvestris".
-# 2. Crea la variable 'es_sospechoso' usando el operador OR (|). Ten en cuenta 
-#    que R es sensible a mayúsculas.
-# 3. Comprueba qué ocurre si cambias la especie a "pinus sylvestris" (en minúsculas).
+es_apto <- edad >= 18 & glucosa < 110
+
+excluido <- !es_apto
+
+edad != 30
 
 
+############################################################
+# EJERCICIO 2
+# Contexto:
+# Un sistema de alertas médicas se dispara si un paciente presenta una 
+# condición crítica. La alerta de "Riesgo Cardiovascular" se activa si:
+# El colesterol es mayor a 200 O la presión sistólica es mayor o igual a 140.
+# Además, para confirmar la alerta, el paciente NO debe estar en el grupo "Control".
+#
+# Enunciado:
+# 1. Define las variables: 'colesterol' (215), 'presion' (130) y 'grupo' ("Tratamiento").
+# 2. Evalúa si el colesterol es superior a 200 o (|) la presión es mayor o igual a 140. 
+#    Rodea esta operación con paréntesis. Guarda el resultado en una variable llamada alerta
+# 3. Utilizando el operador AND (&), combina el resultado anterior con una 
+#    comparación que verifique si 'grupo' es diferente de "Control". Guarda el resultado
+#    en una variable llamada alerta_activa
+############################################################
 
-# SOLUCIÓN:
-dap <- 45
-especie <- "Pinus sylvestris"
+# El estudiante debe completar a partir de aquí:
 
-# Evaluación de sospecha (¿DAP <= 0 O especie distinta de "Pinus sylvestris"?)
-es_sospechoso <- (dap <= 0) | (especie != "Pinus sylvestris")
-es_sospechoso  # Devuelve FALSE (el dato es correcto)
 
-# Prueba con error de formato
-especie_error <- tolower(especie)
-es_sospechoso_error <- (dap <= 0) | (especie_error != "Pinus sylvestris")
-es_sospechoso_error  # Devuelve TRUE (R detecta que no son idénticos)
+
+# SOLUCIÓN
+
+colesterol <- 215
+presion <- 130
+grupo <- "Tratamiento"
+
+alerta <- (colesterol > 200) | (presion >= 140)
+
+alerta_activa <- alerta == TRUE & grupo != "Control"
 
 #-------------------------------------------------------------------------#
 
@@ -298,7 +356,6 @@ faltante <- NA
 # Los NA suelen "propagar" la incertidumbre en los cálculos
 10 + NA       # devuelve NA (si no sabemos un sumando, no sabemos el resultado)
 
-#-------------------------------------------------------------------------#
 
 # Nulos ----
 
@@ -309,87 +366,97 @@ is.null(NULL)  # devuelve TRUE
 vacio <- NULL
 
 
-#==============================================================================#
-# EJERCICIOS DE REPASO
-#==============================================================================#
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Durante la digitalización de fichas médicas, se ha detectado que algunos 
+# registros de "Nivel de Hemoglobina" están vacíos porque la muestra se 
+# coaguló y no pudo ser analizada. En R, debemos marcar estos casos 
+# correctamente para que no interfieran con los cálculos promedio.
+#
+# Enunciado:
+# 1. Crea una variable 'hemoglobina' y asígnale un valor que indique 
+#    que el dato es "Faltante" o "No Disponible" (NA).
+# 2. Comprueba mediante una función lógica si la variable 'hemoglobina' 
+#    es efectivamente un valor NA.
+# 3. Intenta sumar 1.5 a la variable 'hemoglobina' y observa qué sucede. 
+#    Explica el resultado en un comentario breve.
+############################################################
 
-# EJERCICIO 1: Cinética enzimática y normalización de datos
-# Contexto: En un ensayo de laboratorio, la velocidad de una reacción enzimática 
-# (V) se mide en 45.895 unidades. Sin embargo, para comparar con otros estudios, 
-# se requiere transformar este valor a una escala logarítmica (base 2), 
-# redondearlo al entero superior y asegurarse de que el resultado sea de tipo "integer".
-# 1. Crea la variable 'v_medida' con el valor 45.895.
-# 2. En una sola línea de código, calcula el logaritmo en base 2, aplica el 
-#    redondeo al entero superior (ceiling) y transforma el resultado a entero.
-
-# SOLUCIÓN:
-v_medida <- 45.895
-v_final <- as.integer(ceiling(log2(v_medida)))
-v_final
-
-
-#------------------------------------------------------------------------------#
-
-# EJERCICIO 2: Reconstrucción de secuencias y metadatos
-# Contexto: Un equipo de campo ha enviado una etiqueta de una muestra de ADN 
-# con el formato: "   S-2024_01_canis_lupus   ". Necesitas normalizarla para 
-# tu base de datos siguiendo estos pasos:
-# 1. Elimina los espacios en blanco sobrantes.
-# 2. Extrae únicamente el nombre de la especie ("canis_lupus"). Tip: Usa 
-#    substring sabiendo que empieza en la posición 10.
-# 3. Sustituye el guion bajo por un espacio en blanco.
-# 4. Convierte la primera letra en mayúscula y el resto en minúscula (Formato Título).
-
-# SOLUCIÓN:
-etiqueta_sucia <- "   S-2024_01_canis_lupus   "
-paso1 <- trimws(etiqueta_sucia)
-paso2 <- substring(paso1, 10)
-paso3 <- gsub("_", " ", paso2)
-# Nota: Para el paso 4, asumiendo que el alumno conoce funciones básicas de texto
-especie_final <- paste0(toupper(substring(paso3, 1, 1)), substring(paso3, 2))
-especie_final
+# El estudiante debe completar a partir de aquí:
 
 
-#------------------------------------------------------------------------------#
-
-# EJERCICIO 3: Modelado de nicho y condiciones de exclusión
-# Contexto: Estás definiendo el área de idoneidad para una planta endémica.
-# La planta solo sobrevive si:
-#    - La precipitación (prec) es mayor a 500 mm Y menor a 1200 mm.
-#    - El pH del suelo NO es NA (dato conocido).
-#    - Además, si la especie es "invasora", se descarta automáticamente.
-# 1. Define 'prec' como 850, 'ph' como 6.2 y 'tipo' como "nativa".
-# 2. Crea una variable lógica 'apta' que evalúe si se cumplen las condiciones
-#    de precipitación Y que el pH no sea NA Y que 'tipo' sea igual a "nativa".
-
-# SOLUCIÓN:
-prec <- 850
-ph <- 6.2
-tipo <- "nativa"
-
-apta <- (prec > 500 & prec < 1200) & (!is.na(ph)) & (tipo == "nativa")
-apta
 
 
-#------------------------------------------------------------------------------#
+# SOLUCIÓN
 
-# EJERCICIO 4: Estimación de biomasa forestal (Alometría)
-# Contexto: La biomasa (B) de un árbol se estima a menudo con la fórmula: 
-# B = exp(a + b * log(DAP)), donde 'a' y 'b' son coeficientes específicos 
-# y 'DAP' es el Diámetro a la Altura del Pecho.
-# 1. Asigna a = -2.5, b = 2.4 y dap = 30.
-# 2. Calcula la biomasa en una variable 'biomasa_kg'.
-# 3. Supongamos que un segundo árbol tiene un DAP de NA. Calcula su biomasa
-#    y comprueba si el resultado es un valor lógico TRUE mediante is.na().
+hemoglobina <- NA
 
-# SOLUCIÓN:
-a <- -2.5
-b <- 2.4
-dap <- 30
+is.na(hemoglobina)
 
-biomasa_kg <- exp(a + b * log(dap))
-biomasa_kg
+hemoglobina + 1.5 # intenta sumar un NA a un número, lo cual es imposible, devuelve NA
 
-dap_missing <- NA
-biomasa_missing <- exp(a + b * log(dap_missing))
-is.na(biomasa_missing)
+############################################################
+# EJERCICIO 2
+# Contexto:
+# Un software de gestión hospitalaria genera etiquetas para muestras de 
+# orina. La etiqueta debe incluir el ID del paciente, su estado de 
+# hidratación (basado en la densidad de la orina) y si requiere revisión.
+#
+# Enunciado:
+# 1. Crea las variables: 'id_paciente' (valor 505), 'densidad' (valor 1.035) 
+#    y 'nombre_medico' (valor "  dr. garcía  ").
+# 2. El paciente está "Deshidratado" si la 'densidad' es mayor a 1.030. 
+#    Crea una variable lógica 'deshidratado' con esta comparación.
+# 3. Limpia los espacios del 'nombre_medico' y conviértelo a mayúsculas 
+#    en una sola línea de código (anidamiento).
+# 4. Crea una frase final usando paste() que diga: 
+#    "Paciente: 505 | Estado Deshidratado: TRUE | Médico: DR. GARCÍA"
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+
+# SOLUCIÓN
+
+id_paciente <- 505
+densidad <- 1.035
+nombre_medico <- "  dr. garcía  "
+
+deshidratado <- densidad > 1.030
+
+nombre_medico <- toupper(trimws(nombre_medico))
+
+paste("Paciente:", id_paciente,"| Estado Deshidratado:", deshidratado,"| Médico:", nombre_medico)
+
+
+############################################################
+# EJERCICIO 3
+# Contexto:
+# Un bioinformático analiza secuencias de ARN. Se considera una secuencia 
+# "Interesante" si cumple dos condiciones: tiene una longitud superior a 
+# 10 bases y contiene la palabra "AUG" (codón de inicio). Si no hay 
+# secuencia (está vacía), el valor debe ser nulo.
+#
+# Enunciado:
+# 1. Crea una variable 'secuencia' con el valor "  augccuagggcu  ".
+# 2. Limpia los espacios de 'secuencia' y asegúrate de que sea "secuencia_fija".
+# 3. Evalúa si la longitud de 'secuencia_fija' es mayor a 10 Y (&) 
+#    contiene el texto "aug" (usa grepl). Guarda esto en 'es_interesante'.
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+
+# SOLUCIÓN
+
+secuencia <- "  augccuagggcu  "
+
+secuencia_fija <- trimws(secuencia)
+
+es_interesante <- nchar(secuencia_fija) > 10 & grepl("aug", secuencia_fija)
+

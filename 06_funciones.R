@@ -169,141 +169,239 @@ obtener_estadisticas <- function(x){
 }
 obtener_estadisticas(c("Hola", "Mundo"))
 
-# EJERCICIO 1. Función de Crecimiento Logístico de Poblaciones
-# En ecología, el crecimiento de una población suele seguir un modelo logístico. 
-# Crea una función llamada 'crecimiento_logistico' que calcule el tamaño poblacional (Nt).
-# La fórmula es: Nt = K / (1 + ((K - N0) / N0) * exp(-r * t))
-# Argumentos:
-#   - N0: Tamaño poblacional inicial.
-#   - K: Capacidad de carga del entorno.
-#   - r: Tasa intrínseca de crecimiento.
-#   - t: Tiempo transcurrido.
-# La función debe comprobar si alguno de los parámetros es negativo y, de ser así, 
-# detener la ejecución con un mensaje de error apropiado.
+
+############################################################
+# EJERCICIO 1
+# Contexto: 
+# Un nutricionista necesita automatizar el cálculo del IMC para varios 
+# pacientes y clasificarlos.
+#
+# Enunciado:
+# 1. Crea una función llamada 'analizar_paciente' que reciba 'peso' y 'altura'.
+# 2. Dentro, calcula el imc (peso / altura^2).
+# 3. Usa un ifelse() o if/else para devolver una lista con dos elementos:
+#    - 'valor': El número del IMC.
+#    - 'estado': "Normal" si el IMC es < 25, y "Sobrepeso" si es >= 25.
+# 4. Prueba la función con un peso de 85 y altura de 1.75.
+#############################################################
+
+# El estudiante debe completar a partir de aquí
 
 
-# SOLUCIÓN:
-crecimiento_logistico <- function(N0, K, r, t) {
-  if (any(c(N0, K, r, t) < 0)) {
-    stop("Todos los parámetros biológicos deben ser valores no negativos.")
-  }
-  Nt <- K / (1 + ((K - N0) / N0) * exp(-r * t))
-  return(Nt)
-}
-crecimiento_logistico(N0 = 10, K = 100, r = 0.5, t = 10)
-
-
-# EJERCICIO  2. Índice de Diversidad de Simpson
-# El índice de Simpson (D) mide la probabilidad de que dos individuos seleccionados 
-# al azar de una muestra pertenezcan a la misma especie: D = sum(pi^2), donde pi 
-# es la proporción de individuos de la especie i.
-# Crea una función 'indice_simpson' que reciba un vector numérico con las 
-# abundancias de cada especie.
-# Requisitos:
-#   - Debe calcular internamente las proporciones (pi).
-#   - Debe manejar valores NA eliminándolos antes del cálculo.
-#   - Debe retornar el valor de la diversidad (1 - D), conocido como Índice de 
-#     Diversidad de Simpson.
 
 
 # SOLUCIÓN
-indice_simpson <- function(abundancias) {
-  abundancias <- abundancias[!is.na(abundancias)]
-  proporciones <- abundancias / sum(abundancias)
-  D <- sum(proporciones^2)
-  return(1 - D)
-}
 
-# Solución ejemplo:
-indice_simpson(c(10, 20, 70, NA))
-
-
-# EJERCICIO 3. Conversión de Unidades y Modularidad
-# Es común en botánica medir la tasa de transpiración en diferentes unidades.
-# Crea dos funciones modulares:
-#   a) 'celsius_a_kelvin': convierte grados Celsius a Kelvin (K = C + 273.15).
-#   b) 'presion_vapor': calcula la presión de vapor de saturación (es) usando la 
-#      fórmula simplificada: es = 0.611 * exp((17.27 * Temp) / (Temp + 237.3)).
-# Crea una tercera función 'analisis_climatico' que reciba una temperatura en Celsius, 
-# use la primera función para obtener Kelvin y la segunda para obtener la presión, 
-# devolviendo ambos resultados en una lista etiquetada.
-
-
-# SOLUCIÓN:
-celsius_a_kelvin <- function(celsius) {
-  return(celsius + 273.15)
-}
-
-presion_vapor <- function(temp_c) {
-  es <- 0.611 * exp((17.27 * temp_c) / (temp_c + 237.3))
-  return(es)
-}
-
-analisis_climatico <- function(temp_c) {
-  res <- list(
-    temp_k = celsius_a_kelvin(temp_c),
-    presion_sat = presion_vapor(temp_c)
-  )
-  return(res)
-}
-
-analisis_climatico(25)
-
-
-# EJERCICIO 4. Función con Argumentos por Defecto: Estandarización de Biomasa
-# Imagina que estás analizando muestras de biomasa forestal. Crea una función 
-# llamada 'estandarizar_biomasa' que reciba un vector de pesos.
-# Argumentos:
-#   - x: Vector numérico de pesos.
-#   - metodo: Un texto que por defecto sea "centrado". 
-# Si metodo == "centrado", resta la media al vector.
-# Si metodo == "zscore", resta la media y divide por la desviación estándar.
-# Usa las funciones de ayuda 'mean' y 'sd' asegurándote de que siempre se 
-# eliminen los NA por defecto dentro de tu función.
-
-
-# SOLUCIÓN
-estandarizar_biomasa <- function(x, metodo = "centrado") {
-  mu <- mean(x, na.rm = TRUE)
-  sigma <- sd(x, na.rm = TRUE)
+analizar_paciente <- function(peso, altura) {
+  # Cálculo del imc
+  valor_imc <- peso / (altura^2)
   
-  if (metodo == "centrado") {
-    return(x - mu)
-  } else if (metodo == "zscore") {
-    return((x - mu) / sigma)
+  # Clasificación
+  estado_paciente <- ifelse(valor_imc < 25, "Normal", "Sobrepeso")
+  
+  # Retornar lista
+  return(list(valor = valor_imc, estado = estado_paciente))
+}
+
+# Prueba
+analizar_paciente(peso = 85, altura = 1.75)
+
+
+
+############################################################
+# EJERCICIO 2
+# Contexto: 
+# En control de calidad, se analizan lotes de productos. Un lote se 
+# considera "Rechazado" si la media de sus medidas se desvía demasiado 
+# del estándar o si tiene demasiados valores perdidos (NA).
+#
+# Enunciado:
+# 1. Crea la función 'control_calidad' que reciba un vector 'medidas'.
+# 2. Checking: Si el vector tiene más de 2 valores NA (usa sum(is.na(x))), 
+#    la función debe usar stop() con el mensaje "Lote con demasiados NA".
+# 3. Si pasa el check, calcula la media (eliminando NAs).
+# 4. La función debe retornar "Lote Aceptado" si la media está entre 
+#    18 y 22, de lo contrario debe retornar "Lote Rechazado".
+# 5. Prueba con: c(20, 19, NA, 21) y con c(20, NA, NA, NA).
+#############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+control_calidad <- function(medidas) {
+  # Checking de NAs
+  if (sum(is.na(medidas)) > 2) {
+    stop("Lote con demasiados NA")
+  }
+  
+  # Cálculo de la media
+  media_lote <- mean(medidas, na.rm = TRUE)
+  
+  # Condicional de aceptación
+  if (media_lote >= 18 & media_lote <= 22) {
+    return("Lote Aceptado")
   } else {
-    stop("Método no reconocido. Usa 'centrado' o 'zscore'.")
+    return("Lote Rechazado")
   }
 }
 
-# Solución ejemplo:
-estandarizar_biomasa(c(1.2, 2.5, 0.8, 4.1), metodo = "zscore")
+# Pruebas
+control_calidad(c(20, 19, NA, 21)) # Aceptado
+control_calidad(c(20, NA, NA, NA)) # Esto lanzará el error de stop()
 
 
-# EJERCICIO 5. Scope y Reutilización: Filtro de Calidad de Datos Genómicos
-# Define una variable global 'UMBRAL_CALIDAD' con valor 20.
-# Crea una función 'filtrar_lecturas' que reciba un vector de puntuaciones de 
-# calidad de secuenciación.
-# La función debe:
-#   1. Identificar qué lecturas están por debajo del 'UMBRAL_CALIDAD'.
-#   2. Devolver una lista con: el vector filtrado (solo valores >= umbral) y el 
-#      porcentaje de lecturas eliminadas.
-# Demuestra qué ocurre si intentas acceder a una variable creada dentro de la 
-# función desde el entorno global.
+
+############################################################
+# EJERCICIO 3
+# Contexto: 
+# Un centro de investigación quiere procesar un DataFrame de muestras 
+# genéticas aplicando una limpieza de texto automática.
+#
+# Enunciado:
+# 1. Crea la función 'limpiar_dataframe' que reciba un dataframe 'df'.
+# 2. La función debe:
+#    - Identificar la columna llamada "Codigo" y convertirla a mayúsculas.
+#    - Identificar la columna "Valor" y sustituir los valores negativos por 0.
+#    - Retornar el dataframe modificado.
+# 3. Simula un df con: Codigo = c("a1", "b2"), Valor = c(10, -5) y pruébala.
+#############################################################
+
+# El estudiante debe completar a partir de aquí
+
 
 
 
 # SOLUCIÓN
-UMBRAL_CALIDAD <- 20
 
-filtrar_lecturas <- function(puntuaciones) {
-  eliminadas <- sum(puntuaciones < UMBRAL_CALIDAD, na.rm = TRUE)
-  porcentaje_perdida <- (eliminadas / length(puntuaciones)) * 100
-  filtradas <- puntuaciones[puntuaciones >= UMBRAL_CALIDAD]
+limpiar_dataframe <- function(df) {
+  # Convertir columna Codigo a mayúsculas
+  df$Codigo <- toupper(df$Codigo)
   
-  return(list(datos_limpios = filtradas, perdida = porcentaje_perdida))
+  # Sustituir negativos por 0 en Valor (vectorización)
+  df$Valor <- ifelse(df$Valor < 0, 0, df$Valor)
+  
+  return(df)
 }
 
-# Solución ejemplo y verificación de scope:
-resultado <- filtrar_lecturas(c(15, 22, 30, 18, 25))
-print(resultado)
+# Simulación y prueba
+mi_df <- data.frame(Codigo = c("a1", "b2"), Valor = c(10, -5))
+limpiar_dataframe(mi_df)
+
+
+
+############################################################
+# EJERCICIO 4
+# Contexto: 
+# Quieres crear una función "resumen_biotec" que automatice las 
+# estadísticas de una matriz de ensayos.
+#
+# Enunciado:
+# 1. La función recibe una matriz 'm'.
+# 2. Dentro de la función, usa apply() para calcular la media de 
+#    cada columna y la media de cada fila.
+# 3. La función debe retornar una LISTA con dos elementos: 'por_ensayo' 
+#    (medias de columnas) y 'por_paciente' (medias de filas).
+# 4. Prueba la función con una matriz de 3x3 de números aleatorios.
+#############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+resumen_biotec <- function(m) {
+  # Medias de columnas (ensayos)
+  ensayos <- apply(m, 2, mean)
+  
+  # Medias de filas (pacientes)
+  pacientes <- apply(m, 1, mean)
+  
+  # Retorno de lista estructurada
+  return(list(por_ensayo = ensayos, por_paciente = pacientes))
+}
+
+# Prueba con matriz aleatoria 3x3
+matriz_test <- matrix(runif(9, 1, 10), nrow = 3)
+resumen_biotec(matriz_test)
+
+
+
+############################################################
+# EJERCICIO 5
+# Contexto: 
+# Un laboratorio recibe datos de ensayos en una lista de listas. 
+# Cada lote contiene: nombre, matriz de resultados y un umbral.
+
+# DATOS DE ENTRADA
+set.seed(123)
+datos_ensayo <- list(
+  lote1 = list(nombre = "Alfa",  matriz = matrix(runif(9, 5, 10), nrow=3), umbral = 7),
+  lote2 = list(nombre = "Beta",  matriz = matrix(runif(9, 2, 5),  nrow=3), umbral = 4),
+  lote3 = list(nombre = "Gamma", matriz = matrix(runif(9, 0, 10), nrow=3), umbral = 8)
+)
+
+# ENUNCIADO:
+# 1. Crea una función llamada 'procesar_laboratorio' que reciba 
+#    la lista 'datos_ensayo'.
+# 2. La función debe recorrer cada lote (usa un bucle for o lapply).
+# 3. Para cada lote, debe calcular la media de su 'matriz'.
+# 4. Usando un condicional (if o ifelse), determinar el veredicto:
+#    - Si media >= umbral: "APROBADO"
+#    - Si media < umbral: "RECHAZADO"
+# 5. La función debe retornar un DataFrame con 3 columnas: 
+#    'Lote_Nombre', 'Media_Obtenida' y 'Veredicto'.
+
+# PISTA: Puedes crear vectores vacíos antes del bucle para ir 
+# guardando los datos de cada lote y luego unirlos en el dataframe.
+#############################################################
+
+# El estudiante debe completar a partir de aquí
+
+
+
+
+# SOLUCIÓN
+
+procesar_laboratorio <- function(lista_lotes) {
+  
+  # Creamos vectores vacíos para ir almacenando los resultados de cada iteración
+  nombres <- c()
+  medias  <- c()
+  verdictos <- c()
+  
+  # Usamos un bucle para recorrer la lista de lotes
+  for (i in 1:length(lista_lotes)) {
+    
+    # Extraemos el lote actual
+    lote_actual <- lista_lotes[[i]]
+    
+    # Calculamos la media global de la matriz de ese lote
+    media_global <- mean(lote_actual$matriz)
+    
+    # Lógica condicional para el veredicto
+    veredicto_final <- ifelse(media_global >= lote_actual$umbral, "APROBADO", "RECHAZADO")
+    
+    # Guardamos los resultados en nuestros vectores
+    nombres <- c(nombres, lote_actual$nombre)
+    medias  <- c(medias, round(media_global, 2))
+    verdictos <- c(verdictos, veredicto_final)
+  }
+  
+  # Construimos el DataFrame final con los vectores recolectados
+  df_resumen <- data.frame(
+    Lote_Nombre = nombres,
+    Media_Obtenida = medias,
+    Veredicto = verdictos
+  )
+  
+  return(df_resumen)
+}
+
+procesar_laboratorio(datos_ensayo)
+

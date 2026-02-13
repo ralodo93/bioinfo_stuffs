@@ -74,6 +74,113 @@ if (tipo_envio == "Nacional") {
 }
 paste("Coste:", coste,"euros (Entrega en", entrega, "días)")
 
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un laboratorio clínico automatiza el triaje de pacientes según su nivel 
+# de glucosa en sangre (mg/dL). Se establecen tres categorías: Hipoglucemia 
+# (menor a 70), Normal (70 a 100 inclusive) e Hiperglucemia (mayor a 100).
+#
+# Enunciado:
+# 1. Crea una variable 'glucosa_paciente' con el valor 105.
+# 2. Escribe una estructura if / else if / else que:
+#    - Si la glucosa es menor a 70, imprima: "Alerta: Hipoglucemia".
+#    - Si la glucosa está entre 70 y 100 (usa &), imprima: "Nivel Normal".
+#    - Para cualquier otro caso (mayor a 100), imprima: "Alerta: Hiperglucemia".
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+# SOLUCIÓN
+
+glucosa_paciente <- 105
+
+if (glucosa_paciente < 70){
+  print("ALERTA: Hipoglucemia")
+} else if (glucosa_paciente > 70 & glucosa_paciente < 100){
+  print("Normal")
+} else{
+  print("ALERTA: Hiperglucemia")
+}
+
+
+############################################################
+# EJERCICIO 2
+# Contexto:
+# Un sistema de monitorización fetal evalúa la frecuencia cardíaca (latidos 
+# por minuto) y el movimiento. Si la frecuencia es baja (menor a 110), 
+# se considera bradicardia. Si además no hay movimiento, es una emergencia.
+#
+# Enunciado:
+# 1. Define 'frecuencia' <- 105 y 'movimiento' <- FALSE.
+# 2. Crea una estructura anidada:
+#    - El primer nivel (if) debe comprobar si 'frecuencia' < 110.
+#    - Dentro de ese bloque, usa otro if/else para evaluar 'movimiento'.
+#    - Si movimiento es FALSE, imprime "EMERGENCIA: Bradicardia sin movimiento".
+#    - Si movimiento es TRUE, imprime "Vigilancia: Bradicardia moderada".
+#    - Si la frecuencia NO es menor a 110, el 'else' principal debe 
+#      imprimir "Signos estables".
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+# SOLUCIÓN
+
+frecuencia <- 105
+movimiento <- FALSE
+
+if (frecuencia < 110){
+  if (movimiento == FALSE){
+    print("EMERGENCIA: Bradicardia sin movimiento")
+  } else{
+    print("Vigilancia: Bradicardia moderada")
+  }
+} else{
+  print("Signos Estables")
+}
+
+
+############################################################
+# EJERCICIO 3
+# Contexto:
+# Estás procesando un lote de muestras de tejido. La variable 'muestra' 
+# puede contener un código de texto, un valor NA (si se perdió) o ser NULL. 
+# Debes crear una variable 'estado_procesamiento' que dependa de esto.
+#
+# Enunciado:
+# 1. Crea la variable 'muestra' con el valor "BIO-99".
+# 2. Escribe un condicional que use las funciones is.null() e is.na():
+#    - Si la muestra es NULL, 'estado_procesamiento' será "Error: No existe".
+#    - Si la muestra es NA, 'estado_procesamiento' será "Pendiente de recibir".
+#    - Si la muestra es de tipo character (is.character), 'estado_procesamiento' 
+#      será "Muestra lista para análisis".
+# 3. Al final, imprime el valor de 'estado_procesamiento' usando print().
+############################################################
+
+# El estudiante debe completar a partir de aquí:
+
+
+
+# SOLUCIÓN
+
+muestra <- "BIO-99"
+estado_procesamiendo <- ""
+
+if (is.null(muestra)){
+  estado_procesamiendo <- "Error: No existe"
+} else if (is.na(muestra)){
+  estado_procesamiendo <- "Pendiente de recibir"
+} else if (is.character(muestra)){
+  estado_procesamiendo <- "Muestra lista para el análisis"
+}
+
+print(estado_procesamiendo)
+
+############################################################
 
 ## ifelse() ----
 # La función ifelse se usa para evaluar de forma ágil y en una sola línea de código (por lo general) una estructura IF/ELSE
@@ -99,92 +206,33 @@ ifelse(edad >= 18 & carnet == TRUE, "Es mayor de edad y tiene carnet, puede cond
               "No es mayor de edad, no puede conducir")) #resultado2 -> resultado2
 
 
-#==============================================================================#
-# EJERCICIOS DE REPASO
-#==============================================================================#
+############################################################
+# EJERCICIO 1
+# Contexto:
+# Un software de bioestadística debe asignar etiquetas rápidas a una serie 
+# de mediciones de pH obtenidas de muestras de suelo. El pH neutro es 7. 
+# Valores por debajo de 7 son "Ácido", valores por encima son "Básico" 
+# y exactamente 7 es "Neutro".
+#
+# Enunciado:
+# 1. Crea una variable 'ph_medido' con el valor 7.
+# 2. Utiliza una única estructura de funciones ifelse() anidadas para:
+#    - Si 'ph_medido' es menor a 7, asignar el texto "Ácido".
+#    - Si 'ph_medido' es mayor a 7, asignar el texto "Básico".
+#    - Si no es ninguna de las anteriores (es decir, es 7), asignar "Neutro".
+# 3. Guarda el resultado en una variable llamada 'clasificación' y 
+#    muéstrala por consola.
+############################################################
 
-# EJERCICIO 1. Gestión de estrés térmico en corales.
-# Contexto: Los arrecifes de coral sufren blanqueamiento cuando la temperatura 
-# del agua supera un umbral crítico. Debes crear un sistema que evalúe la 
-# temperatura superficial del mar (TSM) y una variable booleana de radiación 
-# UV alta para determinar el riesgo de blanqueamiento.
-# Requisitos:
-# - Si TSM > 30°C y radiación es TRUE: "Riesgo extremo: Blanqueamiento inminente".
-# - Si TSM > 30°C pero radiación es FALSE: "Riesgo alto: Monitorización diaria".
-# - Si TSM está entre 27°C y 30°C (inclusive): "Riesgo moderado".
-# - En cualquier otro caso: "Condiciones estables".
+# El estudiante debe completar a partir de aquí:
 
-
-# SOLUCIÓN
-tsm <- 30.5
-uv_alta <- TRUE
-
-if (tsm > 30 & uv_alta == TRUE) {
-  print("Riesgo extremo: Blanqueamiento inminente")
-} else if (tsm > 30 & uv_alta == FALSE) {
-  print("Riesgo alto: Monitorización diaria")
-} else if (tsm >= 27 & tsm <= 30) {
-  print("Riesgo moderado")
-} else {
-  print("Condiciones estables")
-}
-
-
-# ------------------------------------------------------------------------------
-
-# EJERCICIO 2. Clasificación de especies según Categorías de la UICN (Anidado).
-# Contexto: Un equipo de botánica está evaluando el estado de una planta endémica.
-# Se basa en el número de individuos maduros y el declive poblacional.
-# Requisitos: 
-# Usa estructuras anidadas (IF dentro de IF) para asignar el "Estatus":
-# 1. Si el número de individuos es < 250:
-#    - Si el declive es > 20%: Estatus = "En Peligro Crítico (CR)"
-#    - Si el declive es <= 20%: Estatus = "En Peligro (EN)"
-# 2. Si el número de individuos es >= 250:
-#    - Si el declive es > 10%: Estatus = "Vulnerable (VU)"
-#    - Si el declive es <= 10%: Estatus = "Preocupación Menor (LC)"
 
 
 # SOLUCIÓN
-individuos <- 180
-declive <- 25
-estatus <- ""
 
-if (individuos < 250) {
-  if (declive > 20) {
-    estatus <- "En Peligro Crítico (CR)"
-  } else {
-    estatus <- "En Peligro (EN)"
-  }
-} else {
-  if (declive > 10) {
-    estatus <- "Vulnerable (VU)"
-  } else {
-    estatus <- "Preocupación Menor (LC)"
-  }
-}
-paste("Resultado de la evaluación:", estatus)
+ph_medido <- 7
 
+clasificacion <- ifelse(ph_medido < 7, "Ácido", 
+                        ifelse(ph_medido > 7, "Básico", "Neutro"))
 
-# ------------------------------------------------------------------------------
-
-# EJERCICIO 3. Análisis rápido de calidad del agua con ifelse().
-# Contexto: Tienes un sensor que mide el oxígeno disuelto (OD) en un río (mg/L).
-# Necesitas categorizar rápidamente la calidad del agua para un informe técnico.
-# Requisitos:
-# Utiliza funciones ifelse() anidadas para devolver una única cadena de texto:
-# - OD < 2: "Anoxia/Hipoxia severa"
-# - OD entre 2 y 5 (sin incluir 5): "Calidad pobre"
-# - OD entre 5 y 8 (sin incluir 8): "Calidad aceptable"
-# - OD >= 8: "Calidad excelente"
-
-
-# SOLUCIÓN
-oxigeno_disuelto <- 4.2
-
-resultado_calidad <- ifelse(oxigeno_disuelto < 2, "Anoxia/Hipoxia severa",
-                            ifelse(oxigeno_disuelto < 5, "Calidad pobre",
-                                   ifelse(oxigeno_disuelto < 8, "Calidad aceptable", 
-                                          "Calidad excelente")))
-
-print(resultado_calidad)
+clasificacion

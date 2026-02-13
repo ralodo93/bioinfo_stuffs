@@ -26,10 +26,11 @@ parametros
 # Supongamos que hembras[1] es la pareja de machos[1]
 
 # 7) Genera una función llamada obtener_hijo que, a partir del genotipo de su padre y su madre, resulte en el Genotipo del hijo (también al azar)
+# truco, divide la función de forma modular. Haz una función para obtener los posibles alelos de cada progenitor
 # Testéala con: 
 obtener_hijo("Nb", "bb")
 
-# truco, divide la función de forma modular. Haz una función para obtener los posibles alelos de cada progenitor
+
 
 # 8) Aplicando un bucle for en donde cada iteración se coja a una pareja, simula el número de hijos que tendrá dicha pareja (parametros$n_hijos)
 # y crea un dataframe con la nueva generación. Recuerda simular también el género de los hijos
@@ -37,99 +38,139 @@ obtener_hijo("Nb", "bb")
 
 # 9) Repite el proceso para 5 generaciones. Crea una función que simule cada generación y aplícala 5 veces
 
-# 1
+
+
+
+# SOLUCIÓN
+
+# ==============================================================================
+# SIMULACIÓN DE GENÉTICA DE POBLACIONES: RATONES
+# ==============================================================================
+
+# 1. Carga de configuración externa
+# Se cargan variables como n_inicial, n_hijos, pN y pB (probabilidades de supervivencia)
 parametros <- readRDS("parametros.RDS")
 
-# 2
-set.seed(2026)
-ids <- paste0("Raton_",seq(1:parametros$n_inicial))
-genero <- sample(c("macho","hembra"), size = parametros$n_inicial, replace = TRUE)
+# 2. Inicialización de la población original (p0)
+set.seed(2026) # Asegura que los resultados sean reproducibles
+
+# Creación de atributos básicos
+ids <- paste0("Raton_", seq(1:parametros$n_inicial))
+genero <- sample(c("macho", "hembra"), size = parametros$n_inicial, replace = TRUE)
+genotipo <- sample(c("NN", "Nb", "bb"), size = parametros$n_inicial, replace = TRUE)
+# El fenotipo depende del genotipo: "bb" resulta en color Blanco, el resto Negro
+fenotipo <- ifelse(genotipo == "bb", "Blanco", "Negro")
+
+# Introducción de datos faltantes (NAs) de forma aleatoria para simular datos reales/sucios
 na_genero <- sample(1:parametros$n_inicial, size = 5)
 genero[na_genero] <- NA
-genotipo <- sample(c("NN", "Nb", "bb"), size = parametros$n_inicial, replace = TRUE)
 na_genotipo <- sample(1:parametros$n_inicial, size = 5)
 genotipo[na_genotipo] <- NA
-fenotipo <- ifelse(genotipo == "bb", "Blanco", "Negro")
+
+
+# Creación del dataframe y limpieza de registros con valores NA
 p0 <- data.frame(ID = ids, Genero = genero, Genotipo = genotipo, Fenotipo = fenotipo)
 p0 <- na.omit(p0)
 
-# 3
+# 3. Cálculo de Supervivencia
+# Se asigna una probabilidad de sobrevivir según el color (fenotipo)
 p0$tasa_superviviencia <- ifelse(p0$Fenotipo == "Negro", parametros$pN, parametros$pB)
+# Se genera un número aleatorio para cada ratón; si es menor a su tasa, vive
 p0$tasa_mortalidad <- runif(nrow(p0))
 
-# 4
-supervivientes <- p0[p0$tasa_superviviencia > p0$tasa_mortalidad,]
+# 4. Filtrado de supervivientes
+supervivientes <- p0[p0$tasa_superviviencia > p0$tasa_mortalidad, ]
 
-# 5
-hembras <- supervivientes[supervivientes$Genero == "hembra",]
-machos <- supervivientes[supervivientes$Genero == "macho",]
+# 5. Formación de parejas
+# Separamos por sexo y determinamos cuántas parejas pueden formarse (el número menor entre ambos)
+hembras <- supervivientes[supervivientes$Genero == "hembra", ]
+machos <- supervivientes[supervivientes$Genero == "macho", ]
 n_parejas <- min(c(nrow(hembras), nrow(machos)))
 
-# 6
+# 6. Selección aleatoria de individuos para apareamiento
 hembras <- sample(hembras$ID, n_parejas)
 machos <- sample(machos$ID, n_parejas)
 
-# 7
-obtener_alelos <- function(genotipo){
+# 7. Funciones de Herencia Genética
+
+# Divide el genotipo (ej: "Nb") en alelos individuales ("N", "b")
+obtener_alelos <- function(genotipo) {
   alelos <- unlist(strsplit(genotipo, ""))
   return(alelos)
 }
 
+# Probamos que funciona
 obtener_alelos("Nb")
 
-obtener_hijo <- function(genotipo_p, genotipo_m){
+# Simula la herencia: elige un alelo al azar de cada progenitor
+obtener_hijo <- function(genotipo_p, genotipo_m) {
   alelos_padre <- obtener_alelos(genotipo_p)
   alelo_padre <- sample(alelos_padre, size = 1)
+  
   alelos_madre <- obtener_alelos(genotipo_m)
   alelo_madre <- sample(alelos_madre, size = 1)
+  
+  # Combinamos alelos y estandarizamos "bN" a "Nb" para mantener consistencia
   genotipo_hijo <- paste0(alelo_padre, alelo_madre)
-  if (genotipo_hijo == "bN"){
+  if (genotipo_hijo == "bN") {
     genotipo_hijo <- "Nb"
   }
   return(genotipo_hijo)
 }
 
+# Probamos que funciona
 obtener_hijo("Nb", "bb")
 
-# 8
-p1 <- data.frame(Genotipo = "", Fenotipo = "")[0,]
-for (i in 1:length(machos)){
+# 8. Creación de la nueva generación (p1)
+p1 <- data.frame(Genotipo = "", Fenotipo = "")[0, ] # Dataframe vacío para resultados
+
+for (i in 1:length(machos)) {
+  # Identificamos a los padres
   macho <- machos[i]
   hembra <- hembras[i]
-  pareja <- supervivientes[supervivientes$ID %in% c(macho, hembra),]
+  pareja <- supervivientes[supervivientes$ID %in% c(macho, hembra), ]
+  
+  # Cada pareja tiene un número aleatorio de hijos según los parámetros
   n_hijos <- sample(1:parametros$n_hijos, size = 1)
-  for (hijo in 1:n_hijos){
+  
+  for (hijo in 1:n_hijos) {
     genotipo <- obtener_hijo(pareja$Genotipo[1], pareja$Genotipo[2])
     add_fila <- data.frame(Genotipo = genotipo, 
                            Fenotipo = ifelse(genotipo == "bb", "Blanco", "Negro"))
-    p1 <- rbind(p1, add_fila)
+    p1 <- rbind(p1, add_fila) # añadimos la fila de cada hijo a p1
   }
 }
 
-p1$Genero <- sample(c("macho","hembra"), size = nrow(p1), replace = TRUE)
-p1$ID <- paste0("Raton_",seq(1:nrow(p1)))
+# Asignación de género e ID a la nueva generación
+p1$Genero <- sample(c("macho", "hembra"), size = nrow(p1), replace = TRUE)
+p1$ID <- paste0("Raton_", seq(1:nrow(p1)))
 
-# 9
-simular_generacion <- function(p0, parametros){
+# 9. Función de Simulación Completa
+# Encapsula todo el proceso anterior para ejecutarlo en ciclos
+simular_generacion <- function(p0, parametros) {
+  # (Misma lógica de supervivencia, selección y reproducción explicada arriba)
   p0$tasa_superviviencia <- ifelse(p0$Fenotipo == "Negro", parametros$pN, parametros$pB)
   p0$tasa_mortalidad <- runif(nrow(p0))
+  supervivientes <- p0[p0$tasa_superviviencia > p0$tasa_mortalidad, ]
   
-  supervivientes <- p0[p0$tasa_superviviencia > p0$tasa_mortalidad,]
-  
-  hembras <- supervivientes[supervivientes$Genero == "hembra",]
-  machos <- supervivientes[supervivientes$Genero == "macho",]
+  hembras <- supervivientes[supervivientes$Genero == "hembra", ]
+  machos <- supervivientes[supervivientes$Genero == "macho", ]
   n_parejas <- min(c(nrow(hembras), nrow(machos)))
+  
+  if(n_parejas == 0){
+    return(p0[0,]) # Evita errores si la población se extingue
+  } 
   
   hembras <- sample(hembras$ID, n_parejas)
   machos <- sample(machos$ID, n_parejas)
   
-  p1 <- data.frame(Genotipo = "", Fenotipo = "")[0,]
-  for (i in 1:length(machos)){
+  p1 <- data.frame(Genotipo = "", Fenotipo = "")[0, ]
+  for (i in 1:length(machos)) {
     macho <- machos[i]
     hembra <- hembras[i]
-    pareja <- supervivientes[supervivientes$ID %in% c(macho, hembra),]
+    pareja <- supervivientes[supervivientes$ID %in% c(macho, hembra), ]
     n_hijos <- sample(1:parametros$n_hijos, size = 1)
-    for (hijo in 1:n_hijos){
+    for (hijo in 1:n_hijos) {
       genotipo <- obtener_hijo(pareja$Genotipo[1], pareja$Genotipo[2])
       add_fila <- data.frame(Genotipo = genotipo, 
                              Fenotipo = ifelse(genotipo == "bb", "Blanco", "Negro"))
@@ -137,12 +178,13 @@ simular_generacion <- function(p0, parametros){
     }
   }
   
-  p1$Genero <- sample(c("macho","hembra"), size = nrow(p1), replace = TRUE)
-  p1$ID <- paste0("Raton_",seq(1:nrow(p1)))
+  p1$Genero <- sample(c("macho", "hembra"), size = nrow(p1), replace = TRUE)
+  p1$ID <- paste0("Raton_", seq(1:nrow(p1)))
   return(p1)
 }
 
-for (i in 1:5){
+# Ejecución de la simulación por 5 generaciones consecutivas
+for (i in 1:5) {
   p0 <- simular_generacion(p0, parametros)
 }
 
